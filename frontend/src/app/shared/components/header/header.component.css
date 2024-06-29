@@ -1,0 +1,88 @@
+/* :root {
+  --primary-color: #6a0dad;
+  --secondary-color: #ffffff;
+  --hover-color: #8a2be2;
+  --background-color: #f5f5f5;
+} */
+
+.header {
+  position: fixed;
+  width: 100%;
+  background-color: #6a0dad;
+  color: #ffffff;
+  padding: 10px 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: top 0.3s;
+  z-index: 1000;
+}
+
+.header.hidden {
+  top: -100px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.nav-menu a {
+  margin: 0 15px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 18px;
+  transition: color 0.3s;
+}
+
+.nav-menu a:hover {
+  color: #8a2be2;
+}
+
+.search-bar input {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 20px;
+  outline: none;
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+}
+
+.user-actions .btn {
+  margin-right: 10px;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 20px;
+  background-color: #8a2be2;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.user-actions .btn:hover {
+  background-color: #6a0dad;
+}
+
+.cart-icon {
+  position: relative;
+}
+
+.cart-icon .cart-count {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: red;
+  color: #ffffff;
+  border-radius: 50%;
+  padding: 5px 10px;
+  font-size: 12px;
+}

@@ -1,0 +1,102 @@
+.footer {
+  background-color: #222;
+  color: #fff;
+  padding: 50px 0;
+}
+
+.footer .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.footer .footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.footer .footer-section {
+  flex: 1;
+  margin-bottom: 20px;
+  padding: 0 20px;
+}
+
+.footer .footer-section.about h2,
+.footer .footer-section.links h2,
+.footer .footer-section.contact-form h2 {
+  color: #6a0dad;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.footer .footer-section.about p {
+  color: #ccc;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.footer .footer-section.links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer .footer-section.links ul li {
+  margin-bottom: 10px;
+}
+
+.footer .footer-section.links ul li a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer .footer-section.links ul li a:hover {
+  color: #6a0dad;
+}
+
+.footer .footer-section.contact-form form input,
+.footer .footer-section.contact-form form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #444;
+  border-radius: 5px;
+  background-color: #333;
+  color: #fff;
+}
+
+.footer .footer-section.contact-form form .btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #6a0dad;
+  color: #fff;
+  cursor: pointer;
+}
+
+.footer .footer-section.contact-form form .btn:hover {
+  background-color: #8a2be2;
+}
+
+.footer .social-links {
+  margin-top: 10px;
+}
+
+.footer .social-links a {
+  margin-right: 10px;
+  color: #ccc;
+  font-size: 18px;
+  transition: color 0.3s;
+}
+
+.footer .social-links a:hover {
+  color: #6a0dad;
+}
+
+.footer .footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid #444;
+}
