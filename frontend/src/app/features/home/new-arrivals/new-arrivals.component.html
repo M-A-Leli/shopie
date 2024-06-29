@@ -1,1 +1,15 @@
-<p>new-arrivals works!</p>
+<div class="new-arrivals">
+  <h2>New Arrivals</h2>
+  <div class="arrivals-grid">
+    <div class="arrival-card" *ngFor="let product of newArrivals">
+      <div class="arrival-image">
+        <img [src]="product.image" alt="{{ product.name }}">
+      </div>
+      <div class="arrival-info">
+        <h3>{{ product.name }}</h3>
+        <p class="price">${{ product.price }}</p>
+        <button class="btn">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>

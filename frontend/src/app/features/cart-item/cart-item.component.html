@@ -1,1 +1,37 @@
-<p>cart-item works!</p>
+<app-header></app-header>
+
+<div class="cart">
+  <h1>Your Cart</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Subtotal</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of cartItems">
+        <td><img [src]="item.product.image" alt="{{ item.product.name }}"></td>
+        <td>{{ item.product.name }}</td>
+        <td>
+          <input type="number" [(ngModel)]="item.quantity" (change)="updateQuantity(item)">
+        </td>
+        <td>${{ item.product.price }}</td>
+        <td>${{ item.product.price * item.quantity }}</td>
+        <td>
+          <button (click)="removeFromCart(item)">Remove</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="summary">
+    <p>Total: ${{ getTotalPrice() }}</p>
+    <button (click)="checkout()">Proceed to Checkout</button>
+  </div>
+</div>
+
+<app-footer></app-footer>
