@@ -1,1 +1,16 @@
-<p>user-sidebar works!</p>
+<div class="sidebar" [class.collapsed]="isCollapsed">
+  <button (click)="toggleSidebar()">☰</button>
+  <nav *ngIf="!isCollapsed">
+    <ul>
+      <!-- <li><a routerLink="/user/dashboard/profile">Profile</a></li>
+      <li><a routerLink="/user/dashboard/cart">Cart</a></li>
+      <li><a routerLink="/user/dashboard/orders">Orders</a></li>
+      <li><a routerLink="/user/dashboard/logout">Logout</a></li> -->
+
+      <li><a href="/user/dashboard/profile">Profile</a></li>
+      <li><a href="/user/dashboard/cart">Cart</a></li>
+      <li><a href="/user/dashboard/orders">Orders</a></li>
+      <li><a href="/user/dashboard/logout">Logout</a></li>
+    </ul>
+  </nav>
+</div>
