@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-user-sidebar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,UserSidebarComponent],
   templateUrl: './user-sidebar.component.html',
   styleUrl: './user-sidebar.component.css'
 })
