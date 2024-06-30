@@ -1,0 +1,157 @@
+
+.header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0px;
+}
+.addBtn{
+  cursor: pointer;
+  color: rgb(183, 107, 254);
+  font-size: 45px;
+}
+input{
+  width: 300px;
+  border-radius: 5px;
+  border: none;
+  padding: 10px;
+}
+input:focus{
+  outline: none;
+}
+table {
+  border-radius: 5px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+
+ background-color: #242424;
+}
+th{
+  color:rgb(0, 160, 139);
+  font-weight: 400;
+}
+td{
+  color: #ccc;
+  font-size: 14px;
+  font-weight: 300;
+}
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even){background-color: #323232}
+.actions{
+  display: flex;
+  align-items:center ;
+  gap: 15px;
+}
+.view,.delete,.edit{
+  font-size: 20px;
+  cursor: pointer;
+}
+.view{
+  color: pink;
+}
+.edit{
+  color: rgba(255, 166, 0, 0.674);
+}
+.delete{
+  color: rgb(238, 95, 95);
+}
+
+/* Add your styles here */
+
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+.close{
+  font-size: 30px;
+  font-weight: 200;
+  color: #333234;
+ margin-bottom: 0px;
+  float: right;
+}
+button{
+  margin: 7px;
+
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: 3px auto;
+  width:40%;
+  min-width: 400px;
+  padding: 20px;
+}
+
+form {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label {
+  margin-bottom: 5px;
+  display: flex;
+}
+
+ input {
+
+  margin-bottom: 5px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+input:focus{
+  outline: solid slateblue 2px;
+}
+button {
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: blueviolet;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #444;
+}
+
+a {
+  color: #44ffd7;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+.success,.error{
+  width:300px;
+  margin: 5px auto;
+  background-color: palegreen;
+  color: rgb(4, 110, 4);
+  border-radius: 5px;
+  padding: 10px;
+}
+.error{
+  background-color: #f46868;
+  color: rgb(122, 2, 2);
+}
+.validationError{
+  color: #f46868;
+  font-size: smaller;
+}

@@ -1,1 +1,29 @@
-<p>admin-sidebar works!</p>
+<div class="sidebar" [ngClass]="{'collapsed': isCollapsed, 'expanded-mobile': !isCollapsed}">
+  <div class="sidebar-header">
+    <div class="profile-section" routerLink="profile">
+      <img src="/assets/images/profileImg.jpg" alt="Profile Picture" class="profile-pic">
+      <span class="username">Nana Rita</span>
+    </div>
+
+      <i class="fa fa-bars toggle-btn" (click)="toggleSidebar()"></i>
+  </div>
+  <ul class="sidebar-menu">
+      <li class="sidebar-item">
+          <a routerLink="dashboard"><i class="fa fa-home" aria-hidden="true"></i><span>Dashboard</span></a>
+      </li>
+      <li class="sidebar-item">
+          <a routerLink="products"><i class="fa fa-cart-plus" aria-hidden="true"></i> <span>Products</span></a>
+      </li>
+      <li class="sidebar-item">
+          <a routerLink="customers"><i class="fa fa-users" aria-hidden="true"></i><span>Customers</span></a>
+      </li>
+      <li class="sidebar-item">
+          <a routerLink="orders"><i class="fa fa-money" aria-hidden="true"></i> <span>Orders</span></a>
+      </li>
+      <li class="logout">
+          <a routerLink="login"><i class="fa fa-sign-out" aria-hidden="true"></i><span>Logout</span></a>
+      </li>
+  </ul>
+
+
+</div>

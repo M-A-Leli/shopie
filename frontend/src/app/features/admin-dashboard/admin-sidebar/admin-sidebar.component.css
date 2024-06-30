@@ -1,0 +1,156 @@
+
+.sidebar {
+  width: 250px;
+  align-items: center;
+  height: 100vh;
+  background-color: #1e1e1e;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* position: fixed;
+  top: 0; */
+  transition: width 0.3s ease;
+  z-index: 1;
+}
+
+.profile-section {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #2d2d2d;
+  border-radius: 10px;
+  margin: 10px;
+}
+.profile-section:hover{
+  background-color: #3d3d3d;
+}
+.sidebar-header{
+  display: flex;
+  align-items: center;
+}
+.profile-pic {
+  width: 70px;
+  height: 70px;
+  border:solid #fff 3px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.username {
+  color:  #06f4bca5;
+  flex-grow: 1;
+}
+
+.toggle-btn {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin:30px auto;
+  flex-grow: 1;
+}
+
+.sidebar-item {
+  padding: 10px;
+}
+
+.sidebar-item a {
+  color: white;
+ width: 100%;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-item a:hover {
+  background-color:blueviolet;
+  border-radius: 5px;
+}
+
+.sidebar-item a i {
+  color: #ccc;
+  font-size: 25px;
+  margin-right: 10px;
+}
+
+.logout {
+  margin-top: auto;
+  padding: 10px;
+
+  border-radius: 5px;
+
+}
+
+.logout a{
+background-color:blueviolet ;
+border-radius: 5px;
+color: #fff;
+padding:10px 20px;
+text-decoration: none;
+display: flex;
+align-items: center;
+
+gap: 10px;
+}
+.logout a i{
+  font-size: 25px;
+}
+
+@media (max-width: 350px) {
+  .sidebar {
+    width: 100px;
+  }
+
+  .profile-section {
+    display: none;
+  }
+  .sidebar-menu{
+    margin-top: 50px;
+  }
+
+  .sidebar-header .username {
+    display: none;
+  }
+
+  .sidebar-item a span {
+    display: none;
+  }
+
+  .sidebar-item a i {
+
+    margin: 0 auto;
+  }
+  .sidebar.expanded-mobile {
+    width: 100px;
+    z-index: 2;
+  }
+}
+
+
+.sidebar.collapsed {
+  width: 100px;
+}
+
+.sidebar.collapsed .sidebar-header .username,
+.sidebar.collapsed .profile-section,
+.sidebar.collapsed .sidebar-item a span {
+  display: none;
+}
+
+.sidebar.collapsed .sidebar-item a i {
+  margin: 0 auto;
+}
+
