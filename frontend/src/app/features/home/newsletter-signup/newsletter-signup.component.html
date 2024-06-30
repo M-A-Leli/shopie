@@ -1,1 +1,9 @@
-<p>newsletter-signup works!</p>
+<div class="newsletter-signup">
+  <h2>Subscribe to our Newsletter</h2>
+  <p>Stay updated with our latest offers and products. Sign up for our newsletter now!</p>
+  <form (ngSubmit)="onSubmit()" #newsletterForm="ngForm">
+    <input type="email" name="email" [(ngModel)]="email" required placeholder="Enter your email" />
+    <button type="submit" [disabled]="!newsletterForm.form.valid">Subscribe</button>
+  </form>
+  <p *ngIf="submitted" class="success-message">Thank you for subscribing!</p>
+</div>

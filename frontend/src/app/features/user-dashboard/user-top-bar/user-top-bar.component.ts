@@ -8,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './user-top-bar.component.css'
 })
 export class UserTopBarComponent {
+  // @Output() toggleSidebarEvent = new EventEmitter<void>();
 
+  // toggleSidebar(): void {
+  //   this.toggleSidebarEvent.emit();
+  // }
 }

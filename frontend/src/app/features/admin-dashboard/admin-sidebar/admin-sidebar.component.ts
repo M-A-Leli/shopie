@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-admin-sidebar',
+
   standalone:true,
   imports:[CommonModule,RouterLink],
   templateUrl: './admin-sidebar.component.html',
@@ -12,7 +13,11 @@ import { RouterLink } from '@angular/router';
 export class AdminSidebarComponent {
   isCollapsed = false;
 
-  toggleSidebar() {
+
+
+
+  toggleSidebar(): void {
     this.isCollapsed = !this.isCollapsed;
   }
+
 }

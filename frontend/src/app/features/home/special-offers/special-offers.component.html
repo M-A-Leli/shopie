@@ -1,1 +1,16 @@
-<p>special-offers works!</p>
+<div class="special-offers">
+  <h2>Special Offers</h2>
+  <div class="offers-grid">
+    <div class="offer-card" *ngFor="let offer of specialOffers">
+      <div class="offer-image">
+        <img [src]="offer.image" alt="{{ offer.name }}">
+      </div>
+      <div class="offer-info">
+        <h3>{{ offer.name }}</h3>
+        <p>{{ offer.description }}</p>
+        <p class="price">${{ offer.price }}</p>
+        <button class="btn">Buy Now</button>
+      </div>
+    </div>
+  </div>
+</div>

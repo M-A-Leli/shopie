@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="sidebar" [ngClass]="{'collapsed': isCollapsed, 'expanded-mobile': !isCollapsed}">
   <div class="sidebar-header">
     <div class="profile-section" routerLink="profile">
@@ -26,4 +27,23 @@
   </ul>
 
 
+=======
+<div class="sidebar" [class.collapsed]="isCollapsed">
+  <button (click)="toggleSidebar()">☰</button>
+  <nav *ngIf="!isCollapsed">
+    <ul>
+      <!-- <li><a routerLink="/admin/dashboard/profile">Profile</a></li>
+      <li><a routerLink="/admin/dashboard/users">Users</a></li>
+      <li><a routerLink="/admin/dashboard/products">Products</a></li>
+      <li><a routerLink="/admin/dashboard/categories">Categories</a></li>
+      <li><a routerLink="/admin/dashboard/logout">Logout</a></li> -->
+
+      <li><a href="/admin/dashboard/profile">Profile</a></li>
+      <li><a href="/admin/dashboard/users">Users</a></li>
+      <li><a href="/admin/dashboard/products">Products</a></li>
+      <li><a href="/admin/dashboard/categories">Categories</a></li>
+      <li><a href="/admin/dashboard/logout">Logout</a></li>
+    </ul>
+  </nav>
+>>>>>>> Alvin
 </div>

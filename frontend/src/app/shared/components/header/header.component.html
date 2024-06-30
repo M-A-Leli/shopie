@@ -1,1 +1,24 @@
-<p>header works!</p>
+<header class="header" [class.hidden]="isHidden">
+  <div class="header-content">
+    <div class="logo">
+      <a href="/">Shopie</a>
+    </div>
+    <nav class="nav-menu">
+      <a href="/">Home</a>
+      <a href="/products">Shop</a>
+      <a href="#">About Us</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="search-bar">
+      <input type="text" placeholder="Search products...">
+    </div>
+    <div class="user-actions">
+      <button class="btn login" (click)="navigateLogin()">Login</button>
+      <button class="btn register" (click)="navigateRegister()">Register</button>
+      <div class="cart-icon">
+        <!-- ! navigate to cart -->
+        <span class="cart-count">0</span>
+      </div>
+    </div>
+  </div>
+</header>

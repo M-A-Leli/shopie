@@ -1,1 +1,23 @@
-<p>reset-code-verification works!</p>
+<div class="reset-code-page">
+  <div class="error-container" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div class="reset-code-container">
+    <div class="info-section">
+      <button (click)="navigateHome()">Home</button>
+      <img src="/logo.svg" alt="Logo" class="logo">
+      <h1>Shopie</h1>
+      <p>Your one-stop online shop</p>
+    </div>
+
+    <div class="form-section">
+      <form (ngSubmit)="onSubmit()">
+        <label for="resetCode">Enter 6-digit Code</label>
+        <input type="text" id="resetCode" [(ngModel)]="resetCode" name="resetCode" maxlength="6" required>
+        <button type="submit">Submit</button>
+      </form>
+      <div class="links">
+        <a (click)="navigateToLogin()">Login</a>
+      </div>
+    </div>
+  </div>
+</div>
