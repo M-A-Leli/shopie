@@ -1,33 +1,50 @@
 <div class="register-page">
   <div class="error-container" *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div class="success-container" *ngIf="successMessage">{{ successMessage }}</div>
 
   <div class="register-container">
     <div class="info-section">
-      <button (click)="navigateHome()">Home</button>
-      <img src="/logo.svg" alt="Logo" class="logo">
-      <h1>Shopie</h1>
-      <p>Your one-stop online shop</p>
+      <div class="section">
+        <button (click)="navigateHome()"><i class="fa fa-home" aria-hidden="true"></i></button>
+      </div>
+      <div class="section">
+        <img src="/logo.svg" alt="Logo" class="logo">
+      </div>
+      <div class="section">
+        <h1>Shopie</h1>
+        <p>Your one-stop online shop</p>
+      </div>
     </div>
 
     <div class="form-section">
       <form (ngSubmit)="onSubmit()">
-        <label for="username">Username</label>
-        <input type="text" id="username" [(ngModel)]="username" name="username" required>
-
-        <label for="email">Email</label>
-        <input type="email" id="email" [(ngModel)]="email" name="email" required>
-
-        <label for="password">Password</label>
-        <input type="password" id="password" [(ngModel)]="password" name="password" required>
-
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" required>
-
-        <button type="submit">Register</button>
+        <div class="form-group">
+          <label for="username">Username *</label>
+          <input type="text" id="username" [(ngModel)]="username" name="username" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input type="email" id="email" [(ngModel)]="email" name="email" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label for="password">Password *</label>
+          <input type="password" id="password" [(ngModel)]="password" name="password" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm <br> Password *</label>
+          <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label for="phone_number">Phone Number</label>
+          <input type="text" id="phone_number" [(ngModel)]="phoneNumber" name="phone_number" autocomplete="off">
+        </div>
+        <div class="form-group button">
+          <button type="submit">Register</button>
+        </div>
+        <div class="form-group">
+          <p>Already have an account? <a (click)="navigateToLogin()">Login here</a></p>
+        </div>
       </form>
-      <div class="links">
-        <a (click)="navigateToLogin()">Login</a>
-      </div>
     </div>
   </div>
 </div>

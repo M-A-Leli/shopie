@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
+import User from '../../shared/models/User';
 
 @Injectable({
   providedIn: 'root'
@@ -10,55 +10,44 @@ export class UserService {
 
   private baseUrl = 'http://localhost:3000/api/v1/users';
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient) { }
 
-  private getAuthHeaders(): HttpHeaders {
-    return this.authService.getAuthHeaders();
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl);
   }
 
-  getAllUsers(): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.get<any>(this.baseUrl, { headers });
+  getUserById(id: string): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/${id}`);
   }
 
-  getUserById(id: string): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.get<any>(`${this.baseUrl}/${id}`, { headers });
+  createUser(user: User): Observable<User> {
+    return this.http.post<User>(this.baseUrl, user);
   }
 
-  createUser(user: any): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.post<any>(this.baseUrl, user, { headers });
+  updateUser(id: string, user: User): Observable<User> {
+    return this.http.put<User>(`${this.baseUrl}/${id}`, user);
   }
 
-  updateUser(id: string, user: any): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.put<any>(`${this.baseUrl}/${id}`, user, { headers });
+  deleteUser(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
-  deleteUser(id: string): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.delete<any>(`${this.baseUrl}/${id}`, { headers });
+  getUserProfile(): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/profile`);
   }
 
-  getUserProfile(): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.get<any>(`${this.baseUrl}/profile`, { headers });
+  updateUserProfile(user: User): Observable<User> {
+    return this.http.put<User>(`${this.baseUrl}/profile`, user);
   }
 
-  updateUserProfile(user: any): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.put<any>(`${this.baseUrl}/profile`, user, { headers });
-  }
-
-  searchUsers(queryParams: any): Observable<any> {
-    const headers = this.getAuthHeaders();
+  // !
+  searchUsers(queryParams: any): Observable<User[]> {
     let params = new HttpParams();
     for (const key in queryParams) {
       if (queryParams.hasOwnProperty(key)) {
         params = params.set(key, queryParams[key]);
       }
     }
-    return this.http.get<any>(`${this.baseUrl}/search`, { headers, params });
+    return this.http.get<User[]>(`${this.baseUrl}/search`, { params });
   }
 }

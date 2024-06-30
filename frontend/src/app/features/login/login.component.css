@@ -8,8 +8,9 @@
 
 .error-container {
   position: fixed;
-  top: 10px;
-  right: 10px;
+  max-width: 300px;
+  top: 15px;
+  right: 15px;
   background-color: #f8d7da;
   color: #721c24;
   padding: 10px;
@@ -17,9 +18,22 @@
   border-radius: 5px;
 }
 
+.success-container {
+  position: fixed;
+  max-width: 300px;
+  top: 10px;
+  right: 10px;
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px;
+  border: 1px solid #c3e6cb;
+  border-radius: 5px;
+}
+
 .login-container {
   display: flex;
-  width: 600px;
+  width: 60%;
+  height: 60%;
   background: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -40,64 +54,84 @@
   justify-content: center;
 }
 
+.info-section .section {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-section .section:nth-child(1) {
+  justify-content: flex-start;
+}
+
+.info-section .section:nth-child(3) {
+  flex-direction: column;
+  gap: 15px;
+}
+
 .info-section .logo {
   width: 100px;
   height: 100px;
-  margin-bottom: 20px;
-}
-
-.info-section h1 {
-  margin: 10px 0;
-}
-
-.info-section p {
-  text-align: center;
 }
 
 .info-section button {
   background-color: white;
+  font-size: 18px;
   color: #6a0dad;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
   border-radius: 5px;
-  margin-bottom: 20px;
 }
 
 .form-section {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
-.form-section label {
-  margin-top: 10px;
+.form-section form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-group {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .form-section input {
+  width: 70%;
   padding: 10px;
-  margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  outline: none;
 }
 
 .form-section button {
   background-color: #6a0dad;
   color: white;
+  width: 80%;
   border: none;
   padding: 10px;
   cursor: pointer;
   border-radius: 5px;
-  margin-top: 20px;
 }
 
-.form-section .links {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
+.button {
+  justify-content: center;
 }
 
-.form-section .links a {
+.form-group a {
   cursor: pointer;
   color: #6a0dad;
   text-decoration: underline;

@@ -2,24 +2,32 @@
 
 <div class="product-listing">
   <div class="filters">
-    <!-- Filters and sorting options -->
-    <label>
-      Sort by:
-      <select [(ngModel)]="sortOption" (change)="sortProducts()">
-        <option value="name">Name</option>
-        <option value="price">Price</option>
-        <option value="rating">Rating</option>
-      </select>
-    </label>
+    <label for="category">Select Category:
+      <select id="category" [(ngModel)]="selectedCategoryId" (change)="filterByCategory()">
+        <option value="">All Categories</option>
+        <option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </option>
+    </select>
+  </label>
   </div>
 
   <div class="product-grid">
     <div class="product-card" *ngFor="let product of paginatedProducts">
-      <img [src]="product.image" alt="{{ product.name }}">
-      <h3>{{ product.name }}</h3>
-      <p>{{ product.shortDescription }}</p>
-      <p>${{ product.price }}</p>
-      <button (click)="viewProduct(product.id)">View Details</button>
+      <div class="product-img">
+        <!--! <img [src]="product.images[0].url" alt="{{ product.name }}"> -->
+        <img src="/product_placeholder.svg" alt="{{ product.name }}">
+      </div>
+      <div class="product-details">
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.description }}</p>
+        <p>${{ product.price }}</p>
+        <p>{{ product.stock_quantity === 0 ? 'in stock' : 'out of stock' }}</p>
+      </div>
+      <div class="action-buttons">
+        <button (click)="viewProduct(product.id || '')">View Details</button> <!-- ! ''-->
+        <button (click)="addToCart(product)">Add to Cart</button>
+      </div>
     </div>
   </div>
 

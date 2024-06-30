@@ -1,0 +1,19 @@
+.user-layout {
+  display: flex;
+}
+
+.main-content {
+  margin-left: 250px;
+  width: calc(100% - 250px);
+  transition: margin-left 0.3s, width 0.3s;
+}
+
+.main-content.collapsed {
+  margin-left: 50px;
+  width: calc(100% - 50px);
+}
+
+.content {
+  margin-top: 50px;
+  padding: 20px;
+}
