@@ -8,15 +8,8 @@ import { ProductService } from '../../../core/services/product.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { CategoryService } from '../../../core/services/category.service';
 import { CartItemService } from '../../../core/services/cart-item.service';
-
-interface Product {
-  rating: number;
-  id: number;
-  name: string;
-  shortDescription: string;
-  price: number;
-  image: string;
-}
+import Product from '../../../shared/models/Product';
+import Category from '../../../shared/models/Category';
 
 @Component({
   selector: 'app-product-list',
@@ -33,9 +26,8 @@ export class ProductListComponent {
   itemsPerPage: number = 30;
   totalPages: number = 0;
   totalPagesArray: number[] = [];
-  sortOption: string = 'name';
-  filteredProducts: any[] = [];
-  categories: any[] = [];
+  filteredProducts: Product[] = [];
+  categories: Category[] = [];
   user_id: string = '';
   selectedCategoryId: string = '';
   searchQuery: string = '';
@@ -78,23 +70,8 @@ export class ProductListComponent {
     this.paginateProducts();
   }
 
-  // !
-  sortProducts(): void {
-    this.products.sort((a, b) => {
-      if (this.sortOption === 'name') {
-        return a.name.localeCompare(b.name);
-      } else if (this.sortOption === 'price') {
-        return a.price - b.price;
-      } else if (this.sortOption === 'rating') {
-        return b.rating - a.rating;
-      }
-      return 0;
-    });
-    this.paginateProducts();
-  }
-
-  viewProduct(productId: number): void {
-    this.router.navigate(['/products', productId]);
+  viewProduct(product_id: string): void {
+    this.router.navigate(['/products', product_id]);
   }
 
   loadProducts() {

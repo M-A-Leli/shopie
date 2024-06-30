@@ -1,37 +1,43 @@
-import { User } from '@prisma/client';
-import prisma from '../config/Prisma.config';
 import bcrypt from 'bcrypt';
 import createError from 'http-errors'
+import prisma from '../config/Prisma.config';
 
 class AuthService {
-    async authenticate(email: string, password: string) {
-        const user = await prisma.user.findUnique({
+    static async findUserByEmail(email: string) {
+        return prisma.user.findUnique({
             where: { email, is_deleted: false },
-            include: {
-                admin: true,
+            select: {
+                id: true,
+                password: true,
+                // salt: true,
+                admin: {
+                    select: {
+                        id: true
+                    }
+                }
             },
         });
+    }
+
+    static async validatePassword(password: string, hash: string) {
+        return bcrypt.compare(password, hash);
+    }
+
+    static async login(email: string, password: string) {
+        const user = await this.findUserByEmail(email);
 
         if (!user) {
             throw createError(401, 'Invalid email or password');
         }
 
-        const passwordMatch = await bcrypt.compare(password, user.password);
-        if (!passwordMatch) {
+        const isPasswordValid = await this.validatePassword(password, user.password);
+
+        if (!isPasswordValid) {
             throw createError(401, 'Invalid email or password');
         }
 
         return user;
     }
-
-    // !
-    // isAdmin(user: User): boolean {
-    //     return user.admin !== null;
-    // }
-
-    // isUser(user: User): boolean {
-    //     return user.admin === null;
-    // }
 }
 
 export default AuthService;

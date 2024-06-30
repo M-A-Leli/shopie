@@ -2,6 +2,7 @@ import createError from 'http-errors';
 import bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
 import prisma from '../config/Prisma.config';
+import sendEmail from '../utils/Email.util';
 
 class UserService {
   async hashPassword(password: string): Promise<{ hash: string, salt: string }> {
@@ -103,6 +104,14 @@ class UserService {
         email: true,
         phone_number: true
       }
+    });
+
+    // Send welcome email
+    await sendEmail({
+      to: newUser.email,
+      subject: 'Welcome to Our Service!',
+      template: 'Welcome',
+      context: { name: newUser.username, email: newUser.email }
     });
 
     return newUser;
