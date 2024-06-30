@@ -3,76 +3,81 @@ import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import AuthService from '../services/Auth.service';
 
-interface DecodedToken {
-    userId: string;
-    role: string;
-}
+// interface User {
+//   id: string;
+//   admin?: boolean;
+// }
 
 class AuthController {
 
-    private authService: AuthService;
+//   static generateAccessToken(user: User): string {
+  static generateAccessToken(user: any): string {
+    const payload = {
+      user_id: user.id,
+      role: user.admin ? 'admin' : 'user'
+    };
+    return jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: '15m' });
+  }
 
-    constructor() {
-        this.authService = new AuthService();
+//   static generateRefreshToken(user: User): string {
+  static generateRefreshToken(user: any): string {
+    const payload = {
+      user_id: user.id
+    };
+    return jwt.sign(payload, process.env.JWT_REFRESH_SECRET as string, { expiresIn: '7d' });
+  }
+
+  static async login(req: Request, res: Response, next: NextFunction) {
+    try {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const { email, password } = req.body;
+
+      const user = await AuthService.login(email, password);
+
+      const accessToken = AuthController.generateAccessToken(user);
+      const refreshToken = AuthController.generateRefreshToken(user);
+
+      res.cookie('accessToken', accessToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+      res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+
+      const redirectUrl = user.admin ? '/admin/dashboard' : '/user/dashboard';
+
+      res.status(200).json({ redirectUrl });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async refreshToken(req: Request, res: Response, next: NextFunction) {
+    const { refreshToken } = req.cookies;
+
+    if (!refreshToken) {
+      return res.status(401).json({ message: 'Refresh Token not found' });
     }
 
-    generateAccessToken = async (user: any) => {
-        const payload = {
-            userId: user.id,
-            role: user.admin ? 'admin' : 'user' // Determine role based on presence of Admin
-        };
-        const accessToken = jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: '1h' });
-        return accessToken;
+    try {
+    //   const payload = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET as string) as User;
+      const payload = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET as string);
+      const newAccessToken = AuthController.generateAccessToken(payload);
+
+      res.cookie('accessToken', newAccessToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+
+      res.status(200).json({ accessToken: newAccessToken });
+    } catch (error) {
+      return res.status(401).json({ message: 'Invalid Refresh Token' });
     }
+  }
 
-    login = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-                return res.status(400).json({ errors: errors.array() });
-            }
-    
-            const { email, password } = req.body;
-            const user = await this.authService.authenticate(email, password);
-    
-            if (!user) {
-                return res.status(401).json({ error: 'Invalid email or password' });
-            }
-
-            const accessToken = await this.generateAccessToken(user);
-
-            // Store token in a cookie
-            res.cookie('accessToken', accessToken, {
-                maxAge: 1000 * 60 * 60, // Cookie expires in 1 hour (adjust as needed)
-                httpOnly: true, // Cookie accessible only via HTTP(S)
-                secure: process.env.NODE_ENV === 'production', // Set to true if using HTTPS
-                sameSite: 'strict' // Ensures CSRF protection
-            });
-    
-            // Determine the redirect URL based on user's role
-            let redirectUrl = '/';
-            if (user.admin) {
-                redirectUrl = '/admin/dashboard';
-            } else {
-                redirectUrl = '/user/dashboard';
-            }
-    
-            // res.redirect(redirectUrl);
-            res.status(200).json({ token: accessToken, redirectUrl, user_id: user.id });
-        } catch (error) {
-            next(error);
-        }
-    }
-
-    logout = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            // Clear the accessToken cookie
-            res.clearCookie('accessToken');
-            res.redirect('/'); // Redirect to the homepage after logout
-        } catch (error) {
-            next(error);
-        }
-    }
+  static logout(req: Request, res: Response, next: NextFunction) {
+    res.clearCookie('accessToken');
+    res.clearCookie('refreshToken');
+    res.status(200).json({ redirectUrl: '/' });
+  }
 }
 
-export default new AuthController();
+export default AuthController;

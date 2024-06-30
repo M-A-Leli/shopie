@@ -3,6 +3,8 @@ import bcrypt from 'bcrypt';
 import { randomBytes } from 'crypto';
 import { addMinutes } from 'date-fns';
 import prisma from '../config/Prisma.config';
+import { PasswordResetToken } from '@prisma/client';
+import sendEmail from '../utils/Email.util';
 
 class PasswordResetService {
   async hashPassword(password: string): Promise<{ hash: string, salt: string }> {
@@ -29,11 +31,16 @@ class PasswordResetService {
       },
     });
 
-    // Send email logic should go here
-    console.log(`Reset code: ${resetCode}`); // Placeholder for email sending
+    // Send reset code via email
+    await sendEmail({
+      to: user.email,
+      subject: 'Password Reset Request',
+      template: 'PasswordReset',
+      context: { name: user.username, resetCode }
+    });
   }
 
-  async verifyPasswordResetCode(user_id: string, reset_code: string): Promise<void> {
+  async verifyPasswordResetCode(user_id: string, reset_code: string): Promise<Partial<PasswordResetToken>> {
     const passwordReset = await prisma.passwordResetToken.findFirst({
       where: {
         user_id,
@@ -46,6 +53,8 @@ class PasswordResetService {
     if (!passwordReset) {
       throw createError(400, 'Invalid or expired reset code');
     }
+
+    return passwordReset;
   }
 
   async resetPassword(id: string, newPassword: string): Promise<void> {
@@ -53,10 +62,10 @@ class PasswordResetService {
 
     await prisma.user.update({
       where: { id },
-      data: { 
+      data: {
         password: hash,
         salt: salt
-       },
+      },
     });
 
     await prisma.passwordResetToken.updateMany({

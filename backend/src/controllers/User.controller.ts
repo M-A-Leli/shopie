@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import UserService from '../services/User.service';
+import { validationResult } from 'express-validator';
 
 class UserController {
 
@@ -29,8 +30,14 @@ class UserController {
 
   createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      // !
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+      
       const newUser = await this.userService.createUser(req.body);
-      console.log(newUser)
       res.status(201).json(newUser);
     } catch (error: any) {
       next(error);

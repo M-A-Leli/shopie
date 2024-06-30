@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class PasswordResetService {
 
   private baseUrl = 'http://localhost:3000/api/v1/password-reset';
+  private tokenKey: string = 'resetToken';
 
   constructor(private http: HttpClient) { }
 
@@ -15,11 +16,11 @@ export class PasswordResetService {
     return this.http.post<any>(`${this.baseUrl}/`, { email });
   }
 
-  verifyPasswordResetCode(email: string, code: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/verify`, { email, code });
+  verifyPasswordResetCode(reset_code: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/verify`, { reset_code });
   }
 
-  resetPassword(email: string, code: string, newPassword: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/reset`, { email, code, newPassword });
+  resetPassword(password: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/reset`, { password });
   }
 }
