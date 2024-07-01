@@ -1,17 +1,21 @@
 import { Component } from '@angular/core';
 import { PlatformDetectorService } from '../../../services/platform-detector.service';
 import { BaseChartDirective } from 'ng2-charts';
+import { Chart, registerables } from 'chart.js';
 import { CommonModule } from '@angular/common';
 import { AdminTopBarComponent } from '../admin-top-bar/admin-top-bar.component';
 import { RouterOutlet } from '@angular/router';
 import { AdminSidebarComponent } from '../admin-sidebar/admin-sidebar.component';
 
+// Register all Chart.js components
+Chart.register(...registerables);
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [BaseChartDirective,CommonModule,AdminTopBarComponent,RouterOutlet,AdminSidebarComponent],
+  imports: [BaseChartDirective, CommonModule, AdminTopBarComponent, RouterOutlet, AdminSidebarComponent],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
 

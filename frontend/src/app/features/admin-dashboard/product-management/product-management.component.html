@@ -1,119 +1,93 @@
 <div class="wrapper">
   <div class="header">
-  <i class="fa fa-plus-square addBtn" aria-hidden="true"  (click)="showAddModal = true"></i>
-    <input type="text" placeholder="Filter products" >
-</div>
+    <i class="fa fa-plus-square addBtn" aria-hidden="true" (click)="showAddModal = true"></i>
+    <input type="text" placeholder="Filter products">
+  </div>
 
-<div class="table-container">
-
-
-  <table class="responsive-table">
-    <thead>
-      <tr>
-        <th >ID</th>
-        <th >Name</th>
-        <th >Price</th>
-        <th >Category</th>
-        <th >Quantity</th>
-        <th >Actions</th>
-
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>Laptop</td>
-        <td>20,000</td>
-        <td>Electronics</td>
-        <td>10</td>
-        <td class="actions">
-          <i class="fa fa-eye view" aria-hidden="true"></i>
-          <i class="fa fa-pencil-square-o edit"  aria-hidden="true"></i>
-          <i class="fa fa-trash-o delete" aria-hidden="true"></i>
-        </td>
-      </tr>
-      <tr>
-        <td>1</td>
-        <td>Laptop</td>
-        <td>20,000</td>
-        <td>Electronics</td>
-        <td>10</td>
-        <td class="actions">
-          <i class="fa fa-eye view" aria-hidden="true"></i>
-          <i class="fa fa-pencil-square-o edit"  aria-hidden="true"></i>
-          <i class="fa fa-trash-o delete" aria-hidden="true"></i>
-        </td>
-      </tr>
-      <tr>
-        <td>1</td>
-        <td>Laptop</td>
-        <td>20,000</td>
-        <td>Electronics</td>
-        <td>10</td>
-        <td class="actions">
-          <i class="fa fa-eye view" aria-hidden="true"></i>
-          <i class="fa fa-pencil-square-o edit"  aria-hidden="true"></i>
-          <i class="fa fa-trash-o delete" aria-hidden="true"></i>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-
-<div class="modal" *ngIf="showAddModal">
-  <div class="success" *ngIf="createSuccess">Created A Product Successfully</div>
-  <div class="error" *ngIf="createError">Error Occurred While Creating Product</div>
-  <div class="modal-content">
-    <i class="fa fa-times close" (click)="closeAddModal()" aria-hidden="true"></i>
-    <div>
-      <form [formGroup]="createProductForm" (ngSubmit)="addProduct()">
-        <div>
-          <label for="name">Product Name</label>
-          <input type="text" formControlName="name">
-          <div *ngIf="createProductForm.get('name')?.invalid && (createProductForm.get('name')?.dirty || createProductForm.get('name')?.touched)" class="validationError">
-            Product name is required
-          </div>
-        </div>
-
-        <div>
-          <label for="price">Price</label>
-          <input type="number" formControlName="price">
-          <div *ngIf="createProductForm.get('price')?.invalid && (createProductForm.get('price')?.dirty || createProductForm.get('price')?.touched)" class="validationError">
-            Price is required
-          </div>
-        </div>
-
-        <div>
-          <label for="category">Category</label>
-          <input type="text" formControlName="category">
-          <div *ngIf="createProductForm.get('category')?.invalid && (createProductForm.get('category')?.dirty || createProductForm.get('category')?.touched)" class="validationError">
-            Category is required
-          </div>
-        </div>
-
-        <div>
-          <label for="stock">Stock</label>
-          <input type="number" formControlName="stock">
-          <div *ngIf="createProductForm.get('stock')?.invalid && (createProductForm.get('stock')?.dirty || createProductForm.get('stock')?.touched)" class="validationError">
-            Stock is required
-          </div>
-        </div>
-
-        <div class="mb-5">
-          <label for="images">Images</label>
-          <input type="file" (change)="getImagesUrl($event)" minlength="8" name="images" />
-          <span class="mt-2" *ngIf="isLoading">
-            <div role="status">
-
-                <span class="sr-only">Loading...</span>
-            </div>
-            </span>
-        </div>
-        <button type="submit">Create Product</button>
-      </form>
+  <div class="table-container">
+    <table class="responsive-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Category</th>
+          <th>Quantity</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="paginatedProducts.length > 0">
+        <tr *ngFor="let product of paginatedProducts">
+          <!-- <td><img src="/product_placeholder.svg" alt="" class="productImg"></td> -->
+          <td>{{ product.name }}</td>
+          <td>{{ product.price }}</td>
+          <td>{{ product.category }}</td>
+          <td>{{ product.stock_quantity }}</td>
+          <td class="actions">
+            <i class="fa fa-eye view" aria-hidden="true"></i>
+            <i class="fa fa-pencil-square-o edit" aria-hidden="true"></i>
+            <i class="fa fa-trash-o delete" aria-hidden="true"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="pagination">
+      <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
     </div>
   </div>
-</div>
 
+  <div class="modal" *ngIf="showAddModal">
+    <div class="success" *ngIf="createSuccess">Created A Product Successfully</div>
+    <div class="error" *ngIf="createError">Error Occurred While Creating Product</div>
+    <div class="modal-content">
+      <i class="fa fa-times close" (click)="closeAddModal()" aria-hidden="true"></i>
+      <div>
+        <form [formGroup]="createProductForm" (ngSubmit)="addProduct()">
+          <div>
+            <label for="name">Product Name</label>
+            <input type="text" formControlName="name">
+            <div *ngIf="createProductForm.get('name')?.invalid && (createProductForm.get('name')?.dirty || createProductForm.get('name')?.touched)" class="validationError">
+              Product name is required
+            </div>
+          </div>
+
+          <div>
+            <label for="price">Price</label>
+            <input type="number" formControlName="price">
+            <div *ngIf="createProductForm.get('price')?.invalid && (createProductForm.get('price')?.dirty || createProductForm.get('price')?.touched)" class="validationError">
+              Price is required
+            </div>
+          </div>
+
+          <div>
+            <label for="category">Category</label>
+            <input type="text" formControlName="category">
+            <div *ngIf="createProductForm.get('category')?.invalid && (createProductForm.get('category')?.dirty || createProductForm.get('category')?.touched)" class="validationError">
+              Category is required
+            </div>
+          </div>
+
+          <div>
+            <label for="stock">Stock</label>
+            <input type="number" formControlName="stock">
+            <div *ngIf="createProductForm.get('stock')?.invalid && (createProductForm.get('stock')?.dirty || createProductForm.get('stock')?.touched)" class="validationError">
+              Stock is required
+            </div>
+          </div>
+
+          <div class="mb-5">
+            <label for="images">Images</label>
+            <input type="file" (change)="getImagesUrl($event)" minlength="8" name="images" />
+            <span class="mt-2" *ngIf="isLoading">
+              <div role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </span>
+          </div>
+          <button type="submit">Create Product</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

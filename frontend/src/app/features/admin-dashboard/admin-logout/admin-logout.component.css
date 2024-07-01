@@ -1,0 +1,38 @@
+.container
+{
+  background: #313131;
+  width: 80%;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+
+}
+.container p{
+  font-size: 1.2rem;
+  color: #ffff;
+
+}
+.btns{
+  display: flex;
+  margin-top: 20px;
+  gap: 20px;
+}
+.acceptBtn,.denyBtn{
+  cursor: pointer;
+  border: none;
+  padding: .8rem 2rem;
+  border-radius: 5px;
+}
+.acceptBtn
+{
+  color: darkred;
+background-color:rgb(248, 121, 121);
+}
+.denyBtn
+{
+  color: darkblue;
+  background-color: rgba(153, 52, 248, 0.719);
+}

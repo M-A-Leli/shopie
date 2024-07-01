@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 10px 0px;
+
 }
 .addBtn{
   cursor: pointer;
@@ -42,11 +42,7 @@ th, td {
 }
 
 tr:nth-child(even){background-color: #323232}
-.actions{
-  display: flex;
-  align-items:center ;
-  gap: 15px;
-}
+
 .view,.delete,.edit{
   font-size: 20px;
   cursor: pointer;
@@ -60,7 +56,14 @@ tr:nth-child(even){background-color: #323232}
 .delete{
   color: rgb(238, 95, 95);
 }
-
+.productImg{
+  height: 50px;
+  width: 70px;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 /* Add your styles here */
 
 .modal {
@@ -120,15 +123,15 @@ input:focus{
 button {
   padding: 10px;
   font-size: 16px;
-  color: #fff;
-  background-color: blueviolet;
+  color: #ccc;
+  background-color:rgba(137, 43, 226, 0.578);
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #444;
+  background-color: blueviolet;
 }
 
 a {
@@ -154,4 +157,19 @@ a:hover {
 .validationError{
   color: #f46868;
   font-size: smaller;
+}
+span{
+  color: #44ffd7;
+}
+.pagination{
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.actions
+{
+  display: flex;
+  justify-items: flex-start;
+  gap: 10px;
 }

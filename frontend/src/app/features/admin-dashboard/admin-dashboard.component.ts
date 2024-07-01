@@ -8,12 +8,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-<<<<<<< HEAD
-  imports: [AdminSidebarComponent,AdminTopBarComponent,RouterOutlet],
-
-=======
   imports: [ RouterOutlet, AdminSidebarComponent, AdminTopBarComponent],
->>>>>>> f1abc04 (Authentication, Registration & Password Reset)
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.css'
 })

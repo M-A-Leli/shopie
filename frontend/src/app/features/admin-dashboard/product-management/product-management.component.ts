@@ -1,27 +1,31 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ProductService } from '../../../core/services/product.service';
+import Product from '../../../shared/models/Product';
 
 @Component({
   selector: 'app-product-management',
   templateUrl: './product-management.component.html',
-  standalone:true,
-  imports:[CommonModule,ReactiveFormsModule],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   styleUrls: ['./product-management.component.css']
 })
 export class ProductManagementComponent implements OnInit {
-
 
   createProductForm!: FormGroup;
   showAddModal = false;
   createSuccess = false;
   createError = false;
-  isLoading:boolean =false;
+  isLoading: boolean = false;
+  products: Product[] = [];
+  paginatedProducts: Product[] = [];
   images: string[] = [];
+  currentPage = 1;
+  itemsPerPage = 10;
+  imageUrl = '';
 
-   imageUrl = ''
-
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private service: ProductService) {
     this.createProductForm = this.fb.group({
       name: ['', Validators.required],
       price: ['', Validators.required],
@@ -30,11 +34,19 @@ export class ProductManagementComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.fetchProducts();
+  }
 
-  addProduct(): void {
+  fetchProducts() {
+    this.service.getAllProducts().subscribe((res) => {
+      this.products = res
+      this.paginate();
+    });
+  }
+
+  addProduct() {
     if (this.createProductForm.valid) {
-      // Handle product creation logic
       this.createSuccess = true;
       this.createError = false;
       this.closeAddModal();
@@ -43,39 +55,55 @@ export class ProductManagementComponent implements OnInit {
     }
   }
 
-  closeAddModal(): void {
+  closeAddModal() {
     this.showAddModal = false;
     this.createProductForm.reset();
   }
 
+  getImagesUrl(event: any) {
+    this.isLoading = true;
+    const files = event.target.files;
 
-  getImagesUrl(event:any){
-    this.isLoading=true
-    const files = event.target.files
-
-    if(files){
-      const formData = new FormData()
-
-      formData.append("file", files[0])
-      formData.append("upload_preset", "shopie")
-      formData.append("cloud_name", "day0akv3d")
+    if (files) {
+      const formData = new FormData();
+      formData.append('file', files[0]);
+      formData.append('upload_preset', 'shopie');
+      formData.append('cloud_name', 'day0akv3d');
 
       fetch('https://api.cloudinary.com/v1_1/day0akv3d/image/upload', {
-        method: "POST",
+        method: 'POST',
         body: formData
-      }).then((res=>res.json())).then(res=>{
-
-        this.images.push(res.url)
-
-        if(res.url){
-          this.isLoading = false
-        }else{
-          this.isLoading = true
-        }
-
-        this.createProductForm.patchValue({images: this.images})
       })
+        .then((res) => res.json())
+        .then((res) => {
+          this.images.push(res.url);
+          this.isLoading = res.url ? false : true;
+          this.createProductForm.patchValue({ images: this.images });
+        });
     }
+  }
 
+  paginate() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedProducts = this.products.slice(startIndex, endIndex);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.products.length / this.itemsPerPage);
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.paginate();
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.paginate();
+    }
   }
 }
