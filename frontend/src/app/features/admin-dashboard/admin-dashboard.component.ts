@@ -11,7 +11,7 @@ import { UserManagementComponent } from './user-management/user-management.compo
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [ RouterOutlet, AdminSidebarComponent, AdminTopBarComponent, AdminLogoutComponent, AdminProfileComponent, CategoryManagementComponent, ProductManagementComponent, UserManagementComponent],
+  imports: [ RouterOutlet, AdminSidebarComponent, AdminTopBarComponent],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.css'
 })

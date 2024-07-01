@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import PasswordResetController from '../controllers/PasswordReset.controller';
+import { authenticateUser } from '../middleware/Authorization';
 
 const router = Router();
 

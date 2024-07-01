@@ -1,3 +1,15 @@
+<div class="user-layout">
+  <app-user-sidebar></app-user-sidebar>
+  <div class="main-content" [class.collapsed]="isSidebarCollapsed">
+    <app-user-top-bar>
+      <!-- Custom content for top bar can go here -->
+    </app-user-top-bar>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
 <div class="entirePage">
     <div class="sideBar" style="background-color: #6a0dad;">
         <div class="heading">

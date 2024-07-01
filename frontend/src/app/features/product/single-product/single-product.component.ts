@@ -4,21 +4,10 @@ import { HeaderComponent } from '../../../shared/components/header/header.compon
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface Review {
-  text: string;
-  rating: number;
-}
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-  reviews: Review[];
-  relatedProducts: Product[];
-}
+import Product from '../../../shared/models/Product';
+import { ProductService } from '../../../core/services/product.service';
+import Review from '../../../shared/models/Review';
+import { ReviewService } from '../../../core/services/review.service';
 
 @Component({
   selector: 'app-single-product',
@@ -28,66 +17,57 @@ interface Product {
   styleUrl: './single-product.component.css'
 })
 export class SingleProductComponent {
-  product: Product = {
-    id: 0,
-    name: '',
-    description: '',
-    price: 0,
-    image: '',
-    reviews: [],
-    relatedProducts: []
-  };
-relatedProducts: any; //!
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  product!: Product;
+  error: string = '';
+  relatedProducts: Product[] = []; //!
+  reviews: Review[] = [];
+
+  constructor(
+    private route: ActivatedRoute,
+    private productService: ProductService,
+    private reviewService: ReviewService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
-    const productId = this.route.snapshot.paramMap.get('id');
-    this.loadProductDetails(Number(productId));
+    const product_id = this.route.snapshot.paramMap.get('id');
+    if (product_id) {
+      this.getProduct(product_id);
+      this.loadReviews(product_id);
+    }
   }
-  loadProductDetails(productId: number): void {
-    // Replace this with actual data fetching logic
-    // For demonstration purposes, let's use static data
-    const products: Product[] = [
-      {
-        id: 1,
-        name: 'Product 1',
-        description: 'This is the description for Product 1',
-        price: 99.99,
-        image: 'https://via.placeholder.com/300',
-        reviews: [
-          { text: 'Great product!', rating: 5 },
-          { text: 'Satisfactory', rating: 3 }
-        ],
-        relatedProducts: [
-          {
-            id: 2,
-            name: 'Related Product 1',
-            description: 'This is the description for Related Product 1',
-            price: 59.99,
-            image: 'https://via.placeholder.com/200',
-            reviews: [],
-            relatedProducts: []
-          },
-          {
-            id: 3,
-            name: 'Related Product 2',
-            description: 'This is the description for Related Product 2',
-            price: 79.99,
-            image: 'https://via.placeholder.com/200',
-            reviews: [],
-            relatedProducts: []
-          }
-        ]
+
+  getProduct(id: string): void {
+    this.productService.getProductById(id).subscribe({
+      next: (data) => {
+        this.product = data;
       },
-      // Add more products as needed
-    ];
-
-    this.product = products.find(p => p.id === productId) || this.product;
+      error: (err) => {
+        this.error = 'Failed to load product. Please try again later.';
+        console.error(err);
+      }
+    });
   }
 
-  viewProduct(productId: number): void {
-    // Navigate to the product details page of the related product
-    this.router.navigate(['/products', productId]);
+  loadReviews(product_id: string) {
+    this.reviewService.getReviewsByProductId(product_id).subscribe(
+      (data) => {
+        this.reviews = data;
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+        // Handle error as needed
+      }
+    );
+  }
+
+  viewProduct(product_id: string): void {
+    this.router.navigate(['/products', product_id]);
+  }
+
+  // !
+  addToCart(arg0: Product) {
+    throw new Error('Method not implemented.');
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
+import Review from '../../shared/models/Review';
 
 @Injectable({
   providedIn: 'root'
@@ -10,44 +10,44 @@ export class ReviewService {
 
   private baseUrl = 'http://localhost:3000/api/v1/reviews';
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient) { }
 
-  private getAuthHeaders(): HttpHeaders {
-    return this.authService.getAuthHeaders();
+  getAllReviews(): Observable<Review[]> {
+    return this.http.get<Review[]>(this.baseUrl);
   }
 
-  getAllReviews(): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.get<any>(this.baseUrl, { headers });
+  getReviewById(id: string): Observable<Review> {
+    return this.http.get<Review>(`${this.baseUrl}/${id}`);
   }
 
-  getReviewById(id: string): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.get<any>(`${this.baseUrl}/${id}`, { headers });
+  createReview(review: Review): Observable<Review> {
+    return this.http.post<Review>(this.baseUrl, review);
   }
 
-  createReview(review: any): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.post<any>(this.baseUrl, review, { headers });
+  updateReview(id: string, review: Review): Observable<Review> {
+    return this.http.put<Review>(`${this.baseUrl}/${id}`, review);
   }
 
-  deleteReview(id: string): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.delete<any>(`${this.baseUrl}/${id}`, { headers });
+  deleteReview(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
-  getReviewsByUserId(id: string): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.get<any>(`${this.baseUrl}/user/${id}`, { headers });
+  getReviewsByUserId(user_id: string): Observable<Review[]> {
+    return this.http.get<Review[]>(`${this.baseUrl}/user/${user_id}`);
   }
 
-  getReviewsByTourId(id: string): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.get<any>(`${this.baseUrl}/tour/${id}`, { headers });
+  getReviewsByProductId(product_id: string): Observable<Review[]> {
+    return this.http.get<Review[]>(`${this.baseUrl}/product/${product_id}`);
   }
 
-  searchReviews(query: string): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.get<any>(`${this.baseUrl}/search?query=${query}`, { headers });
+  //!
+  searchUsers(queryParams: any): Observable<Review[]> {
+    let params = new HttpParams();
+    for (const key in queryParams) {
+      if (queryParams.hasOwnProperty(key)) {
+        params = params.set(key, queryParams[key]);
+      }
+    }
+    return this.http.get<Review[]>(`${this.baseUrl}/search`, { params });
   }
 }
