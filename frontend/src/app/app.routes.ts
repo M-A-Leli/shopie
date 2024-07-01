@@ -30,7 +30,6 @@ export const routes: Routes = [
   { path: 'reset-code/verify', component: ResetCodeVerificationComponent },
   { path: 'password-reset', component: PasswordResetComponent },
   { path: 'cart', component: CartItemComponent },
-  {path: 'user-dashboard', component: UserDashboardComponent},
   {
     path: 'products', component: ProductComponent, children: [
       { path: ':id', component: SingleProductComponent },
@@ -48,7 +47,7 @@ export const routes: Routes = [
   },
   {
     path: 'admin/dashboard', component: AdminDashboardComponent, children: [
-      { path: 'logout', component: AdminLogoutComponent },
+      { path: 'logout', component: LoginComponent},
       { path: 'profile', component: AdminProfileComponent },
       { path: 'categories', component: CategoryManagementComponent },
       { path: 'products', component: ProductManagementComponent },

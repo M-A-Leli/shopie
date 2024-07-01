@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { UserDashboardComponent } from './shared/components/user-dashboard/user-dashboard.component';
+import { UserDashboardComponent } from './features/user-dashboard/user-dashboard.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,UserDashboardComponent],
+  imports: [RouterOutlet, UserDashboardComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

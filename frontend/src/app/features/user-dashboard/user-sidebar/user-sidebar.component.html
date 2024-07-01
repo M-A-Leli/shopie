@@ -1,16 +1,40 @@
-<div class="sidebar" [class.collapsed]="isCollapsed">
+<!-- <div class="sidebar" [class.collapsed]="isCollapsed">
   <button (click)="toggleSidebar()">☰</button>
   <nav *ngIf="!isCollapsed">
-    <ul>
+    <ul> -->
       <!-- <li><a routerLink="/user/dashboard/profile">Profile</a></li>
       <li><a routerLink="/user/dashboard/cart">Cart</a></li>
       <li><a routerLink="/user/dashboard/orders">Orders</a></li>
       <li><a routerLink="/user/dashboard/logout">Logout</a></li> -->
 
-      <li><a href="/user/dashboard/profile">Profile</a></li>
+      <!-- <li><a href="/user/dashboard/profile">Profile</a></li>
       <li><a href="/user/dashboard/cart">Cart</a></li>
       <li><a href="/user/dashboard/orders">Orders</a></li>
       <li><a href="/user/dashboard/logout">Logout</a></li>
     </ul>
   </nav>
+</div> -->
+<div class="sideBar" style="background-color: #6a0dad;">
+  <div class="heading">
+      <h1>Shoppe market</h1>
+  </div> 
+  <div class="navigation">
+      
+      <div class="profile" routerLink="profile">
+          <img src="../../../icons/person_24dp (1).png" alt="">
+          <p>  My profile</p>
+      </div>
+      <div class="products">
+          <img src="../../../icons/person_24dp (1).png" alt="">
+          <p>  Products</p>
+      </div>
+      <div class="order" routerLink="orders">
+          <img src="../../../icons/add_shopping_cart_24dp.svg" alt="">
+          <p>  order</p>
+      </div>
+      <div class="logout" routerLink="logout">
+         <img src="../../../icons/logout_24dp (1).png" alt=""> 
+         <p>  Log out</p>
+      </div>
+  </div>  
 </div>
