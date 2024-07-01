@@ -79,8 +79,18 @@ class ProductController {
 
   getProductsByCategoryId = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const categoryId = req.params.categoryId;
+      const categoryId = req.params.id;
       const products = await this.productService.getProductsByCategoryId(categoryId);
+      res.status(200).json(products);
+    } catch (error: any) {
+      next(error);
+    }
+  }
+
+  getRelatedProducts = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const product_id = req.params.id;
+      const products = await this.productService.getRelatedProducts(product_id);
       res.status(200).json(products);
     } catch (error: any) {
       next(error);
