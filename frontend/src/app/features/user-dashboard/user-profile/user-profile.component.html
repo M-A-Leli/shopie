@@ -1,10 +1,13 @@
 
 <div class="user-profile">
   <div class="profile-card">
-    <h2>User Profile</h2>
-    <p><strong>ID:</strong> {{ user.id }}</p>
-    <p><strong>Username:</strong> {{ user.username }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>Phone Number:</strong> {{ user.phone_number }}</p>
+    <div class="imageCard">
+      <img src="https://th.bing.com/th/id/OIP.ZlAZ1viq9iLcZzQZo4RSrwHaLZ?rs=1&pid=ImgDetMain" alt="">
+    </div>
+    <div class="userDetails">
+      <p><strong>Username:</strong> {{ user.username }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Phone Number:</strong> {{ user.phone_number }}</p>
+    </div> 
   </div>
 </div>

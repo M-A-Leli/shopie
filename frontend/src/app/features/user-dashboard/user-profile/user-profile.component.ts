@@ -12,7 +12,9 @@ import User from '../../../shared/models/User';
 export class UserProfileComponent {
   user!: User;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) {
+    
+  }
 
   ngOnInit(): void {
     this.getUserProfile();
@@ -22,6 +24,8 @@ export class UserProfileComponent {
     this.userService.getUserProfile().subscribe(
       (data) => {
         this.user = data;
+        console.log(this.user);
+        
       },
       (error) => {
         console.error('Error fetching user profile', error);
