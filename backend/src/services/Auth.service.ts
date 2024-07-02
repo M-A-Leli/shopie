@@ -9,7 +9,6 @@ class AuthService {
             select: {
                 id: true,
                 password: true,
-                // salt: true,
                 admin: {
                     select: {
                         id: true
@@ -17,6 +16,27 @@ class AuthService {
                 }
             },
         });
+    }
+
+    static async findUserByID(id: string) {
+        const user = await prisma.user.findUnique({
+            where: { id, is_deleted: false },
+            select: {
+                id: true,
+                password: true,
+                admin: {
+                    select: {
+                        id: true
+                    }
+                }
+            },
+        });
+
+        if (!user) {
+            throw createError(404, 'User not found');
+        }
+
+        return user;
     }
 
     static async validatePassword(password: string, hash: string) {

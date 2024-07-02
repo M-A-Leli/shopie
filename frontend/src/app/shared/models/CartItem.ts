@@ -1,4 +1,4 @@
-import Cart from "./Cart";
+import Order from "./Order";
 import Product from "./Product";
 
 export default interface CartItem {
@@ -6,6 +6,7 @@ export default interface CartItem {
   quantity: number,
   product_id: string,
   product: Product, //!
-  cart_id: string,
-  cart?: Cart, //!
+  order_id: string,
+  order?: Order, //!
+  subtotal: number
 }

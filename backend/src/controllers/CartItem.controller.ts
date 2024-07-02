@@ -28,7 +28,8 @@ class CartItemController {
 
   createCartItem = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const cartItem = await this.cartItemService.createCartItem(req.body);
+      const user_id = req.user?.id as string;
+      const cartItem = await this.cartItemService.createCartItem(req.body, user_id);
       res.status(201).json(cartItem);
     } catch (error: any) {
       next(error);
@@ -53,9 +54,19 @@ class CartItemController {
     }
   }
 
-  getCartItemsByCartId = async (req: Request, res: Response, next: NextFunction) => {
+  getCartItemsByOrderId = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const cartItems = await this.cartItemService.getCartItemsByCartId(req.params.cartId);
+      const cartItems = await this.cartItemService.getCartItemsByOrderId(req.params.id);
+      res.status(200).json(cartItems);
+    } catch (error: any) {
+      next(error);
+    }
+  }
+
+  getPendingCartItemsByUserId = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user_id = req.user?.id as string;
+      const cartItems = await this.cartItemService.getPendingCartItemsByUserId(user_id);
       res.status(200).json(cartItems);
     } catch (error: any) {
       next(error);

@@ -35,6 +35,7 @@ export class SingleProductComponent {
     if (product_id) {
       this.getProduct(product_id);
       this.loadReviews(product_id);
+      this.loadRelatedProducts(product_id);
     }
   }
 
@@ -57,6 +58,18 @@ export class SingleProductComponent {
       },
       (error) => {
         console.error('Error fetching categories:', error);
+        // Handle error as needed
+      }
+    );
+  }
+
+  loadRelatedProducts(product_id: string) {
+    this.productService.getRelatedProducts(product_id).subscribe(
+      (data) => {
+        this.relatedProducts = data;
+      },
+      (error) => {
+        console.error('Error fetching related products:', error);
         // Handle error as needed
       }
     );

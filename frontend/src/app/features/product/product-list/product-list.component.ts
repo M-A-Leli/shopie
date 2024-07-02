@@ -16,7 +16,7 @@ import Category from '../../../shared/models/Category';
   standalone: true,
   imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent],
   templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.css'
+  styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent {
 
@@ -40,15 +40,14 @@ export class ProductListComponent {
   ngOnInit(): void {
     this.loadProducts();
     this.loadCategories();
-    this.totalPages = Math.ceil(this.products.length / this.itemsPerPage);
-    this.totalPagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
-    this.paginateProducts();
   }
 
   paginateProducts(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedProducts = this.products.slice(startIndex, endIndex);
+    this.paginatedProducts = this.filteredProducts.slice(startIndex, endIndex);
+    this.totalPages = Math.ceil(this.filteredProducts.length / this.itemsPerPage);
+    this.totalPagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
   previousPage(): void {
@@ -79,6 +78,7 @@ export class ProductListComponent {
       (data) => {
         this.products = data;
         this.filteredProducts = this.products;
+        this.paginateProducts();
       },
       (error) => {
         console.error('Error fetching products:', error);
@@ -104,6 +104,8 @@ export class ProductListComponent {
       this.productService.getProductsByCategoryId(this.selectedCategoryId).subscribe(
         (data) => {
           this.filteredProducts = data;
+          this.currentPage = 1; // Reset to the first page
+          this.paginateProducts();
         },
         (error) => {
           console.error('Error fetching products by category:', error);
@@ -112,6 +114,8 @@ export class ProductListComponent {
       );
     } else {
       this.filteredProducts = this.products;
+      this.currentPage = 1; // Reset to the first page
+      this.paginateProducts();
     }
   }
 

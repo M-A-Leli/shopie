@@ -36,6 +36,10 @@ export class ProductService {
     return this.http.get<Product[]>(`${this.baseUrl}/category/${category_id}`);
   }
 
+  getRelatedProducts(product_id: string): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/related-products/${product_id}`);
+  }
+
   // !
   searchProducts(queryParams: any): Observable<Product[]> {
     let params = new HttpParams();

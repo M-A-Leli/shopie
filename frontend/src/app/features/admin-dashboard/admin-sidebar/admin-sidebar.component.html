@@ -1,18 +1,29 @@
-<div class="sidebar" [class.collapsed]="isCollapsed">
-  <button (click)="toggleSidebar()">☰</button>
-  <nav *ngIf="!isCollapsed">
-    <ul>
-      <!-- <li><a routerLink="/admin/dashboard/profile">Profile</a></li>
-      <li><a routerLink="/admin/dashboard/users">Users</a></li>
-      <li><a routerLink="/admin/dashboard/products">Products</a></li>
-      <li><a routerLink="/admin/dashboard/categories">Categories</a></li>
-      <li><a routerLink="/admin/dashboard/logout">Logout</a></li> -->
 
-      <li><a href="/admin/dashboard/profile">Profile</a></li>
-      <li><a href="/admin/dashboard/users">Users</a></li>
-      <li><a href="/admin/dashboard/products">Products</a></li>
-      <li><a href="/admin/dashboard/categories">Categories</a></li>
-      <li><a href="/admin/dashboard/logout">Logout</a></li>
-    </ul>
-  </nav>
-</div>
+<div class="sidebar" [ngClass]="{'collapsed': isCollapsed, 'expanded-mobile': !isCollapsed}">
+  <div class="sidebar-header">
+    <div class="profile-section" routerLink="profile">
+      <img src="/assets/images/profileImg.jpg" alt="Profile Picture" class="profile-pic">
+      <span class="username">Nana Rita</span>
+    </div>
+
+      <i class="fa fa-bars toggle-btn" (click)="toggleSidebar()"></i>
+  </div>
+  <ul class="sidebar-menu">
+      <li class="sidebar-item">
+          <a routerLink="dashboard"><i class="fa fa-home" aria-hidden="true"></i><span>Dashboard</span></a>
+      </li>
+      <li class="sidebar-item">
+          <a routerLink="products"><i class="fa fa-cart-plus" aria-hidden="true"></i> <span>Products</span></a>
+      </li>
+      <li class="sidebar-item">
+          <a routerLink="users"><i class="fa fa-users" aria-hidden="true"></i><span>Customers</span></a>
+      </li>
+      <li class="sidebar-item">
+          <a routerLink="orders"><i class="fa fa-money" aria-hidden="true"></i> <span>Orders</span></a>
+      </li>
+      <li class="logout">
+          <a routerLink="logout"><i class="fa fa-sign-out" aria-hidden="true"></i><span>Logout</span></a>
+      </li>
+  </ul>
+
+
