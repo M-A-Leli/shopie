@@ -33,7 +33,7 @@ export class ReviewService {
   }
 
   getReviewsByUserId(user_id: string): Observable<Review[]> {
-    return this.http.get<Review[]>(`${this.baseUrl}/user/${user_id}`);
+    return this.http.get<Review[]>(`${this.baseUrl}/user`);
   }
 
   getReviewsByProductId(product_id: string): Observable<Review[]> {

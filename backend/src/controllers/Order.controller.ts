@@ -55,7 +55,8 @@ class OrderController {
 
   getOrdersByUserId = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const orders = await this.orderService.getOrdersByUserId(req.params.id);
+      const user_id = req.user?.id as string;
+      const orders = await this.orderService.getOrdersByUserId(user_id);
       res.status(200).json(orders);
     } catch (error: any) {
       next(error);
@@ -64,7 +65,8 @@ class OrderController {
 
   getPendingOrderByUserId = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const order = await this.orderService.getPendingOrderByUserId(req.params.userId);
+      const user_id = req.user?.id as string;
+      const order = await this.orderService.getPendingOrderByUserId(user_id);
       res.status(200).json(order);
     } catch (error: any) {
       next(error);
@@ -73,7 +75,8 @@ class OrderController {
 
   checkoutOrderByUserId = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await this.orderService.checkoutOrderByUserId(req.params.userId);
+      const user_id = req.user?.id as string;
+      await this.orderService.checkoutOrderByUserId(user_id);
       res.status(200).json({ message: 'Order checked out successfully' });
     } catch (error: any) {
       next(error);

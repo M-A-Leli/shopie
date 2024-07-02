@@ -35,13 +35,34 @@ class AuthMiddleware {
   }
 
   static async authorizeAdmin(req: Request, res: Response, next: NextFunction) {
-    await AuthMiddleware.authorizeUser(req, res, async () => {
-      if (req.user?.role !== 'admin') {
+    const token = req.cookies.accessToken;
+
+    if (!token) {
+      return next(createError(401, 'Authentication token not found'));
+    }
+
+    try {
+      const payload = jwt.verify(token, process.env.JWT_SECRET as string) as TokenPayload;
+      const user = await prisma.user.findUnique({
+        where: { id: payload.user_id, is_deleted: false },
+      });
+
+      if (!user) {
+        return next(createError(401, 'User not found'));
+      }
+
+      req.user = { id: user.id, role: payload.role }; // Adding user info to request object
+
+      if (req.user.role !== 'admin') {
         return next(createError(403, 'Admin access required'));
       }
+
       next();
-    });
+    } catch (error) {
+      next(createError(401, 'Invalid token'));
+    }
   }
 }
+
 
 export default AuthMiddleware;

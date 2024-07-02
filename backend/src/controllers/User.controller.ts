@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import UserService from '../services/User.service';
-import { validationResult } from 'express-validator';
 
 class UserController {
 
@@ -30,13 +29,6 @@ class UserController {
 
   createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // !
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-      
       const newUser = await this.userService.createUser(req.body);
       res.status(201).json(newUser);
     } catch (error: any) {
@@ -62,20 +54,20 @@ class UserController {
     }
   }
 
-  // ! req.user.id
   getUserProfile = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userProfile = await this.userService.getUserById(req.params.id);
+      const user_id = req.user?.id as string;
+      const userProfile = await this.userService.getUserProfile(user_id);
       res.json(userProfile);
     } catch (error: any) {
       next(error);
     }
   }
 
-  // ! req.user.id
   updateUserProfile = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const updatedProfile = await this.userService.createUser(req.body);
+      const user_id = req.user?.id as string;
+      const updatedProfile = await this.userService.updateUserProfile(user_id, req.body);
       res.status(201).json(updatedProfile);
     } catch (error: any) {
       next(error);
