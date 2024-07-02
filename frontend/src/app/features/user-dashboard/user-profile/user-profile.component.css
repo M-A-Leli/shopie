@@ -13,8 +13,28 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  width: 300px;
+  width: 60%;
   text-align: center;
+  height: 100%;
+}
+.imageCard{
+  height: 60%;
+  background-color: #E2EAF4;
+}
+.imageCard img{
+  width: 60%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: fill;
+}
+.userDetails{
+  height: 40%;
+  background-color: #E8E8E8;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }
 
 .profile-card h2 {
