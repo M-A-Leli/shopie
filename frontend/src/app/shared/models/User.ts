@@ -1,5 +1,5 @@
 import Admin from "./Admin";
-import Cart from "./Cart";
+import Cart from "./Order";
 import Review from "./Review";
 
 export default interface User {

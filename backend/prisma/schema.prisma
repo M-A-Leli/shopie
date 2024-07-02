@@ -25,7 +25,7 @@ model User {
   updated_at      DateTime   @updatedAt
   admin           Admin?
   reset_tokens    PasswordResetToken[]
-  carts           Cart[]
+  orders          Order[]
   reviews         Review[]
   @@map("Users")
 }
@@ -75,24 +75,27 @@ model Category {
   @@map("Categories")
 }
 
-model Cart {
+model Order {
   id           String      @id @default(uuid())
   user_id      String
   user         User        @relation(fields: [user_id], references: [id])
   cart_items   CartItem[]
+  status       String      @default("PENDING")
+  total_price  Decimal     @default(0.00)
   is_deleted   Boolean     @default(false)
   created_at   DateTime    @default(now())
   updated_at   DateTime    @updatedAt
-  @@map("Carts")
+  @@map("Orders")
 }
 
 model CartItem {
   id            String      @id @default(uuid())
-  quantity      Int
+  quantity      Int         @default(1)
   product_id    String
   product       Product     @relation(fields: [product_id], references: [id])
-  cart_id       String
-  cart          Cart        @relation(fields: [cart_id], references: [id])
+  order_id      String
+  order         Order       @relation(fields: [order_id], references: [id])
+  subtotal      Decimal     @default(0.00)
   created_at    DateTime    @default(now())
   updated_at    DateTime    @updatedAt
   is_deleted    Boolean     @default(false)

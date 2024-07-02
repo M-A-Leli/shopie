@@ -1,0 +1,22 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- AlterTable
+ALTER TABLE [dbo].[CartItems] ADD [subtotal] DECIMAL(32,16) NOT NULL CONSTRAINT [CartItems_subtotal_df] DEFAULT 0.00;
+
+-- AlterTable
+ALTER TABLE [dbo].[Orders] ADD [total_price] DECIMAL(32,16) NOT NULL CONSTRAINT [Orders_total_price_df] DEFAULT 0.00;
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH
