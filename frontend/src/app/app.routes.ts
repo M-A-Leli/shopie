@@ -21,6 +21,7 @@ import { UserCartComponent } from './features/user-dashboard/user-cart/user-cart
 import { UserLogoutComponent } from './features/user-dashboard/user-logout/user-logout.component';
 import { UserOrdersComponent } from './features/user-dashboard/user-orders/user-orders.component';
 import { UserProfileComponent } from './features/user-dashboard/user-profile/user-profile.component';
+import { UserProductsComponent } from './features/user-dashboard/user-products/user-products.component';
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './features/admin-dashboard/dashboard/dashboard.component';
 
@@ -41,7 +42,7 @@ export const routes: Routes = [
   {
     path: 'user/dashboard', component: UserDashboardComponent, children: [
       { path: 'cart', component:  UserCartComponent},
-      {path: 'product', component: ProductComponent},
+      {path: 'product', component: UserProductsComponent },
       { path: 'logout', component: UserLogoutComponent },
       { path: 'orders', component: UserOrdersComponent },
       { path: 'profile', component: UserProfileComponent },
