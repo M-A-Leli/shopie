@@ -33,14 +33,14 @@ export class OrderService {
   }
 
   getOrdersByUserId(user_id: string): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.baseUrl}/user/${user_id}`);
+    return this.http.get<Order[]>(`${this.baseUrl}/user`);
   }
 
   getPendingOrderByUserId(user_id: string): Observable<Order> {
-    return this.http.get<Order>(`${this.baseUrl}/user/${user_id}/pending`);
+    return this.http.get<Order>(`${this.baseUrl}/user/pending`);
   }
 
   checkoutOrderByUserId(user_id: string): Observable<Order> {
-    return this.http.get<Order>(`${this.baseUrl}/user/${user_id}/checkout`);
+    return this.http.get<Order>(`${this.baseUrl}/user/checkout`);
   }
 }

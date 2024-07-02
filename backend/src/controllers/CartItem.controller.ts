@@ -65,7 +65,8 @@ class CartItemController {
 
   getPendingCartItemsByUserId = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const cartItems = await this.cartItemService.getPendingCartItemsByUserId(req.params.userId);
+      const user_id = req.user?.id as string;
+      const cartItems = await this.cartItemService.getPendingCartItemsByUserId(user_id);
       res.status(200).json(cartItems);
     } catch (error: any) {
       next(error);
