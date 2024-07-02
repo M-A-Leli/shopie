@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductService } from '../../../core/services/product.service';
 import Product from '../../../shared/models/Product';
+import { ActivatedRoute, Router } from '@angular/router';
+import Category from '../../../shared/models/Category';
+import { CategoryService } from '../../../core/services/category.service';
 
 @Component({
   selector: 'app-product-management',
@@ -12,30 +15,52 @@ import Product from '../../../shared/models/Product';
   styleUrls: ['./product-management.component.css']
 })
 export class ProductManagementComponent implements OnInit {
+  
+onCategoryChange($event: Event) {
+  const selectedCategory = ($event.target as HTMLSelectElement).value;
+}
 
   createProductForm!: FormGroup;
   showAddModal = false;
-  createSuccess = false;
-  createError = false;
   isLoading: boolean = false;
   products: Product[] = [];
+  categoryList: Category[]= [];
+  product_id:string= '';
+  category_id:string = '';
   paginatedProducts: Product[] = [];
   images: string[] = [];
   currentPage = 1;
   itemsPerPage = 10;
   imageUrl = '';
+  createSuccess = false;
+  createError = false;
+  showDeleteModal = false;
+  showUpdateModal = false;
+  updateMsg: boolean = false;
+  deleteMsg: boolean = false;
+  createSuccessMessage = '';
+  updateSuccessMessage = '';
+  deleteSuccessMessage = '';
 
-  constructor(private fb: FormBuilder, private service: ProductService) {
+
+  constructor(private fb: FormBuilder, private service: ProductService,private router:Router,private route:ActivatedRoute,private categoryService: CategoryService) {
     this.createProductForm = this.fb.group({
       name: ['', Validators.required],
       price: ['', Validators.required],
       category: ['', Validators.required],
-      stock: ['', Validators.required]
+      stock_quantity: ['', Validators.required],
+      description:['',Validators.required],
+      images:['']
     });
+
+  route.params.subscribe(res=>{
+    this.product_id = res['id']
+  })
   }
 
   ngOnInit() {
     this.fetchProducts();
+    this.fetchCategories();
   }
 
   fetchProducts() {
@@ -44,6 +69,19 @@ export class ProductManagementComponent implements OnInit {
       this.paginate();
     });
   }
+
+  fetchCategories(){
+  this.categoryService.getAllCategories().subscribe((res)=>{
+    this.categoryList = res;
+  })
+  }
+
+  getCategoryById(category_id:string){
+    this.categoryService.getCategoryById(category_id).subscribe((res)=>{
+         this.category_id = res.id
+    })
+  }
+
 
   addProduct() {
     if (this.createProductForm.valid) {
@@ -54,6 +92,28 @@ export class ProductManagementComponent implements OnInit {
       this.createError = true;
     }
   }
+
+  updateProduct(product_id:string,product:Product){
+    this.service.updateProduct(product_id,product).subscribe((res)=>{
+      this.fetchProducts();
+      this.updateMsg = true;
+      this.updateSuccessMessage = 'Product updated successfully.';
+
+      setTimeout(() => {
+        this.updateMsg = false;
+        this.updateSuccessMessage = '';
+      }, 2000); // Hide message after 3 seconds
+      this.closeUpdateModal();
+
+
+    })
+  }
+
+deleteProduct(product_id:string){
+  this.service.deleteProduct(product_id).subscribe((res)=>{
+  this.fetchProducts()
+  })
+}
 
   closeAddModal() {
     this.showAddModal = false;
@@ -82,6 +142,50 @@ export class ProductManagementComponent implements OnInit {
         });
     }
   }
+
+navigateToProductDetails(index:number){
+  let product = this.products[index]
+  let product_id = product.id
+  this.router.navigate(['admin/products/view',product_id]);
+}
+
+
+
+openDeleteModal(productId: string): void {
+  this.product_id = productId;
+  this.showDeleteModal = true;
+}
+
+closeDeleteModal(): void {
+  this.showDeleteModal = false;
+}
+
+
+confirmDelete(): void {
+  this.service.deleteProduct(this.product_id).subscribe((res) => {
+    this.deleteMsg = true;
+    this.deleteSuccessMessage = 'Product deleted successfully.';
+    this.fetchProducts();
+    setTimeout(() => {
+      this.deleteMsg = false;
+      this.deleteSuccessMessage = '';
+    }, 2000);
+    this.closeDeleteModal();
+  });
+}
+
+
+openUpdateModal(product:Product){
+  this.product_id = product.id;
+  this.createProductForm.patchValue(product);
+  this.showUpdateModal = true;
+}
+
+closeUpdateModal(){
+  this.showUpdateModal = false;
+  this.createProductForm.reset();
+}
+
 
   paginate() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;

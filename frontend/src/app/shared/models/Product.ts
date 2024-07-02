@@ -4,7 +4,7 @@ import ProductImage from "./ProductImage";
 import Review from "./Review";
 
 export default interface Product {
-  id?: string,
+  id: string,
   name: string,
   description: string,
   price: number,

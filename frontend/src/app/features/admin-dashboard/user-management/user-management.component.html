@@ -3,29 +3,24 @@
   <table >
     <thead>
       <tr>
-        <th>Image</th>
+
         <th>Name</th>
         <th>Email</th>
         <th>Phone Number</th>
-        <th>Status</th>
         <th>Actions</th>
       </tr>
     </thead>
-    <tbody>
-      <tr >
-        <td>
-          <img src="/assets/images/profileImg.jpg" alt="" class="customer-img">
-        </td>
-        <td>John Doe</td>
-        <td>john.com</td>
-        <td>+2542334444</td>
-        <td>Active</td>
+    <tbody *ngIf="users.length>0">
+      <tr *ngFor="let user of users">
+        <td>{{user.username}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.phone_number}}</td>
         <td>
           <div class="actions">
 
             <i class="fa fa-eye view" aria-hidden="true" ></i>
-            <i class="fa fa-pencil-square-o edit" aria-hidden="true" ></i>
-            <i class="fa fa-trash-o delete" aria-hidden="true"></i>
+            <!-- <i class="fa fa-pencil-square-o edit" aria-hidden="true" ></i>
+            <i class="fa fa-trash-o delete" aria-hidden="true"></i> -->
           </div>
         </td>
       </tr>
