@@ -41,6 +41,7 @@ export const routes: Routes = [
   {
     path: 'user/dashboard', component: UserDashboardComponent, children: [
       { path: 'cart', component:  UserCartComponent},
+      {path: 'product', component: ProductComponent},
       { path: 'logout', component: UserLogoutComponent },
       { path: 'orders', component: UserOrdersComponent },
       { path: 'profile', component: UserProfileComponent },
@@ -48,7 +49,7 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'admin', component: AdminDashboardComponent, children: [
+    path: 'admin/dashboard', component: AdminDashboardComponent, children: [
       {path:'dashboard',component:DashboardComponent},
       { path: 'logout', component: AdminLogoutComponent },
       { path: 'profile', component: AdminProfileComponent },
