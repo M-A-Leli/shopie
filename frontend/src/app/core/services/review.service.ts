@@ -24,9 +24,9 @@ export class ReviewService {
     return this.http.post<Review>(this.baseUrl, review);
   }
 
-  updateReview(id: string, review: Review): Observable<Review> {
-    return this.http.put<Review>(`${this.baseUrl}/${id}`, review);
-  }
+  // updateReview(id: string, review: Review): Observable<Review> {
+  //   return this.http.put<Review>(`${this.baseUrl}/${id}`, review);
+  // }
 
   deleteReview(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
@@ -41,7 +41,7 @@ export class ReviewService {
   }
 
   //!
-  searchUsers(queryParams: any): Observable<Review[]> {
+  searchReviews(queryParams: any): Observable<Review[]> {
     let params = new HttpParams();
     for (const key in queryParams) {
       if (queryParams.hasOwnProperty(key)) {

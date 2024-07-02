@@ -2,27 +2,34 @@ import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import AuthService from '../services/Auth.service';
+import { UserRole } from '../models/types';
 
-// interface User {
-//   id: string;
-//   admin?: boolean;
-// }
+interface TokenPayload {
+  user_id: string;
+  role: UserRole;
+}
+
+interface User {
+  id: string;
+  password?: string,
+  admin: {
+    id: string
+  } | null;
+}
 
 class AuthController {
-
-//   static generateAccessToken(user: User): string {
-  static generateAccessToken(user: any): string {
-    const payload = {
+  static generateAccessToken(user: User): string {
+    const payload: TokenPayload = {
       user_id: user.id,
-      role: user.admin ? 'admin' : 'user'
+      role: user.admin ? 'admin' : 'user',
     };
     return jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: '15m' });
   }
 
-//   static generateRefreshToken(user: User): string {
-  static generateRefreshToken(user: any): string {
-    const payload = {
-      user_id: user.id
+  static generateRefreshToken(user: User): string {
+    const payload: TokenPayload = {
+      user_id: user.id,
+      role: user.admin ? 'admin' : 'user',
     };
     return jwt.sign(payload, process.env.JWT_REFRESH_SECRET as string, { expiresIn: '7d' });
   }
@@ -61,9 +68,11 @@ class AuthController {
     }
 
     try {
-    //   const payload = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET as string) as User;
-      const payload = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET as string);
-      const newAccessToken = AuthController.generateAccessToken(payload);
+      const payload = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET as string) as TokenPayload;
+
+      const user = await AuthService.findUserByID(payload.user_id);
+
+      const newAccessToken = AuthController.generateAccessToken(user);
 
       res.cookie('accessToken', newAccessToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
 
