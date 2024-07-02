@@ -1,0 +1,75 @@
+
+  <div class="counts">
+
+     <div class="product-card">
+      <i class="fa fa-cart-plus" aria-hidden="true"></i>
+      <p>Total Products</p>
+       <h2>100</h2>
+     </div>
+
+     <div class="customer-card">
+      <i class="fa fa-users" aria-hidden="true"></i>
+      <p>Total Customers</p>
+       <h2>100</h2>
+     </div>
+
+     <div class="order-card">
+      <i class="fa fa-money" aria-hidden="true"></i>
+      <p>Total Orders</p>
+       <h2>100</h2>
+     </div>
+
+     <!-- <div class="sale-card">
+      <i class="fa fa-money" aria-hidden="true"></i>
+      <p>Total sales</p>
+       <h2>100</h2>
+     </div> -->
+
+  </div>
+  <div class="analytics">
+
+    <p style="color: #ccc;">Overview</p>
+
+    <!-- Charts Section -->
+<div class="charts" *ngIf="isBrowser">
+  <!-- Chart 1: Products Distribution -->
+  <div class="chart-card">
+    <div class="chart-header">
+      <p>Products Distribution</p>
+    </div>
+    <div class="chart-content">
+      <div class="chart-container">
+        <canvas baseChart
+                [datasets]="productData"
+                [labels]="productLabels"
+                [type]="'pie'"
+                [options]="chartOptions">
+        </canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart 3: Customers Growth -->
+  <div class="chart-card">
+    <div class="chart-header">
+      <p>Customers Growth</p>
+    </div>
+    <div class="chart-content">
+      <div class="chart-container">
+        <canvas baseChart
+                [datasets]="customersData"
+                [labels]="customersLabels"
+                [type]="'line'"
+                [options]="chartOptions">
+        </canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  </div>
+
+
+
+

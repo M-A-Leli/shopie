@@ -4,7 +4,7 @@ dotenv.config();
 
 import { addMinutes } from 'date-fns';
 import prisma from './config/Prisma.config';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 
 async function main() {
     // Dummy Users

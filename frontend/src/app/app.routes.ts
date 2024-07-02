@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+
 import { HomeComponent } from './features/home/home.component';
 import { LoginComponent } from './features/login/login.component';
 import { RegisterComponent } from './features/register/register.component';
@@ -21,6 +21,8 @@ import { UserCartComponent } from './features/user-dashboard/user-cart/user-cart
 import { UserLogoutComponent } from './features/user-dashboard/user-logout/user-logout.component';
 import { UserOrdersComponent } from './features/user-dashboard/user-orders/user-orders.component';
 import { UserProfileComponent } from './features/user-dashboard/user-profile/user-profile.component';
+import { Routes } from '@angular/router';
+import { DashboardComponent } from './features/admin-dashboard/dashboard/dashboard.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -48,7 +50,8 @@ export const routes: Routes = [
   },
   {
     path: 'admin/dashboard', component: AdminDashboardComponent, children: [
-      { path: 'logout', component: LoginComponent},
+      {path:'dashboard',component:DashboardComponent},
+      { path: 'logout', component: AdminLogoutComponent },
       { path: 'profile', component: AdminProfileComponent },
       { path: 'categories', component: CategoryManagementComponent },
       { path: 'products', component: ProductManagementComponent },

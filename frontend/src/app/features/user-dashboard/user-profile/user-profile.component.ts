@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { UserService } from '../../../core/services/user.service';
+import User from '../../../shared/models/User';
 
 @Component({
   selector: 'app-user-profile',
@@ -8,5 +10,22 @@ import { Component } from '@angular/core';
   styleUrl: './user-profile.component.css'
 })
 export class UserProfileComponent {
+  user!: User;
 
+  constructor(private userService: UserService) {}
+
+  ngOnInit(): void {
+    this.getUserProfile();
+  }
+
+  getUserProfile(): void {
+    this.userService.getUserProfile().subscribe(
+      (data) => {
+        this.user = data;
+      },
+      (error) => {
+        console.error('Error fetching user profile', error);
+      }
+    );
+  }
 }

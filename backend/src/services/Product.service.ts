@@ -16,7 +16,12 @@ class ProductService {
         description: true,
         price: true,
         stock_quantity: true,
-        category_id: true,
+        category: {
+          select: {
+            id: true,
+            name: true,
+          }
+        },
         images: {
           where: { is_deleted: false },
           select: {
@@ -43,7 +48,12 @@ class ProductService {
         description: true,
         price: true,
         stock_quantity: true,
-        category_id: true,
+        category: {
+          select: {
+            id: true,
+            name: true,
+          }
+        },
         images: {
           where: { is_deleted: false },
           select: {
@@ -81,7 +91,12 @@ class ProductService {
         description: true,
         price: true,
         stock_quantity: true,
-        category_id: true,
+        category: {
+          select: {
+            id: true,
+            name: true,
+          }
+        },
         images: {
           where: { is_deleted: false },
           select: {
@@ -118,7 +133,12 @@ class ProductService {
         description: true,
         price: true,
         stock_quantity: true,
-        category_id: true,
+        category: {
+          select: {
+            id: true,
+            name: true,
+          }
+        },
         images: {
           where: { is_deleted: false },
           select: {
@@ -169,7 +189,12 @@ class ProductService {
         description: true,
         price: true,
         stock_quantity: true,
-        category_id: true,
+        category: {
+          select: {
+            id: true,
+            name: true,
+          }
+        },
         images: {
           where: { is_deleted: false },
           select: {
@@ -185,6 +210,57 @@ class ProductService {
     }
 
     return products;
+  }
+
+  async getRelatedProducts(productId: string): Promise<Partial<Product>[]> {
+    const product = await prisma.product.findUnique({
+      where: { id: productId, is_deleted: false }
+    });
+  
+    if (!product) {
+      throw createError(404, 'Product not found');
+    }
+
+    // Convert Prisma.Decimal to JavaScript number
+    const productPrice = Number(product.price);
+  
+    const relatedProducts = await prisma.product.findMany({
+      where: {
+        OR: [
+          { category_id: product.category_id },
+          { price: { gte: productPrice * 0.8, lte: productPrice * 1.2 } },
+        ],
+        is_deleted: false,
+        id: { not: product.id },
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        price: true,
+        stock_quantity: true,
+        category: {
+          select: {
+            id: true,
+            name: true,
+          }
+        },
+        images: {
+          where: { is_deleted: false },
+          select: {
+            id: true,
+            url: true,
+          }
+        }
+      },
+      take: 4 // Limit to 4 related products
+    });
+  
+    if (relatedProducts.length === 0) {
+      throw createError(404, 'No related products found');
+    }
+  
+    return relatedProducts;
   }
 
   // async searchProducts(query: string): Promise<Partial<Product>[]> {

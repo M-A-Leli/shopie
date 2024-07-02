@@ -47,7 +47,8 @@ class ReviewController {
 
   getReviewsByUserId = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const reviews = await this.reviewService.getReviewsByUserId(req.params.id);
+      const user_id = req.user?.id as string;
+      const reviews = await this.reviewService.getReviewsByUserId(user_id);
       res.json(reviews);
     } catch (error) {
       next(error);

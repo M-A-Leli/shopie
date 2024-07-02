@@ -32,8 +32,12 @@ export class CartItemService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
-  getCartItemsByCartId(user_id: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/cart/${user_id}`);
+  getCartItemsByOrderId(order_id: string): Observable<CartItem[]> {
+    return this.http.get<CartItem[]>(`${this.baseUrl}/order/${order_id}`);
+  }
+
+  getPendingCartItemsByUserId(user_id: string): Observable<CartItem[]> {
+    return this.http.get<CartItem[]>(`${this.baseUrl}/user/${user_id}`);
   }
 }
 
