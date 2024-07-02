@@ -44,13 +44,50 @@
 .sideBar{
   width:19vw;
   height: 100vh;
-  justify-content: center;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   margin-right: 2%;
   position: fixed;
   transition: width 0.3s;
+  gap:2%
 }
-.sideBar div{
+.heading{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 7vh;
+}
+.heading h1{
+  color: white;
+}
+.navigation{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+}
+.navigation div{
+  display: flex;
+  margin-bottom: 2%;
+  align-items: center;
+  height: 7vh;
+  gap: 2%;
+  column-gap: 3%;
+}
+.navigation div:hover{
+  background-color:blueviolet;
+}
+.navigation div img{
+  width: 45px;
+}
+.navigation div p{
+  color: white;
+  width: 50%;
+  font-size: x-large;
+}
+/* .sideBar div{
    margin-left: 3%;
 }
 .navigation div{
@@ -69,4 +106,4 @@
 }
 img{
   width: 15px;
-}
+} */
