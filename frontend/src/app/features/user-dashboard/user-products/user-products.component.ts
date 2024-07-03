@@ -13,6 +13,7 @@ import { ProductService } from '../../../core/services/product.service';
 export class UserProductsComponent {
   products!:Product[];
   oneProduct!:Product;
+  searchTerm: string = '';
 
   constructor(private productService: ProductService) {
     
@@ -49,6 +50,22 @@ export class UserProductsComponent {
       console.log(data)
     })
     this.products = []
+  }
+
+  searchProducts(): void {
+    if (this.searchTerm) {
+      this.productService.searchProducts({ query: this.searchTerm }).subscribe(
+        (data) => {
+          this.products = data;
+          console.log(data);
+        },
+        (error) => {
+          console.error('Error searching products', error);
+        }
+      );
+    } else {
+      this.getAllProducts();
+    }
   }
   // products = [
   //   {
