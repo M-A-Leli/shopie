@@ -16,6 +16,16 @@
     height: 300px;
     border-radius: 10px;
 }
+.oneProduct{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: space-between;
+    margin-bottom: 20px;
+    height: 500px;
+    border-radius: 10px;
+}
 .imageDiv{
     width: 100%;
     display: flex;
@@ -40,6 +50,17 @@
     background-color: #E8E8E8;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    
+}
+.productDetail{
+    width: 100%;
+    height: 50%;
+    justify-content: center;
+    align-items: center;
+    background-color: #E8E8E8;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    text-align: center;
 }
 .details{
     width: 50%;
@@ -51,6 +72,16 @@
     margin-top: 4%;
     margin-bottom: 4%;
 }
+.detail{
+    width: 100%;
+    margin-left: 2%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between ;
+    margin-top: 4%;
+    margin-bottom: 4%; 
+}
 .buttonDiv{
     width: 40%;
     display: flex;
@@ -60,12 +91,31 @@
     margin-right: 2%;
     height: 100%;
 }
+.buttonsDiv{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 20%;
+    margin-right: 2%;
+    height: 30%;  
+    align-items: center;
+    
+}
 .buttonDiv button{
     background-color:#6a0dadc2 ;
     color: white;
     height: 25%;
     border-radius: 10px;
     border: none;
+}
+.buttonsDiv button{
+    background-color:#6a0dadc2 ;
+    color: white;
+    height: 45%;
+    border-radius: 10px;
+    border: none; 
+    width: 50%;
 }
 .buttonDiv button:hover{
     opacity: 0.8;
