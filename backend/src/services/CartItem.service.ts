@@ -22,6 +22,7 @@ class CartItemService {
     const cartItems = await prisma.cartItem.findMany({
       where: { is_deleted: false },
       select: {
+        id:true,
         quantity: true,
         product: {
           select: {
@@ -52,6 +53,7 @@ class CartItemService {
     const cartItem = await prisma.cartItem.findUnique({
       where: { id, is_deleted: false },
       select: {
+        id:true,
         quantity: true,
         product: {
           select: {
@@ -213,32 +215,34 @@ class CartItemService {
 
   async updateCartItem(id: string, data: Partial<CartItem>): Promise<CartItemWithProduct> {
     const cartItem = await prisma.cartItem.findUnique({
-      where: { id, is_deleted: false },
-      select: { 
+      where: { id },
+      select: {
         id: true,
         quantity: true,
         product_id: true,
         order_id: true,
         subtotal: true,
+        is_deleted: true,
         order: {
           select: {
             total_price: true
           }
-        } 
+        }
       }
     });
-
-    if (!cartItem) {
+  
+    if (!cartItem || cartItem.is_deleted) {
       throw createError(404, 'Cart item not found');
     }
-
+  
     const product = await prisma.product.findUnique({
-      where: { id: cartItem.product_id, is_deleted:false },
+      where: { id: cartItem.product_id },
       select: {
         id: true,
         name: true,
         price: true,
         stock_quantity: true,
+        is_deleted: true,
         images: {
           select: {
             id: true,
@@ -247,46 +251,50 @@ class CartItemService {
         }
       }
     });
-
-    if (!product) {
+  
+    if (!product || product.is_deleted) {
       throw createError(404, 'Product not found');
     }
-
+  
     if (product.stock_quantity === 0) {
       throw createError(400, "Product out of stock");
     }
 
+    if (data.quantity !== undefined && data.quantity < 1) {
+      throw createError(400, "Quantity cannot be less than 1");
+    }
+  
     const newSubtotal = data.quantity ? new Prisma.Decimal(data.quantity * product.price.toNumber()) : cartItem.subtotal;
     const updatedCartItem = await prisma.$transaction(async (tx) => {
       const updatedItem = await tx.cartItem.update({
         where: { id },
         data: {
-          ...data,
+          quantity: data.quantity || cartItem.quantity,
           subtotal: newSubtotal
         }
       });
-
-      const updatedOrder = await tx.order.update({
+  
+      await tx.order.update({
         where: { id: cartItem.order_id },
         data: {
           total_price: new Prisma.Decimal(cartItem.order.total_price.toNumber() - cartItem.subtotal.toNumber() + newSubtotal.toNumber())
         }
       });
-
+  
       return updatedItem;
     });
-
+  
     return {
-      id: cartItem.id,
-      quantity: cartItem.quantity,
+      id: updatedCartItem.id,
+      quantity: updatedCartItem.quantity,
       product: {
         id: product.id,
         name: product.name,
         price: product.price,
         images: product.images
       },
-      order_id: cartItem.order_id,
-      subtotal: cartItem.subtotal
+      order_id: updatedCartItem.order_id,
+      subtotal: updatedCartItem.subtotal
     };
   }
 
@@ -323,6 +331,7 @@ class CartItemService {
     const cartItems = await prisma.cartItem.findMany({
       where: { order_id: orderId, is_deleted: false },
       select: {
+        id:true,
         quantity: true,
         product: {
           select: {
@@ -359,8 +368,9 @@ class CartItemService {
     }
 
     const cartItems = await prisma.cartItem.findMany({
-      where: { id: order.id, is_deleted: false },
+      where: { order_id: order.id, is_deleted: false },
       select: {
+        id:true,
         quantity: true,
         product: {
           select: {

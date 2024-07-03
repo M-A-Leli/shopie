@@ -98,7 +98,7 @@ onCategoryChange($event: Event) {
   }
 
   updateProduct(product_id:string,product:Product){
-    this.service.updateProduct(product_id,product).subscribe((res)=>{
+    this.service.updateProduct(product_id,this.createProductForm.value).subscribe((res)=>{
       this.fetchProducts();
       this.updateMsg = true;
       this.updateSuccessMessage = 'Product updated successfully.';
@@ -214,5 +214,17 @@ closeUpdateModal(){
       this.currentPage--;
       this.paginate();
     }
+  }
+
+  loadCategories() {
+    this.categoryService.getAllCategories().subscribe(
+      (data) => {
+        this.categoryList = data;
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+        // Handle error as needed
+      }
+    );
   }
 }

@@ -14,16 +14,24 @@
 
   <!-- Add Product Modal -->
   <div class="modal" *ngIf="showAddModal">
-    <div class="success" *ngIf="createSuccess">Created A Product Successfully</div>
-    <div class="error" *ngIf="createError">Error Occurred While Creating Product</div>
+    <div class="success" *ngIf="createSuccess">
+      Created A Product Successfully
+    </div>
+    <div class="error" *ngIf="createError">
+      Error Occurred While Creating Product
+    </div>
     <div class="modal-content">
       <i class="fa fa-times close" (click)="closeAddModal()" aria-hidden="true"></i>
       <div>
         <form [formGroup]="createProductForm" (ngSubmit)="addProduct()">
 
             <label for="name">Product Name</label>
-            <input type="text" formControlName="name">
-            <div *ngIf="createProductForm.get('name')?.invalid && (createProductForm.get('name')?.dirty || createProductForm.get('name')?.touched)" class="validationError">
+            <input type="text" formControlName="name" />
+            <div *ngIf="
+                createProductForm.get('name')?.invalid &&
+                (createProductForm.get('name')?.dirty ||
+                  createProductForm.get('name')?.touched)
+              " class="validationError">
               Product name is required
             </div>
 
@@ -39,8 +47,12 @@
             </select>
 
             <label for="price">Price</label>
-            <input type="number" formControlName="price">
-            <div *ngIf="createProductForm.get('price')?.invalid && (createProductForm.get('price')?.dirty || createProductForm.get('price')?.touched)" class="validationError">
+            <input type="number" formControlName="price" />
+            <div *ngIf="
+                createProductForm.get('price')?.invalid &&
+                (createProductForm.get('price')?.dirty ||
+                  createProductForm.get('price')?.touched)
+              " class="validationError">
               Price is required
             </div>
 

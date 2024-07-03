@@ -1,9 +1,12 @@
 <div class="categories">
+  <div class="error-container" *ngIf="errorMessage">{{ errorMessage }}</div>
+
   <h2>Categories</h2>
   <div class="category-grid">
     <div class="category-card" *ngFor="let category of categories">
       <div class="category-image">
-        <img [src]="category.image" alt="{{ category.name }}">
+        <!-- <img [src]="category.image_url" alt="{{ category.name }}"> -->
+        <img [src]="getImageUrl(category.image_url)" alt="{{ category.name }}" />
       </div>
       <div class="category-info">
         <h3>{{ category.name }}</h3>

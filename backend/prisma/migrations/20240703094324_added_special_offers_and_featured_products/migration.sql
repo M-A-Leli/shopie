@@ -1,0 +1,20 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- AlterTable
+ALTER TABLE [dbo].[Products] ADD [is_featured] BIT NOT NULL CONSTRAINT [Products_is_featured_df] DEFAULT 0,
+[on_offer] BIT NOT NULL CONSTRAINT [Products_on_offer_df] DEFAULT 0;
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH

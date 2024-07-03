@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
+import path from 'path';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -20,6 +21,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+
+// app.use('/images', express.static(path.join(__dirname, '../../images')));
+app.use('/images', express.static(path.join(__dirname, '../images')));
 
 // Routes
 app.use('/api/v1', routes);

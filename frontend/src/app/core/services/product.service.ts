@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import Product from '../../shared/models/Product';
 
@@ -20,12 +20,20 @@ export class ProductService {
     return this.http.get<Product>(`${this.baseUrl}/${id}`);
   }
 
-  createProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.baseUrl, product);
+  createProduct(productData: FormData): Observable<Product> {
+    return this.http.post<Product>(this.baseUrl, productData, {
+      headers: new HttpHeaders({
+        'enctype': 'multipart/form-data'
+      })
+    });
   }
 
-  updateProduct(id: string, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.baseUrl}/${id}`, product);
+  updateProduct(id: string, productData: FormData): Observable<Product> {
+    return this.http.put<Product>(`${this.baseUrl}/${id}`, productData, {
+      headers: new HttpHeaders({
+        'enctype': 'multipart/form-data'
+      })
+    });
   }
 
   deleteProduct(id: string): Observable<void> {
@@ -38,6 +46,18 @@ export class ProductService {
 
   getRelatedProducts(product_id: string): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.baseUrl}/related-products/${product_id}`);
+  }
+
+  getFeaturedProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/featured-products`);
+  }
+
+  getSpecialOffers(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/special-offers`);
+  }
+
+  getNewArrivals(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/new-arrivals`);
   }
 
   // !

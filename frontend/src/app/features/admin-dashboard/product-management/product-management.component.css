@@ -123,6 +123,7 @@ input,select,textarea {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+select:focus,
 input:focus{
   outline: solid slateblue 2px;
 }

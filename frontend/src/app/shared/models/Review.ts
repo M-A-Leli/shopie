@@ -6,6 +6,7 @@ export default interface Review {
   rating: number,
   comment: string,
   user_id: string,
+  created_at?: Date,
   user?: User, //!
   product_id: string,
   product?: Product, //!

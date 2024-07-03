@@ -51,6 +51,8 @@ model Product {
   created_at     DateTime      @default(now())
   updated_at     DateTime      @updatedAt
   is_deleted     Boolean       @default(false)
+  is_featured    Boolean       @default(false)
+  on_offer       Boolean       @default(false)
   images         ProductImage[]
   reviews        Review[]
   cart_items     CartItem[] 

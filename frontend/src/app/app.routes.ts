@@ -25,9 +25,10 @@ import { UserProfileComponent } from './features/user-dashboard/user-profile/use
 import { UserProductsComponent } from './features/user-dashboard/user-products/user-products.component';
 import { ViewSingleComponent } from './features/admin-dashboard/view-single/view-single.component';
 import { OrderManagementComponent } from './features/admin-dashboard/order-management/order-management.component';
-
+import { TempComponent } from './features/temp/temp.component';
 
 export const routes: Routes = [
+  { path: 'temp', component: TempComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

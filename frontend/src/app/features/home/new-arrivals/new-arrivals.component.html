@@ -1,14 +1,18 @@
 <div class="new-arrivals">
+  <div class="error-container" *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div class="success-container" *ngIf="successMessage">{{ successMessage }}</div>
+
   <h2>New Arrivals</h2>
   <div class="arrivals-grid">
     <div class="arrival-card" *ngFor="let product of newArrivals">
       <div class="arrival-image">
-        <img [src]="product.image" alt="{{ product.name }}">
+         <!-- <img [src]="product.image" alt="{{ product.name }}"> -->
+      <img src="/product_placeholder.svg" alt="{{ product.name }}">
       </div>
       <div class="arrival-info">
         <h3>{{ product.name }}</h3>
         <p class="price">${{ product.price }}</p>
-        <button class="btn">Add to Cart</button>
+        <button class="btn" (click)="addToCart($event, product.id || '')">Add to Cart</button>
       </div>
     </div>
   </div>

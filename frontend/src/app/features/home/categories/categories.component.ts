@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-
-interface Category {
-  name: string;
-  image: string;
-}
+import Category from '../../../shared/models/Category';
+import { CategoryService } from '../../../core/services/category.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-categories',
@@ -14,31 +12,34 @@ interface Category {
   styleUrl: './categories.component.css'
 })
 export class CategoriesComponent {
-  categories: Category[] = [
-    {
-      name: 'Electronics',
-      image: 'electronics.jpg'
-    },
-    {
-      name: 'Fashion',
-      image: 'fashion.jpeg'
-    },
-    {
-      name: 'Home & Garden',
-      image: 'home_and_garden.jpeg'
-    },
-    {
-      name: 'Sports',
-      image: 'sports.jpeg'
-    },
-    {
-      name: 'Toys',
-      image: 'toys.jpeg'
-    }
-  ];
+  categories: Category[] = [];
+  errorMessage: string | null = null;
 
-  constructor() { }
+  constructor(private categoryService: CategoryService, private router: Router) { }
 
   ngOnInit(): void {
+    this.loadCategories();
+  }
+
+  loadCategories() {
+    this.categoryService.getAllCategories().subscribe(
+      (data) => {
+        this.categories = data;
+      },
+      (error) => {
+        this.errorMessage = 'Error fetching categories';
+        this.clearErrors();
+      }
+    );
+  }
+
+  clearErrors() {
+    setTimeout(() => {
+      this.errorMessage = '';
+    }, 3000);
+  }
+
+  getImageUrl(relativePath: string): string {
+    return `http://localhost:3000${relativePath}`;
   }
 }
