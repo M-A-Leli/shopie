@@ -123,9 +123,6 @@
 .rating{
     display: flex;
 }
-.ratingStar{
-
-}
 .ratingStar img{
     width: 20px;
 }
