@@ -2,22 +2,43 @@
 <div class="container">
     <div class="productDiv" *ngFor="let product of products">
         <div class="imageDiv">
-         <img [src]="product.image" [alt]="product.name">
+         <img [src]="product.images[0].url" [alt]="product.name">
         </div>
         <div class="productDetails">
          <div class="details">
-             <h1>{{product.name}}</h1>
-             <div class="rating">
+             <h3>{{product.name}}</h3>
+             <h3>Items remaining:{{product.stock_quantity}}</h3>
+             <!-- <div class="rating">
                  <div class="ratingStar" *ngFor="let _ of getRating(product.rating)">
                      <img src="../../../icons/star_rate_40dp.svg" alt="">
                  </div>
-             </div>
-             <h2>{{product.amount}}</h2>
+             </div> -->
+             <h3>sh {{product.price}}</h3>
          </div>
          <div class="buttonDiv">
              <button>Add to cart</button>
-             <button>view one</button>
+             <button (click)="getOneItem(product.id)">view one</button>
          </div>
         </div>
+     </div>
+     <div class="oneProduct" *ngIf="oneProduct.id">
+        <div class="imageDiv">
+            <img [src]="oneProduct.images[0].url" [alt]="oneProduct.name">
+           </div>
+           <div class="productDetail">
+            <div class="detail">
+                <h3>{{oneProduct.name}}</h3>
+                <h3>Items remaining:{{oneProduct.stock_quantity}}</h3>
+                <!-- <div class="rating">
+                    <div class="ratingStar" *ngFor="let _ of getRating(oneProduct.rating)">
+                        <img src="../../../icons/star_rate_40dp.svg" alt="">
+                    </div>
+                </div> -->
+                <h2>sh {{oneProduct.price}}</h2>
+            </div>
+            <div class="buttonsDiv">
+                <button (click)="getAllProducts()">view all</button>
+            </div>
+           </div> 
      </div>
 </div>
