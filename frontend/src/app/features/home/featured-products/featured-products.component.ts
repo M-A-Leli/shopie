@@ -1,11 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-
-interface Product {
-  name: string;
-  price: number;
-  image: string;
-}
+import { ProductService } from '../../../core/services/product.service';
+import { Router } from '@angular/router';
+import Product from '../../../shared/models/Product';
 
 @Component({
   selector: 'app-featured-products',
@@ -15,31 +12,34 @@ interface Product {
   styleUrl: './featured-products.component.css'
 })
 export class FeaturedProductsComponent {
-  featuredProducts: Product[] = [
-    {
-      name: 'Product 1',
-      price: 29.99,
-      image: 'product.jpeg'
-    },
-    {
-      name: 'Product 2',
-      price: 49.99,
-      image: 'product2.jpeg'
-    },
-    {
-      name: 'Product 3',
-      price: 19.99,
-      image: 'product3.jpeg'
-    },
-    {
-      name: 'Product 4',
-      price: 39.99,
-      image: 'product4.jpeg'
-    }
-  ];
+  featuredProducts: Product[] = [];
+  errorMessage: string | null = null;
 
-  constructor() { }
+  constructor(private productService: ProductService, private router: Router) { }
 
   ngOnInit(): void {
+    this.loadProducts();
+  }
+
+  loadProducts() {
+    this.productService.getFeaturedProducts().subscribe(
+      (data) => {
+        this.featuredProducts = data;
+      },
+      (error) => {
+        this.errorMessage = 'Error fetching products';
+        this.clearErrors();
+      }
+    );
+  }
+
+  viewProduct(product_id: string): void {
+    this.router.navigate(['/products', product_id]);
+  }
+
+  clearErrors() {
+    setTimeout(() => {
+      this.errorMessage = '';
+    }, 3000);
   }
 }
