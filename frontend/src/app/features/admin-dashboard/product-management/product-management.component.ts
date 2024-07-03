@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductService } from '../../../core/services/product.service';
 import Product from '../../../shared/models/Product';
+import Category from '../../../shared/models/Category';
+import { CategoryService } from '../../../core/services/category.service';
 
 @Component({
   selector: 'app-product-management',
@@ -24,8 +26,9 @@ export class ProductManagementComponent implements OnInit {
   currentPage = 1;
   itemsPerPage = 10;
   imageUrl = '';
+  categories: Category[] = [];
 
-  constructor(private fb: FormBuilder, private service: ProductService) {
+  constructor(private fb: FormBuilder, private service: ProductService, private categoryService: CategoryService,) {
     this.createProductForm = this.fb.group({
       name: ['', Validators.required],
       price: ['', Validators.required],
@@ -36,6 +39,7 @@ export class ProductManagementComponent implements OnInit {
 
   ngOnInit() {
     this.fetchProducts();
+    this.loadCategories();
   }
 
   fetchProducts() {
@@ -105,5 +109,17 @@ export class ProductManagementComponent implements OnInit {
       this.currentPage--;
       this.paginate();
     }
+  }
+
+  loadCategories() {
+    this.categoryService.getAllCategories().subscribe(
+      (data) => {
+        this.categories = data;
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+        // Handle error as needed
+      }
+    );
   }
 }

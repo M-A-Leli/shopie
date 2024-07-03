@@ -34,39 +34,38 @@ class ProductController {
       if (err) {
         return next(createError(400, err.message));
       }
-  
+
       // Check if req.files is defined and contains files
       if (!req.files || !Array.isArray(req.files) || req.files.length === 0) {
         return next(createError(400, 'No files uploaded'));
       }
-  
+
       try {
         const imagePaths = (req.files as Express.Multer.File[]).map(file => file.path);
+        console.log(imagePaths);
         const newProduct = await this.productService.createProduct(req.body, imagePaths);
         res.status(201).json(newProduct);
       } catch (error) {
-        // console.error('Error creating product:', error);
         next(createError(500, 'Failed to create product'));
       }
     });
   }
-  
-    updateProduct = async (req: Request, res: Response, next: NextFunction) => {
-      console.log(req.body)
-      upload(req, res, async (err) => {
-        if (err) {
-          return next(createError(400, err.message));
-        }
-  
-        try {
-          const imagePaths = (req.files as Express.Multer.File[]).map(file => file.path);
-          const updatedProduct = await this.productService.updateProduct(req.params.id, req.body, imagePaths);
-          res.json(updatedProduct);
-        } catch (error) {
-          next(error);
-        }
-      });
-    }
+
+  updateProduct = async (req: Request, res: Response, next: NextFunction) => {
+    upload(req, res, async (err) => {
+      if (err) {
+        return next(createError(400, err.message));
+      }
+
+      try {
+        const imagePaths = (req.files as Express.Multer.File[]).map(file => file.path);
+        const updatedProduct = await this.productService.updateProduct(req.params.id, req.body, imagePaths);
+        res.json(updatedProduct);
+      } catch (error) {
+        next(createError(500, 'Failed to update product'));
+      }
+    });
+  }
 
   deleteProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -96,7 +95,7 @@ class ProductController {
       next(error);
     }
   }
-  
+
   getFeaturedProducts = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const products = await this.productService.getFeaturedProducts();

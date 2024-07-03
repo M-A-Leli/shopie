@@ -24,8 +24,10 @@ import { UserProfileComponent } from './features/user-dashboard/user-profile/use
 import { UserProductsComponent } from './features/user-dashboard/user-products/user-products.component';
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './features/admin-dashboard/dashboard/dashboard.component';
+import { TempComponent } from './features/temp/temp.component';
 
 export const routes: Routes = [
+  { path: 'temp', component: TempComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

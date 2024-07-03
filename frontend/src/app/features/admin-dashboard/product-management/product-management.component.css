@@ -109,6 +109,7 @@ label {
   display: flex;
 }
 
+select,
  input {
 
   margin-bottom: 5px;
@@ -117,6 +118,7 @@ label {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+select:focus,
 input:focus{
   outline: solid slateblue 2px;
 }
