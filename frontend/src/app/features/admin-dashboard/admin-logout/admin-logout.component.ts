@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Component({
@@ -11,4 +12,14 @@ import { RouterLink } from '@angular/router';
 })
 export class AdminLogoutComponent {
 
+  constructor(private cookieService: CookieService,private router:Router){}
+
+  logout(){
+    this.cookieService.delete('token')
+    this.router.navigate(['/login'])
+  }
+
+  cancel(){
+    this.router.navigate(['/admin/dashboard']);
+  }
 }

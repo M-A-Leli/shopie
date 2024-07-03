@@ -1,1 +1,74 @@
-<p>category-management works!</p>
+
+<i class="fa fa-plus-square addBtn" aria-hidden="true" (click)="showAddModal = true"></i>
+<!-- Category Table -->
+
+<div class="table-container">
+  <table class="responsive-table">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="paginatedCategories.length > 0">
+      <tr *ngFor="let category of paginatedCategories; let i = index">
+        <td><img [src]="category.image_url" alt="{{ category.name }}" class="category-image"></td>
+        <td>{{ category.name }}</td>
+        <td class="actions">
+
+          <i class="fa fa-pencil-square-o edit" aria-hidden="true" (click)="openUpdateModal(category)"></i>
+          <i class="fa fa-trash-o delete" aria-hidden="true" (click)="openDeleteModal(category.id)"></i>
+        </td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="paginatedCategories.length === 0">
+      <tr>
+        <td colspan="3">No categories available</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination" *ngIf="categories.length!<10">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+</div>
+
+<!-- Add Category Modal -->
+<div class="modal" *ngIf="showAddModal">
+  <div class="modal-content">
+    <span class="close" (click)="closeAddModal()">&times;</span>
+    <form [formGroup]="createCategoryForm" (ngSubmit)="addCategory()">
+      <label for="name">Name:</label>
+      <input id="name" formControlName="name">
+      <label for="image_url">Image URL:</label>
+      <input id="image_url" formControlName="image_url" type="file">
+      <button type="submit">Create Category</button>
+    </form>
+  </div>
+</div>
+
+<!-- Update Category Modal -->
+<div class="modal" *ngIf="showUpdateModal">
+  <div class="modal-content">
+    <span class="close" (click)="closeUpdateModal()">&times;</span>
+    <form [formGroup]="createCategoryForm" (ngSubmit)="updateCategory(category_id,createCategoryForm.value)">
+      <label for="name">Name:</label>
+      <input id="name" formControlName="name">
+      <label for="image_url">Image URL:</label>
+      <input id="image_url" formControlName="image_url" type="file">
+      <button type="submit">Update Category</button>
+    </form>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal" *ngIf="showDeleteModal">
+  <div class="modal-content">
+    <span class="close" (click)="closeDeleteModal()">&times;</span>
+    <p>Are you sure you want to delete this category?</p>
+    <button (click)="confirmDelete()">Yes</button>
+    <button (click)="closeDeleteModal()">No</button>
+  </div>
+</div>

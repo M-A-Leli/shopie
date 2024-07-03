@@ -24,6 +24,8 @@ import { UserOrdersComponent } from './features/user-dashboard/user-orders/user-
 import { UserProfileComponent } from './features/user-dashboard/user-profile/user-profile.component';
 import { UserProductsComponent } from './features/user-dashboard/user-products/user-products.component';
 import { ViewSingleComponent } from './features/admin-dashboard/view-single/view-single.component';
+import { OrderManagementComponent } from './features/admin-dashboard/order-management/order-management.component';
+
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -51,16 +53,15 @@ export const routes: Routes = [
   },
   {
     path: 'admin', component: AdminDashboardComponent, children: [
-      { path: 'dashboard', component: DashboardComponent },
+      { path: 'dashboard', component: DashboardComponent, data: { title: 'Dashboard' } },
       { path: 'logout', component: AdminLogoutComponent },
-      { path: 'profile', component: AdminProfileComponent },
-      { path: 'categories', component: CategoryManagementComponent },
-      { path: 'products', component: ProductManagementComponent },
-      { path: 'products/view/:id', component: ViewSingleComponent
-
-       },
-      { path: 'users', component: UserManagementComponent },
-      { path: '', redirectTo: 'profile', pathMatch: 'full' },
+      { path: 'profile', component: AdminProfileComponent, data: { title: 'Profile' } },
+      { path: 'categories', component: CategoryManagementComponent, data: { title: 'Categories' } },
+      { path: 'products', component: ProductManagementComponent, data: { title: 'Products' } },
+      { path: 'products/view/:id', component: ViewSingleComponent },
+      { path: 'users', component: UserManagementComponent, data: { title: 'Customers' } },
+      { path: 'orders', component: OrderManagementComponent, data: { title: 'Orders' } },
+      { path: '', redirectTo: 'profile', pathMatch: 'full' }
     ]
   },
   { path: '', redirectTo: 'home', pathMatch: 'full' },

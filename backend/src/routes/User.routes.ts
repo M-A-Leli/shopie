@@ -8,16 +8,12 @@ router.get('/profile', AuthMiddleware.authorizeUser, UserController.getUserProfi
 router.put('/profile', AuthMiddleware.authorizeUser, UserController.updateUserProfile); // Update user profile
 router.get('/search', AuthMiddleware.authorizeAdmin, UserController.searchUsers); // Search users
 
-<<<<<<< HEAD
+
 router.get('/', AuthMiddleware.authorizeAdmin, UserController.getAllUsers); // Get all users
 router.post('/', UserController.createUser); // Create user
 router.get('/:id', AuthMiddleware.authorizeAdmin, UserController.getUserById); // Get user by id
 router.put('/:id', AuthMiddleware.authorizeAdmin, UserController.updateUser); // Update user
 router.delete('/:id', AuthMiddleware.authorizeUser, UserController.deleteUser); // Delete user
-=======
-router.get('/profile/:id', UserController.getUserProfile); // Get user profile
-router.put('/profile/:id', UserController.updateUserProfile); // Update user profile
-router.get('/search', UserController.searchUsers); // Search users
->>>>>>> 7865198 (add crud operations on products)
+
 
 export default router;

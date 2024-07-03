@@ -11,7 +11,7 @@ export default interface Product {
   stock_quantity: number,
   category_id: string,
   category?: Category, //!
-  images?: ProductImage[], //!
+  images: ProductImage[], //!
   reviews?: Review[], //!
   cart_items?: CartItem[] //!
 }

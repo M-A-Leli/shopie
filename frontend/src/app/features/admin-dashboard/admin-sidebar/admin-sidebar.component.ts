@@ -20,18 +20,18 @@ export class AdminSidebarComponent implements OnInit {
 
   constructor(private service:UserService){}
   ngOnInit(): void {
-//  this.getProfileDetails();
+ this.getProfileDetails();
   }
 
   isCollapsed = false;
 
 
-  // getProfileDetails(){
-  //   this.service.getUserProfile().subscribe((res)=>{
-  //      this.profile = res;
+  getProfileDetails(){
+    this.service.getUserProfile().subscribe((res)=>{
+       this.profile = res;
 
-  //   })
-  // }
+    })
+  }
 
   toggleSidebar(): void {
     this.isCollapsed = !this.isCollapsed;

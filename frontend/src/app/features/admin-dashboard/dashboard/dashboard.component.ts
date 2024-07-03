@@ -6,6 +6,9 @@ import { CommonModule } from '@angular/common';
 import { AdminTopBarComponent } from '../admin-top-bar/admin-top-bar.component';
 import { RouterOutlet } from '@angular/router';
 import { AdminSidebarComponent } from '../admin-sidebar/admin-sidebar.component';
+import { ProductService } from '../../../core/services/product.service';
+import { OrderService } from '../../../core/services/order.service';
+import { UserService } from '../../../core/services/user.service';
 
 // Register all Chart.js components
 Chart.register(...registerables);
@@ -20,12 +23,41 @@ Chart.register(...registerables);
 export class DashboardComponent {
 
   isBrowser: boolean;
+  productCount:number=0;
+  orderCount:number = 0;
+  userCount:number = 0;
 
-  constructor(private platformDetectorService: PlatformDetectorService) {
+  constructor(private platformDetectorService: PlatformDetectorService,private productService:ProductService,private orderService:OrderService,private userService:UserService) {
     this.isBrowser = this.platformDetectorService.isBrowser();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.allProductsCount();
+    this.allUsersCount();
+    this.allOrdersCount();
+  }
+
+
+  allProductsCount(){
+    this.productService.getAllProducts().subscribe((res)=>{
+      this.productCount=res.length
+    })
+  }
+
+  allOrdersCount(){
+    this.orderService.getAllOrders().subscribe((res=>{
+      this.orderCount = res.length
+    }))
+  }
+  allUsersCount(){
+    this.userService.getAllUsers().subscribe((res)=>{
+      this.userCount=res.length
+    })
+  }
+
+
+
+
 
   public chartOptions = {
     responsive: true,

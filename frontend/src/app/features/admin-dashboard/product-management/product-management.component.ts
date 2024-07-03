@@ -1,21 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductService } from '../../../core/services/product.service';
 import Product from '../../../shared/models/Product';
 import { ActivatedRoute, Router } from '@angular/router';
 import Category from '../../../shared/models/Category';
 import { CategoryService } from '../../../core/services/category.service';
+import { ProductSearchPipe } from '../../../shared/pipes/product-search.pipe';
+
 
 @Component({
   selector: 'app-product-management',
   templateUrl: './product-management.component.html',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,CommonModule,FormsModule,ProductSearchPipe],
   styleUrls: ['./product-management.component.css']
 })
 export class ProductManagementComponent implements OnInit {
-  
+
 onCategoryChange($event: Event) {
   const selectedCategory = ($event.target as HTMLSelectElement).value;
 }
@@ -31,7 +33,7 @@ onCategoryChange($event: Event) {
   images: string[] = [];
   currentPage = 1;
   itemsPerPage = 10;
-  imageUrl = '';
+  // imageUrl = '';
   createSuccess = false;
   createError = false;
   showDeleteModal = false;
@@ -41,6 +43,7 @@ onCategoryChange($event: Event) {
   createSuccessMessage = '';
   updateSuccessMessage = '';
   deleteSuccessMessage = '';
+  searchString: string = '';
 
 
   constructor(private fb: FormBuilder, private service: ProductService,private router:Router,private route:ActivatedRoute,private categoryService: CategoryService) {
@@ -50,7 +53,8 @@ onCategoryChange($event: Event) {
       category: ['', Validators.required],
       stock_quantity: ['', Validators.required],
       description:['',Validators.required],
-      images:['']
+      images:[''],
+      image_url:['']
     });
 
   route.params.subscribe(res=>{
@@ -139,6 +143,7 @@ deleteProduct(product_id:string){
           this.images.push(res.url);
           this.isLoading = res.url ? false : true;
           this.createProductForm.patchValue({ images: this.images });
+          this.createProductForm.patchValue({image_url:res.url})
         });
     }
   }
