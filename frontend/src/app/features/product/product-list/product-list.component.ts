@@ -10,6 +10,7 @@ import { CategoryService } from '../../../core/services/category.service';
 import { CartItemService } from '../../../core/services/cart-item.service';
 import Product from '../../../shared/models/Product';
 import Category from '../../../shared/models/Category';
+import CartItem from '../../../shared/models/CartItem';
 
 @Component({
   selector: 'app-product-list',
@@ -31,15 +32,20 @@ export class ProductListComponent {
   user_id: string = '';
   selectedCategoryId: string = '';
   searchQuery: string = '';
-  errorMsg: string = '';
-  showErrorModal: boolean = false;
-  showSuccessModal: boolean = false;
+  errorMessage: string | null = null;
+  successMessage: string | null = null;
 
   constructor(private productService: ProductService, private categoryService: CategoryService, private cartItemService: CartItemService, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadProducts();
     this.loadCategories();
+  }
+
+  clearErrors() {
+    setTimeout(() => {
+      this.errorMessage = '';
+    }, 3000);
   }
 
   paginateProducts(): void {
@@ -127,49 +133,31 @@ export class ProductListComponent {
     this.filterByCategory();
   }
 
-  addToCart(product: Product) {
-    alert('Not yet implemented');
+  addToCart(event: Event, product_id: string) {
+    event.stopPropagation();
 
-    // const token = this.authService.getToken() as string;
-    // if (!token) {
-    //   this.router.navigateByUrl('/login');
-    // } else {
-    //   this.user_id = this.authService.getUserId() as string;
+    const newCartItem: CartItem = {
+      product_id: product_id
+    }
 
-    //   const newCartItem = {
-    //     user_id: this.user_id,
-    //     product_id: product.id
-    //   }
-
-    //   this.cartItemService.createCartItem(newCartItem).subscribe({
-    //     next: data => {
-    //       this.showSuccessModal = true;
-    //       setTimeout(() => {
-    //         this.showSuccessModal = false;
-    //       }, 3000);
-    //     },
-    //     error: err => {
-    //       if (err.status === 409) {
-    //         this.errorMsg = err.error.error.message;
-    //         this.showErrorModal = true;
-    //         setTimeout(() => {
-    //           this.showErrorModal = false;
-    //         }, 3000);
-    //       } else if (err.status === 404) {
-    //         this.errorMsg = err.error.error.message;
-    //         this.showErrorModal = true;
-    //         setTimeout(() => {
-    //           this.showErrorModal = false;
-    //         }, 3000);
-    //       } else {
-    //         this.errorMsg = 'An unexpected error occurred. Please try again.';
-    //         this.showErrorModal = true;
-    //         setTimeout(() => {
-    //           this.showErrorModal = false;
-    //         }, 3000);
-    //       }
-    //     }
-    //   });
-    // }
+    this.cartItemService.createCartItem(newCartItem).subscribe({
+      next: data => {
+        this.successMessage = 'Product added to cart successfull!';
+        setTimeout(() => {
+          this.successMessage = '';
+        }, 3000);
+      },
+      error: err => {
+        if (err.status === 401) {
+          this.router.navigate(['/login']);
+        } else if (err.status === 404 || 400) {
+          this.errorMessage = err.error.error.message;
+          this.clearErrors();
+        } else {
+          this.errorMessage = 'An unexpected error occurred. Please try again.';
+          this.clearErrors();
+        }
+      }
+    });
   }
 }

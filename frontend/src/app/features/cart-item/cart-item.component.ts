@@ -3,18 +3,10 @@ import { HeaderComponent } from '../../shared/components/header/header.component
 import { FooterComponent } from '../../shared/components/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-}
-
-interface CartItem {
-  product: Product;
-  quantity: number;
-}
+import CartItem from '../../shared/models/CartItem';
+import { CartItemService } from '../../core/services/cart-item.service';
+import { Router } from '@angular/router';
+import { OrderService } from '../../core/services/order.service';
 
 @Component({
   selector: 'app-cart-item',
@@ -24,34 +16,115 @@ interface CartItem {
   styleUrl: './cart-item.component.css'
 })
 export class CartItemComponent {
-  cartItems: CartItem[] = [
-    // Populate with your cart data
-  ];
+  cartItems: CartItem[] = [];
+  errorMessage: string | null = null;
+  successMessage: string | null = null;
 
-  constructor() { }
+  constructor(private cartItemService: CartItemService, private orderService: OrderService, private router: Router) { }
 
   ngOnInit(): void {
-    // Load cart items from a service or local storage
+    this.loadCartItems();
   }
 
-  updateQuantity(item: CartItem): void {
-    // Update the quantity of the item
-    if (item.quantity <= 0) {
-      this.removeFromCart(item);
+  clearErrors() {
+    setTimeout(() => {
+      this.errorMessage = '';
+    }, 3000);
+  }
+
+  loadCartItems() {
+    this.cartItemService.getPendingCartItemsByUserId().subscribe(
+      (data) => {
+        this.cartItems = data;
+      },
+      (err) => {
+        if (err.status === 401) {
+          this.router.navigate(['/login']);
+        } else if (err.status === 404 || 400) {
+          this.errorMessage = err.error.error.message;
+          this.clearErrors();
+        } else {
+          this.errorMessage = 'An unexpected error occurred. Please try again.';
+          this.clearErrors();
+        }
+      }
+    );
+  }
+
+  updateQuantity(item_id: string, item: CartItem) {
+    if (item.quantity) {
+      item.quantity = item.quantity < 1 ? 1 : item.quantity;
     }
+
+    this.cartItemService.updateCartItem(item_id, item).subscribe(
+      (data) => {
+        this.successMessage = 'Cart updated successfully';
+        setTimeout(() => this.successMessage = null, 3000);
+      },
+      (err) => {
+        if (err.status === 401) {
+          this.router.navigate(['/login']);
+        } else if (err.status === 404 || 400) {
+          this.errorMessage = err.error.error.message;
+          this.clearErrors();
+        } else {
+          this.errorMessage = 'An unexpected error occurred. Please try again.';
+          this.clearErrors();
+        }
+      }
+    );
   }
 
-  removeFromCart(item: CartItem): void {
-    // Remove the item from the cart
-    this.cartItems = this.cartItems.filter(cartItem => cartItem.product.id !== item.product.id);
+  removeFromCart(item_id: string) {
+    this.cartItemService.deleteCartItem(item_id).subscribe(
+      (data) => {
+        this.cartItems = this.cartItems.filter(ci => ci.id !== item_id);
+        this.successMessage = 'Item removed from cart';
+        setTimeout(() => this.successMessage = null, 3000);
+      },
+      (err) => {
+        if (err.status === 401) {
+          this.router.navigate(['/login']);
+        } else if (err.status === 404 || 400) {
+          this.errorMessage = err.error.error.message;
+          this.clearErrors();
+        } else {
+          this.errorMessage = 'An unexpected error occurred. Please try again.';
+          this.clearErrors();
+        }
+      }
+    );
   }
 
-  getTotalPrice(): number {
-    return this.cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0);
+  getTotalPrice() {
+    return this.cartItems.reduce((total, item) => {
+      if (item.product && item.quantity) {
+        return total + item.product.price * item.quantity;
+      }
+      return total;
+    }, 0);
   }
 
-  checkout(): void {
-    // Handle the checkout process
-    alert('Proceeding to checkout...');
+  checkout() {
+    this.orderService.checkoutOrderByUserId().subscribe(
+      (data) => {
+        this.successMessage = 'Order created successfully';
+        setTimeout(() => {
+          this.successMessage = null;
+          this.loadCartItems();
+        }, 3000);
+      },
+      (err) => {
+        if (err.status === 401) {
+          this.router.navigate(['/login']);
+        } else if (err.status === 404 || 400) {
+          this.errorMessage = err.error.error.message;
+          this.clearErrors();
+        } else {
+          this.errorMessage = 'An unexpected error occurred. Please try again.';
+          this.clearErrors();
+        }
+      }
+    );
   }
 }
