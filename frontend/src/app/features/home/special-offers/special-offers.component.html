@@ -1,15 +1,19 @@
 <div class="special-offers">
+  <div class="error-container" *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div class="success-container" *ngIf="successMessage">{{ successMessage }}</div>
+
   <h2>Special Offers</h2>
   <div class="offers-grid">
     <div class="offer-card" *ngFor="let offer of specialOffers">
       <div class="offer-image">
-        <img [src]="offer.image" alt="{{ offer.name }}">
+        <!-- <img [src]="product.image" alt="{{ product.name }}"> -->
+      <img src="/product_placeholder.svg" alt="{{ offer.name }}">
       </div>
       <div class="offer-info">
         <h3>{{ offer.name }}</h3>
         <p>{{ offer.description }}</p>
         <p class="price">${{ offer.price }}</p>
-        <button class="btn">Buy Now</button>
+        <button class="btn" (click)="addToCart($event, offer.id || '')">Buy Now</button>
       </div>
     </div>
   </div>

@@ -1,6 +1,9 @@
 <app-header></app-header>
 
 <div class="product-details">
+  <div class="error-container" *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div class="success-container" *ngIf="successMessage">{{ successMessage }}</div>
+
   <div class="product-info">
     <img src="/product_placeholder.svg" alt="{{ product.name }}">
     <div class="product-text">
@@ -10,7 +13,7 @@
       <p class="stock-status" [ngClass]="{'out-of-stock': product.stock_quantity <= 0}">
         {{ product.stock_quantity > 0 ? 'In stock' : 'Out of stock' }}
       </p>
-      <button class="add-to-cart">Add to Cart</button>
+      <button class="add-to-cart" (click)="addToCart($event, product.id || '')">Add to Cart</button>
     </div>
   </div>
 
@@ -40,7 +43,7 @@
           <p class="stock-status" [ngClass]="{'out-of-stock': relatedProduct.stock_quantity <= 0}">
             {{ relatedProduct.stock_quantity > 0 ? 'In stock' : 'Out of stock' }}
           </p>
-          <button class="add-to-cart">Add to Cart</button>
+          <button class="add-to-cart" (click)="addToCart($event, product.id || '')">Add to Cart</button>
         </div>
       </div>
     </div>

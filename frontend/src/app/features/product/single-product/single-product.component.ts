@@ -8,6 +8,8 @@ import Product from '../../../shared/models/Product';
 import { ProductService } from '../../../core/services/product.service';
 import Review from '../../../shared/models/Review';
 import { ReviewService } from '../../../core/services/review.service';
+import CartItem from '../../../shared/models/CartItem';
+import { CartItemService } from '../../../core/services/cart-item.service';
 
 @Component({
   selector: 'app-single-product',
@@ -23,11 +25,14 @@ export class SingleProductComponent {
   relatedProducts: Product[] = []; //!
   reviews: Review[] = [];
   currentReview: number = 0;
+  errorMessage: string | null = null;
+  successMessage: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
     private reviewService: ReviewService,
+    private cartItemService: CartItemService,
     private router: Router
   ) { }
 
@@ -43,6 +48,12 @@ export class SingleProductComponent {
     if (this.reviews.length > 0) {
       this.currentReview = 0;
     }
+  }
+
+  clearErrors() {
+    setTimeout(() => {
+      this.errorMessage = '';
+    }, 3000);
   }
 
   previousReview(): void {
@@ -67,8 +78,8 @@ export class SingleProductComponent {
         this.product = data;
       },
       error: (err) => {
-        this.error = 'Failed to load product. Please try again later.';
-        console.error(err);
+        this.errorMessage = 'Failed to load product. Please try again later.';
+        this.clearErrors();
       }
     });
   }
@@ -79,8 +90,8 @@ export class SingleProductComponent {
         this.reviews = data;
       },
       (error) => {
-        console.error('Error fetching categories:', error);
-        // Handle error as needed
+        this.errorMessage = 'Error fetching categories';
+        this.clearErrors();
       }
     );
   }
@@ -91,8 +102,8 @@ export class SingleProductComponent {
         this.relatedProducts = data;
       },
       (error) => {
-        console.error('Error fetching related products:', error);
-        // Handle error as needed
+        this.errorMessage = 'Error fetching related products';
+        this.clearErrors();
       }
     );
   }
@@ -101,8 +112,31 @@ export class SingleProductComponent {
     this.router.navigate(['/products', product_id]);
   }
 
-  // !
-  addToCart(arg0: Product) {
-    throw new Error('Method not implemented.');
+  addToCart(event: Event, product_id: string) {
+    event.stopPropagation();
+
+    const newCartItem: CartItem = {
+      product_id: product_id
+    }
+
+    this.cartItemService.createCartItem(newCartItem).subscribe({
+      next: data => {
+        this.successMessage = 'Product added to cart successfull!';
+        setTimeout(() => {
+          this.successMessage = '';
+        }, 3000);
+      },
+      error: err => {
+        if (err.status === 401) {
+          this.router.navigate(['/login']);
+        } else if (err.status === 404 || 400) {
+          this.errorMessage = err.error.error.message;
+          this.clearErrors();
+        } else {
+          this.errorMessage = 'An unexpected error occurred. Please try again.';
+          this.clearErrors();
+        }
+      }
+    });
   }
 }

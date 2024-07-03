@@ -40,6 +40,18 @@ export class ProductService {
     return this.http.get<Product[]>(`${this.baseUrl}/related-products/${product_id}`);
   }
 
+  getFeaturedProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/featured-products`);
+  }
+
+  getSpecialOffers(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/special-offers`);
+  }
+
+  getNewArrivals(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/new-arrivals`);
+  }
+
   // !
   searchProducts(queryParams: any): Observable<Product[]> {
     let params = new HttpParams();

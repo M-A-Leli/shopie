@@ -4,6 +4,9 @@ import AuthMiddleware from '../middleware/Authorization';
 
 const router = Router();
 
+router.get('/featured-products', ProductController.getFeaturedProducts); // Get featured products
+router.get('/special-offers', ProductController.getSpecialOffers); // Get special offers
+router.get('/new-arrivals', ProductController.getNewArrivals); // Get new arrivals
 router.get('/search', ProductController.searchProducts); // Search products
 
 router.get('/', ProductController.getAllProducts); // Get all products

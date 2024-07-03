@@ -263,6 +263,116 @@ class ProductService {
     return relatedProducts;
   }
 
+  async getNewArrivals(): Promise<Partial<Product>[]> {
+    const newArrivals = await prisma.product.findMany({
+      where: {
+        is_deleted: false
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        price: true,
+        stock_quantity: true,
+        category: {
+          select: {
+            id: true,
+            name: true,
+          }
+        },
+        images: {
+          where: { is_deleted: false },
+          select: {
+            id: true,
+            url: true,
+          }
+        }
+      },
+      orderBy: {
+        created_at: 'desc'
+      },
+      take: 8 // Limit to 8 new arrivals
+    });
+  
+    if (newArrivals.length === 0) {
+      throw createError(404, 'No new arrivals found');
+    }
+  
+    return newArrivals;
+  }
+
+  async getFeaturedProducts(): Promise<Partial<Product>[]> {
+    const featuredProducts = await prisma.product.findMany({
+      where: {
+        is_deleted: false,
+        is_featured: true
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        price: true,
+        stock_quantity: true,
+        category: {
+          select: {
+            id: true,
+            name: true,
+          }
+        },
+        images: {
+          where: { is_deleted: false },
+          select: {
+            id: true,
+            url: true,
+          }
+        }
+      },
+      take: 8 // Limit to 8 featured products
+    });
+  
+    if (featuredProducts.length === 0) {
+      throw createError(404, 'No featured products found');
+    }
+  
+    return featuredProducts;
+  }
+
+  async getSpecialOffers(): Promise<Partial<Product>[]> {
+    const specialOffers = await prisma.product.findMany({
+      where: {
+        is_deleted: false,
+        on_offer: true
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        price: true,
+        stock_quantity: true,
+        category: {
+          select: {
+            id: true,
+            name: true,
+          }
+        },
+        images: {
+          where: { is_deleted: false },
+          select: {
+            id: true,
+            url: true,
+          }
+        }
+      },
+      take: 8 // Limit to 8 special offers
+    });
+  
+    if (specialOffers.length === 0) {
+      throw createError(404, 'No special offers found');
+    }
+  
+    return specialOffers;
+  }
+
   // async searchProducts(query: string): Promise<Partial<Product>[]> {
   //   const products = await prisma.product.findMany({
   //     where: {

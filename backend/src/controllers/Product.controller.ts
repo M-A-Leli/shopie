@@ -96,6 +96,33 @@ class ProductController {
       next(error);
     }
   }
+  
+  getFeaturedProducts = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const products = await this.productService.getFeaturedProducts();
+      res.status(200).json(products);
+    } catch (error: any) {
+      next(error);
+    }
+  }
+
+  getNewArrivals = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const products = await this.productService.getNewArrivals();
+      res.status(200).json(products);
+    } catch (error: any) {
+      next(error);
+    }
+  }
+
+  getSpecialOffers = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const products = await this.productService.getSpecialOffers();
+      res.status(200).json(products);
+    } catch (error: any) {
+      next(error);
+    }
+  }
 
   searchProducts = async (req: Request, res: Response, next: NextFunction) => {
     try {
