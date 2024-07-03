@@ -38,4 +38,8 @@ export class CategoriesComponent {
       this.errorMessage = '';
     }, 3000);
   }
+
+  getImageUrl(relativePath: string): string {
+    return `http://localhost:3000${relativePath}`;
+  }
 }

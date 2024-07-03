@@ -1,7 +1,7 @@
 <div class="wrapper">
   <div class="header">
     <i class="fa fa-plus-square addBtn" aria-hidden="true" (click)="showAddModal = true"></i>
-    <input type="text" placeholder="Filter products">
+    <input type="text" placeholder="Filter products" />
   </div>
 
   <div class="table-container">
@@ -31,47 +31,77 @@
       </tbody>
     </table>
     <div class="pagination">
-      <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+      <button (click)="previousPage()" [disabled]="currentPage === 1">
+        Previous
+      </button>
       <span>Page {{ currentPage }} of {{ totalPages }}</span>
-      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+        Next
+      </button>
     </div>
   </div>
 
   <div class="modal" *ngIf="showAddModal">
-    <div class="success" *ngIf="createSuccess">Created A Product Successfully</div>
-    <div class="error" *ngIf="createError">Error Occurred While Creating Product</div>
+    <div class="success" *ngIf="createSuccess">
+      Created A Product Successfully
+    </div>
+    <div class="error" *ngIf="createError">
+      Error Occurred While Creating Product
+    </div>
     <div class="modal-content">
       <i class="fa fa-times close" (click)="closeAddModal()" aria-hidden="true"></i>
       <div>
         <form [formGroup]="createProductForm" (ngSubmit)="addProduct()">
           <div>
             <label for="name">Product Name</label>
-            <input type="text" formControlName="name">
-            <div *ngIf="createProductForm.get('name')?.invalid && (createProductForm.get('name')?.dirty || createProductForm.get('name')?.touched)" class="validationError">
+            <input type="text" formControlName="name" />
+            <div *ngIf="
+                createProductForm.get('name')?.invalid &&
+                (createProductForm.get('name')?.dirty ||
+                  createProductForm.get('name')?.touched)
+              " class="validationError">
               Product name is required
             </div>
           </div>
 
           <div>
             <label for="price">Price</label>
-            <input type="number" formControlName="price">
-            <div *ngIf="createProductForm.get('price')?.invalid && (createProductForm.get('price')?.dirty || createProductForm.get('price')?.touched)" class="validationError">
+            <input type="number" formControlName="price" />
+            <div *ngIf="
+                createProductForm.get('price')?.invalid &&
+                (createProductForm.get('price')?.dirty ||
+                  createProductForm.get('price')?.touched)
+              " class="validationError">
               Price is required
             </div>
           </div>
 
           <div>
             <label for="category">Category</label>
-            <input type="text" formControlName="category">
-            <div *ngIf="createProductForm.get('category')?.invalid && (createProductForm.get('category')?.dirty || createProductForm.get('category')?.touched)" class="validationError">
+            <!-- <input type="text" formControlName="category"> -->
+            <select id="category" formControlName="category">
+              <option value="">Select category</option>
+              <option *ngFor="let category of categories" [value]="category.id">
+                {{ category.name }}
+              </option>
+            </select>
+            <div *ngIf="
+                createProductForm.get('category')?.invalid &&
+                (createProductForm.get('category')?.dirty ||
+                  createProductForm.get('category')?.touched)
+              " class="validationError">
               Category is required
             </div>
           </div>
 
           <div>
             <label for="stock">Stock</label>
-            <input type="number" formControlName="stock">
-            <div *ngIf="createProductForm.get('stock')?.invalid && (createProductForm.get('stock')?.dirty || createProductForm.get('stock')?.touched)" class="validationError">
+            <input type="number" formControlName="stock" />
+            <div *ngIf="
+                createProductForm.get('stock')?.invalid &&
+                (createProductForm.get('stock')?.dirty ||
+                  createProductForm.get('stock')?.touched)
+              " class="validationError">
               Stock is required
             </div>
           </div>
