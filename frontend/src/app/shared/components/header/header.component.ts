@@ -32,4 +32,8 @@ export class HeaderComponent {
   navigateRegister(): void {
     this.router.navigate(['/register']);
   }
+
+  navigateCart(): void {
+    this.router.navigate(['/cart']);
+  }
 }

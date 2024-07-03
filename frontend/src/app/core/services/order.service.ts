@@ -32,15 +32,15 @@ export class OrderService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
-  getOrdersByUserId(user_id: string): Observable<Order[]> {
+  getOrdersByUserId(): Observable<Order[]> {
     return this.http.get<Order[]>(`${this.baseUrl}/user`);
   }
 
-  getPendingOrderByUserId(user_id: string): Observable<Order> {
+  getPendingOrderByUserId(): Observable<Order> {
     return this.http.get<Order>(`${this.baseUrl}/user/pending`);
   }
 
-  checkoutOrderByUserId(user_id: string): Observable<Order> {
-    return this.http.get<Order>(`${this.baseUrl}/user/checkout`);
+  checkoutOrderByUserId(): Observable<Order> {
+    return this.http.post<Order>(`${this.baseUrl}/user/checkout`, {  }); //! {}
   }
 }

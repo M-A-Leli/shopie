@@ -1,6 +1,9 @@
 <app-header></app-header>
 
 <div class="product-listing">
+  <div class="error-container" *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div class="success-container" *ngIf="successMessage">{{ successMessage }}</div>
+
   <div class="filters">
     <label for="category">Select Category:
       <select id="category" [(ngModel)]="selectedCategoryId" (change)="filterByCategory()">
@@ -25,7 +28,7 @@
         <p>{{ product.stock_quantity !== 0 ? 'in stock' : 'out of stock' }}</p>
       </div>
       <div class="action-buttons">
-        <button (click)="addToCart(product)">Add to Cart</button>
+        <button (click)="addToCart($event, product.id || '')">Add to Cart</button>
       </div>
     </div>
   </div>

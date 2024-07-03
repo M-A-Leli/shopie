@@ -7,25 +7,41 @@
       <h1>{{ product.name }}</h1>
       <p>{{ product.description }}</p>
       <p class="price">${{ product.price }}</p>
-      <p class="stock-status">{{ product.stock_quantity > 0 ? 'In stock' : 'Out of stock' }}</p>
+      <p class="stock-status" [ngClass]="{'out-of-stock': product.stock_quantity <= 0}">
+        {{ product.stock_quantity > 0 ? 'In stock' : 'Out of stock' }}
+      </p>
+      <button class="add-to-cart">Add to Cart</button>
     </div>
   </div>
 
   <div class="product-reviews">
     <h2>Reviews</h2>
-    <div *ngFor="let review of reviews">
-      <p><strong>{{ review.user?.username }}</strong></p>
-      <p>{{ review.comment }}</p>
+    <div class="carousel">
+      <button class="previous" (click)="previousReview()">&lt;</button>
+      <div class="review">
+        <p><strong>{{ reviews[currentReview].user?.username }}</strong></p>
+        <p class="rating">Rating: {{ reviews[currentReview].rating }} / 5</p>
+        <p class="comment">{{ reviews[currentReview].comment }}</p>
+        <p class="date">{{ reviews[currentReview].created_at | date: 'longDate' }}</p>
+      </div>
+      <button class="next" (click)="nextReview()">&gt;</button>
     </div>
   </div>
 
   <div class="related-products">
     <h2>Related Products</h2>
-    <div class="product-card" *ngFor="let relatedProduct of relatedProducts" (click)="viewProduct(relatedProduct.id || '')">
-      <img src="/product_placeholder.svg" alt="{{ relatedProduct.name }}">
-      <div class="product-details">
-        <h3>{{ relatedProduct.name }}</h3>
-        <p class="price">${{ relatedProduct.price }}</p>
+    <div class="product-cards">
+      <div class="product-card" *ngFor="let relatedProduct of relatedProducts" (click)="viewProduct(relatedProduct.id || '')">
+        <img src="/product_placeholder.svg" alt="{{ relatedProduct.name }}">
+        <div class="product-details">
+          <h3>{{ relatedProduct.name }}</h3>
+          <p>{{ relatedProduct.description }}</p>
+          <p class="price">${{ relatedProduct.price }}</p>
+          <p class="stock-status" [ngClass]="{'out-of-stock': relatedProduct.stock_quantity <= 0}">
+            {{ relatedProduct.stock_quantity > 0 ? 'In stock' : 'Out of stock' }}
+          </p>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
       </div>
     </div>
   </div>

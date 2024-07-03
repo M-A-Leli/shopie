@@ -22,6 +22,7 @@ export class SingleProductComponent {
   error: string = '';
   relatedProducts: Product[] = []; //!
   reviews: Review[] = [];
+  currentReview: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,10 +33,31 @@ export class SingleProductComponent {
 
   ngOnInit(): void {
     const product_id = this.route.snapshot.paramMap.get('id');
+
     if (product_id) {
       this.getProduct(product_id);
       this.loadReviews(product_id);
       this.loadRelatedProducts(product_id);
+    }
+
+    if (this.reviews.length > 0) {
+      this.currentReview = 0;
+    }
+  }
+
+  previousReview(): void {
+    if (this.currentReview > 0) {
+      this.currentReview--;
+    } else {
+      this.currentReview = this.reviews.length - 1;
+    }
+  }
+
+  nextReview(): void {
+    if (this.currentReview < this.reviews.length - 1) {
+      this.currentReview++;
+    } else {
+      this.currentReview = 0;
     }
   }
 

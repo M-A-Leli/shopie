@@ -8,7 +8,7 @@ import CartItem from '../../shared/models/CartItem';
 })
 export class CartItemService {
 
-  private baseUrl = 'http://localhost:3000/api/v1/cartItems';
+  private baseUrl = 'http://localhost:3000/api/v1/carts';
 
   constructor(private http: HttpClient) { }
 
@@ -36,8 +36,8 @@ export class CartItemService {
     return this.http.get<CartItem[]>(`${this.baseUrl}/order/${order_id}`);
   }
 
-  getPendingCartItemsByUserId(user_id: string): Observable<CartItem[]> {
-    return this.http.get<CartItem[]>(`${this.baseUrl}/user/${user_id}`);
+  getPendingCartItemsByUserId(): Observable<CartItem[]> {
+    return this.http.get<CartItem[]>(`${this.baseUrl}/user`);
   }
 }
 
