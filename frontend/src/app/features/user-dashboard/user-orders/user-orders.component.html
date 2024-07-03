@@ -1,1 +1,7 @@
-<p>user-orders works!</p>
+<div class="container">
+    <div class="orderDiv" *ngFor="let order of orders">
+        <div class="orderContent">
+            <h2>{{order.total_price}}</h2>
+        </div>
+    </div>
+</div>
