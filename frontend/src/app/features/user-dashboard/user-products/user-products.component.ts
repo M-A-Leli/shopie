@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import Product from '../../../shared/models/Product'
 import { ProductService } from '../../../core/services/product.service';
+import { CartItemService } from '../../../core/services/cart-item.service';
+import CartItem from '../../../shared/models/CartItem';
 
 @Component({
   selector: 'app-user-products',
@@ -13,9 +15,12 @@ import { ProductService } from '../../../core/services/product.service';
 export class UserProductsComponent {
   products!:Product[];
   oneProduct!:Product;
+  cartProduct!:CartItem;
   searchTerm: string = '';
+  successMessage!: string;
+  errorMessage: any;
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService, private cartservice:CartItemService) {
     
   }
 
@@ -43,6 +48,22 @@ export class UserProductsComponent {
       category_id: "",
       images: []
       };
+  }
+
+  addItemToCart(id: string){
+    const newCartItem: CartItem = {
+      product_id: id
+    }
+
+    this.cartservice.createCartItem(newCartItem).subscribe({
+      next: data => {
+        this.successMessage = 'Product added to cart successfull!';
+        setTimeout(() => {
+          this.successMessage = '';
+        }, 3000);
+        console.log (data);
+      }
+    });
   }
   getOneItem(id:string){
     this.productService.getProductById(id).subscribe(data => {

@@ -1,0 +1,48 @@
+.logout{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.logoutDiv{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 400px;
+}
+.message{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.message h2{
+}
+.confirmation{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 4%;
+    background-color: #E8E8E8;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+button{
+    width: 30%;
+    height: 20%;
+    color: white;
+    border-radius: 10px;
+    border: none;
+}
+.yes{
+    background-color: green;
+}
+.no{
+    background-color: red;
+}

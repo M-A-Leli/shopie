@@ -1,7 +1,14 @@
 <div class="container">
     <div class="orderDiv" *ngFor="let order of orders">
         <div class="orderContent">
-            <h2>{{order.total_price}}</h2>
+            <h3>Order made:{{order.id}}</h3>
+            <h3>Total price:{{order.total_price}}</h3>
+            <h3>order status:{{order.status}} </h3>
+        </div>
+        <div class="cartItems" *ngFor="let item of order.cart_items">
+            <!-- <h3>name{{item.product.name}}</h3>
+            <h3>price{{item.product.price}}</h3> -->
+            <h3>quantity{{item.quantity}}</h3>
         </div>
     </div>
 </div>
