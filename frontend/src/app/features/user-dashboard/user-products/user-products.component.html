@@ -16,7 +16,7 @@
              <h3>sh {{product.price}}</h3>
          </div>
          <div class="buttonDiv">
-             <button>Add to cart</button>
+             <button (click)="addItemToCart(product.id)">Add to cart</button>
              <button (click)="getOneItem(product.id)">view one</button>
          </div>
         </div>

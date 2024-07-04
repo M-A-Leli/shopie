@@ -44,7 +44,7 @@ export const routes: Routes = [
   },
   {
     path: 'user/dashboard', component: UserDashboardComponent, children: [
-      { path: 'cart', component: UserCartComponent },
+      { path: 'carts', component:  UserCartComponent},
       {path: 'product', component: UserProductsComponent },
       { path: 'logout', component: UserLogoutComponent },
       { path: 'orders', component: UserOrdersComponent },
