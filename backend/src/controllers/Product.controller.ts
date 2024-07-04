@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
-import upload from '../utils/ImageUpload.util';
-import ProductService from '../services/Product.service';
 import multer from 'multer';
+import ProductService from '../services/Product.service';
+import upload from '../utils/ImageUpload.util';
 
 class ProductController {
   private productService: ProductService;
@@ -47,7 +47,7 @@ class ProductController {
         const newProduct = await this.productService.createProduct(req.body, imagePaths);
         res.status(201).json(newProduct);
       } catch (error: any) {
-        next(createError(500, 'Failed to create product'));
+        next(error);
       }
     });
   }
@@ -65,7 +65,7 @@ class ProductController {
         const updatedProduct = await this.productService.updateProduct(req.params.id, req.body, imagePaths);
         res.json(updatedProduct);
       } catch (error: any) {
-        next(createError(500, 'Failed to update product'));
+        next(error);
       }
     });
   }
