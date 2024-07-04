@@ -1,7 +1,8 @@
 import createError from 'http-errors';
 import { Product, Prisma } from '@prisma/client';
 import prisma from '../config/Prisma.config';
-import { array } from 'joi';
+
+const BASE_URL = `http://localhost:${process.env.PORT}`;
 
 class ProductService {
 
@@ -72,8 +73,6 @@ class ProductService {
   }
 
   async createProduct(data: Omit<Prisma.ProductCreateInput, 'id'>, imagePaths: string[]) {
-    console.log(data);
-    console.log(imagePaths);
     
     if (imagePaths.length > 4) {
       throw createError(400, 'A product can have at most 4 images');
@@ -85,7 +84,7 @@ class ProductService {
       stock_quantity: parseInt(data.stock_quantity as unknown as string, 10),
       images: {
         create: imagePaths.map(path => ({
-          url: `/images/${path.split('/').pop()}`,
+          url: `${BASE_URL}/images/${path.split('/').pop()}`,
         })),
       },
     };
@@ -134,7 +133,7 @@ class ProductService {
         stock_quantity: data.stock_quantity ? parseInt(data.stock_quantity as unknown as string, 10) : undefined,
         images: {
           create: imagePaths.map(path => ({
-            url: `/images/${path.split('/').pop()}`,
+            url: `${BASE_URL}/images/${path.split('/').pop()}`,
           })),
         },
       },

@@ -6,8 +6,8 @@
   <div class="offers-grid">
     <div class="offer-card" *ngFor="let offer of specialOffers">
       <div class="offer-image">
-        <!-- <img [src]="product.image" alt="{{ product.name }}"> -->
-      <img src="/product_placeholder.svg" alt="{{ offer.name }}">
+        <img [src]="offer.images[0].url" alt="{{ offer.name }}">
+        <!-- <img src="/product_placeholder.svg" alt="{{ offer.name }}"> -->
       </div>
       <div class="offer-info">
         <h3>{{ offer.name }}</h3>

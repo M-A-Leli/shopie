@@ -2,6 +2,8 @@ import createError from 'http-errors';
 import { Category } from '@prisma/client';
 import prisma from '../config/Prisma.config';
 
+const BASE_URL = `http://localhost:${process.env.PORT}`;
+
 class CategoryService {
   async getAllCategories(): Promise<Partial<Category>[]> {
     const categories = await prisma.category.findMany({
