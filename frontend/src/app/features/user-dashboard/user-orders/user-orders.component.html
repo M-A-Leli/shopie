@@ -1,14 +1,29 @@
 <div class="container">
-    <div class="orderDiv" *ngFor="let order of orders">
-        <div class="orderContent">
-            <h3>Order made:{{order.id}}</h3>
-            <h3>Total price:{{order.total_price}}</h3>
-            <h3>order status:{{order.status}} </h3>
+    <div class="orderDiv" >
+        <div class="content" *ngFor="let order of orders">
+            <div class="orderContent">
+                <h3>Order made: {{order.id}}</h3>
+                <h3>Total price:$ {{order.total_price}}</h3>
+                <h3>order status: {{order.status}} </h3>
+            </div>
+            <div class="button">
+                <button (click)="getOrderedItems(order.id)" >View Items</button>
+            </div>
         </div>
-        <div class="cartItems" *ngFor="let item of order.cart_items">
-            <!-- <h3>name{{item.product.name}}</h3>
-            <h3>price{{item.product.price}}</h3> -->
-            <h3>quantity{{item.quantity}}</h3>
+        
+    </div>
+    <div class="cartDiv">
+        <div class="cart" *ngFor="let item of orderItems ">
+            <div class="imageDiv">
+                <!-- <img [src]="item.product?.images[0].url"> -->
+                <img src="https://help.rangeme.com/hc/article_attachments/360006928633/what_makes_a_good_product_image.jpg" alt="" />
+            </div>
+            <div class="details">
+                <h3>Number of items: {{ item.quantity }}</h3>
+                <h3>Name of item: {{ item.product?.name }}</h3>
+                <h3>Price of each item: {{ item.product?.price }}</h3>
+                <h3>Total price: {{ item.subtotal }}</h3>
+            </div>
         </div>
     </div>
 </div>

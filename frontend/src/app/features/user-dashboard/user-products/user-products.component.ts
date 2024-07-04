@@ -32,7 +32,6 @@ export class UserProductsComponent {
     this.productService.getAllProducts().subscribe(
       (data) => {
         this.products = data;
-        console.log(data);
         
       },
       (error) => {
@@ -68,7 +67,6 @@ export class UserProductsComponent {
   getOneItem(id:string){
     this.productService.getProductById(id).subscribe(data => {
       this.oneProduct = data;
-      console.log(data)
     })
     this.products = []
   }
