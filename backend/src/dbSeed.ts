@@ -45,43 +45,43 @@ async function main() {
     const categoriesData = [
         {
             name: "Electronics",
-            image_url: "/images/electronics.jpg",
+            image_url: "http://localhost:3000/images/electronics.jpg",
         },
         {
             name: "Clothing",
-            image_url: "/images/clothing.jpg",
+            image_url: "http://localhost:3000/images/clothing.jpeg",
         },
         {
             name: "Home and Garden",
-            image_url: "/images/home_and_garden.jpg",
+            image_url: "http://localhost:3000/images/home_and_garden.jpeg",
         },
         {
             name: "Books",
-            image_url: "/images/books.jpg",
+            image_url: "http://localhost:3000/images/books.jpeg",
         },
         {
             name: "Sports and Outdoors",
-            image_url: "/images/sports_and_outdoors.jpg",
+            image_url: "http://localhost:3000/images/sports_and_outdoors.jpeg",
         },
         {
             name: "Furniture",
-            image_url: "/images/furniture.jpg",
+            image_url: "http://localhost:3000/images/furniture.jpeg",
         },
         {
             name: "Beauty and Personal Care",
-            image_url: "/images/beauty_and_personal_care.jpg",
+            image_url: "http://localhost:3000/images/beauty_and_personal_care.jpeg",
         },
         {
             name: "Food and Grocery",
-            image_url: "/images/food_and_grocery.jpg",
+            image_url: "http://localhost:3000/images/food_and_grocery.jpeg",
         },
         {
             name: "Pet Supplies",
-            image_url: "/images/pet_supplies.jpg",
+            image_url: "http://localhost:3000/images/pet_supplies.jpeg",
         },
         {
             name: "Toys and Games",
-            image_url: "/images/toys_and_games.jpg",
+            image_url: "http://localhost:3000/images/toys_and_games.jpeg",
         },
     ];
 
@@ -115,7 +115,7 @@ async function main() {
 
         for (let j = 1; j <= productsPerCategory; j++) {
             const productName = `${category.name}${j}`;
-            const productImageURL = `${productName.toLowerCase()}.jpg`;
+            const productImageURL = `http://localhost:3000/images/${productName.toLowerCase().split(' ').join('_')}.jpeg`;
 
             const productData = {
                 name: productName,

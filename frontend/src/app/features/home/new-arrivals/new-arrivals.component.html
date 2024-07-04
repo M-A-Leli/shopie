@@ -6,8 +6,8 @@
   <div class="arrivals-grid">
     <div class="arrival-card" *ngFor="let product of newArrivals">
       <div class="arrival-image">
-         <!-- <img [src]="product.image" alt="{{ product.name }}"> -->
-      <img src="/product_placeholder.svg" alt="{{ product.name }}">
+        <img [src]="product.images[0].url" alt="{{ product.name }}">
+        <!-- <img src="/product_placeholder.svg" alt="{{ product.name }}"> -->
       </div>
       <div class="arrival-info">
         <h3>{{ product.name }}</h3>
