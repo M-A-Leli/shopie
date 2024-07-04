@@ -34,7 +34,7 @@ border-radius: 5px;
 margin-top: 20px;
 }
 .charts {
-  margin-top: 40px;
+  margin-top: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
@@ -60,9 +60,10 @@ margin-top: 20px;
 
 .chart-content {
   padding: 10px 0;
+  display: flex;
 }
 
 .chart-container {
+  height: 210px;
 
-  height: 250px;
 }

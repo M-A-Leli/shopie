@@ -7,7 +7,6 @@
   color: white;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: space-between;
   /* position: fixed;
   top: 0; */
@@ -52,28 +51,18 @@
 .sidebar-menu {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  align-items: center;
-  justify-content: center;
   list-style: none;
-  padding: 0;
   margin:30px auto;
   flex-grow: 1;
 }
 
-.sidebar-item {
-  padding: 10px;
-}
 
 .sidebar-item a {
   color: white;
- width: 100%;
   text-decoration: none;
   display: flex;
   align-items: center;
-  justify-content: center;
-
-  padding: 10px;
+  padding: 15px 5px;
   transition: background-color 0.3s ease;
 }
 
@@ -90,19 +79,17 @@
 
 .logout {
   margin-top: auto;
-  padding: 10px;
-
   border-radius: 5px;
 
 }
 
 .logout a{
-background-color:blueviolet ;
+
 border-radius: 5px;
-color: #fff;
-padding:10px;
+color:rgb(173, 95, 247);
 text-decoration: none;
 display: flex;
+gap: 5px;
 align-items: center;
 }
 .logout a i{
@@ -112,6 +99,9 @@ align-items: center;
 @media (max-width: 350px) {
   .sidebar {
     width: 100px;
+    display: flex;
+    background-color: aqua;
+
   }
 
   .profile-section {

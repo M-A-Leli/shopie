@@ -6,7 +6,7 @@ export default interface User {
   id?: string,
   username: string,
   email: string,
-  password: string,
+  password?: string,
   phone_number?: string,
   admin?: Admin, //!
   carts?: Cart[], //!

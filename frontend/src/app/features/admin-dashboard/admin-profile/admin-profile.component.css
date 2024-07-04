@@ -26,6 +26,7 @@ span{
 }
 h2{
   color: rgb(4, 203, 136);
+  text-align: center;
   margin-bottom: 20px;
 }
 h4{
@@ -48,4 +49,55 @@ button{
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+}
+/* Add your styles here */
+
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+.close{
+  font-size: 30px;
+  font-weight: 200;
+  color: #6e44ff;
+}
+button{
+  margin: 7px;
+
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: 7% auto;
+  width:40%;
+  min-width: 400px;
+  padding: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+input:focus{
+  outline: solid slateblue 2px;
 }

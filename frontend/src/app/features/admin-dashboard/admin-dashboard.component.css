@@ -9,9 +9,8 @@
   display: flex;
 }
 .main-wrapper{
-
-  width: 75vw;
   margin: 0 auto;
+  width: 75vw;
 }
 
 .body-content
