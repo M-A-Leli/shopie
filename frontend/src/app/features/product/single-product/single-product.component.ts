@@ -22,7 +22,7 @@ export class SingleProductComponent {
 
   product!: Product;
   error: string = '';
-  relatedProducts: Product[] = []; //!
+  relatedProducts: Product[] = [];
   reviews: Review[] = [];
   currentReview: number = 0;
   errorMessage: string | null = null;
@@ -48,6 +48,18 @@ export class SingleProductComponent {
     if (this.reviews.length > 0) {
       this.currentReview = 0;
     }
+  }
+
+  getRatingArray(rating: number): string[] {
+    const fullStars = Math.floor(rating);
+    const halfStars = rating % 1 >= 0.5 ? 1 : 0;
+    const emptyStars = 5 - fullStars - halfStars;
+
+    return [
+      ...Array(fullStars).fill('fa-star'),
+      ...Array(halfStars).fill('fa-star-half-o'),
+      ...Array(emptyStars).fill('fa-star-o')
+    ];
   }
 
   clearErrors() {

@@ -1,12 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 
-interface Slide {
-  title: string;
-  description: string;
-  image: string;
-}
-
 @Component({
   selector: 'app-hero',
   standalone: true,
@@ -15,46 +9,37 @@ interface Slide {
   styleUrl: './hero.component.css'
 })
 export class HeroComponent {
-  slides: Slide[] = [
-    {
-      title: 'Welcome to Shopie',
-      description: 'Discover the best products at unbeatable prices.',
-      image: 'test.jpg'
-    },
-    {
-      title: 'Exclusive Offers',
-      description: 'Check out our exclusive deals and promotions.',
-      image: 'test2.jpg'
-    },
-    {
-      title: 'New Arrivals',
-      description: 'Stay ahead with the latest trends and products.',
-      image: 'test3.jpg'
-    }
+  slides = [
+    { image: '/hero1.jpeg' },
+    // { image: '/hero1.webp' },
+    { image: '/hero2.jpg' },
+    { image: '/hero3.jpg' }
   ];
+  currentSlide = 0;
 
-  currentSlide: number = 0;
-  autoPlayInterval: any;
+  staticContent = {
+    title: 'Welcome to Shopie',
+    tag: "Your One-Stop Online Shop",
+    description: 'Discover a wide range of products at unbeatable prices. Shopie offers a seamless shopping experience with the latest deals and exclusive offers just for you.'
+  };
+
+  constructor() { }
 
   ngOnInit(): void {
-    this.startAutoplay();
+    // this.startCarousel(); //!
   }
 
-  ngOnDestroy(): void {
-    clearInterval(this.autoPlayInterval);
-  }
-
-  startAutoplay(): void {
-    this.autoPlayInterval = setInterval(() => {
+  startCarousel() {
+    setInterval(() => {
       this.nextSlide();
-    }, 3000);
+    }, 5000); // Change slide every 5 seconds
   }
 
-  prevSlide(): void {
-    this.currentSlide = (this.currentSlide === 0) ? this.slides.length - 1 : this.currentSlide - 1;
+  prevSlide() {
+    this.currentSlide = (this.currentSlide > 0) ? this.currentSlide - 1 : this.slides.length - 1;
   }
 
-  nextSlide(): void {
-    this.currentSlide = (this.currentSlide === this.slides.length - 1) ? 0 : this.currentSlide + 1;
+  nextSlide() {
+    this.currentSlide = (this.currentSlide < this.slides.length - 1) ? this.currentSlide + 1 : 0;
   }
 }

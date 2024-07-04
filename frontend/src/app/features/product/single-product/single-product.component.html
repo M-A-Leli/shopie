@@ -10,6 +10,12 @@
     <div class="product-text">
       <h1>{{ product.name }}</h1>
       <p>{{ product.description }}</p>
+      <div class="rating">
+        <ng-container *ngFor="let star of getRatingArray(product.rating || 0); let i = index">
+          <i class="fa" [ngClass]="star"></i>
+        </ng-container>
+        <p>({{ product.no_of_reviews }})</p>
+      </div>
       <p class="price">${{ product.price }}</p>
       <p class="stock-status" [ngClass]="{'out-of-stock': product.stock_quantity <= 0}">
         {{ product.stock_quantity > 0 ? 'In stock' : 'Out of stock' }}
@@ -40,7 +46,12 @@
         <!-- <img src="/product_placeholder.svg" alt="{{ relatedProduct.name }}"> -->
         <div class="product-details">
           <h3>{{ relatedProduct.name }}</h3>
-          <p>{{ relatedProduct.description }}</p>
+          <div class="rating">
+            <ng-container *ngFor="let star of getRatingArray(product.rating || 0); let i = index">
+              <i class="fa" [ngClass]="star"></i>
+            </ng-container>
+            <p>({{ product.no_of_reviews }})</p>
+          </div>
           <p class="price">${{ relatedProduct.price }}</p>
           <p class="stock-status" [ngClass]="{'out-of-stock': relatedProduct.stock_quantity <= 0}">
             {{ relatedProduct.stock_quantity > 0 ? 'In stock' : 'Out of stock' }}

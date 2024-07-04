@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
 import multer from 'multer';
 import CategoryService from '../services/Category.service';
-import upload from '../utils/ImageUpload.util';
+import { uploadSingle } from '../utils/ImageUpload.util';
 
 class CategoryController {
 
@@ -31,7 +31,7 @@ class CategoryController {
   }
 
   createCategory = async (req: Request, res: Response, next: NextFunction) => {
-    upload(req, res, async (err) => {
+    uploadSingle(req, res, async (err) => {
       if (err instanceof multer.MulterError) {
         return next(createError(400, err.message));
       } else if (err) {
@@ -53,7 +53,7 @@ class CategoryController {
   }
 
   updateCategory = async (req: Request, res: Response, next: NextFunction) => {
-    upload(req, res, async (err) => {
+    uploadSingle(req, res, async (err) => {
       if (err instanceof multer.MulterError) {
         return next(createError(400, err.message));
       } else if (err) {

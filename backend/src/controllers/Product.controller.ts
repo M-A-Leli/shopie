@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
 import multer from 'multer';
 import ProductService from '../services/Product.service';
-import upload from '../utils/ImageUpload.util';
+import { uploadMultiple } from '../utils/ImageUpload.util';
 
 class ProductController {
   private productService: ProductService;
@@ -30,7 +30,7 @@ class ProductController {
   }
 
   createProduct = async (req: Request, res: Response, next: NextFunction) => {
-    upload(req, res, async (err) => {
+    uploadMultiple(req, res, async (err) => {
       if (err instanceof multer.MulterError) {
         return next(createError(400, err.message));
       } else if (err) {
@@ -53,7 +53,7 @@ class ProductController {
   }
 
   updateProduct = async (req: Request, res: Response, next: NextFunction) => {
-    upload(req, res, async (err) => {
+    uploadMultiple(req, res, async (err) => {
       if (err instanceof multer.MulterError) {
         return next(createError(400, err.message));
       } else if (err) {
