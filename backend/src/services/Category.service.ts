@@ -1,5 +1,5 @@
 import createError from 'http-errors';
-import { Category } from '@prisma/client';
+import { Category, Prisma } from '@prisma/client';
 import prisma from '../config/Prisma.config';
 
 const BASE_URL = `http://localhost:${process.env.PORT}`;
@@ -38,13 +38,11 @@ class CategoryService {
     return category;
   }
 
-  async createCategory(data: any): Promise<Partial<Category>> {
-    const { name, image_url } = data;
+  async createCategory(data: Omit<Prisma.CategoryCreateInput, 'id'>, imagePath: string): Promise<Partial<Category>> {
+    const { name } = data;
   
-    // Convert name to lowercase for case-insensitive comparison
     const lowerCaseName = name.toLowerCase();
   
-    // Check if a category with the same name already exists
     const nameExists = await prisma.category.findFirst({
       where: { name: lowerCaseName }
     });
@@ -52,13 +50,16 @@ class CategoryService {
     if (nameExists) {
       throw createError(409, 'Category already exists');
     }
+
+    const categoryData = {
+      ...data,
+      name: lowerCaseName,
+      image_url: `/images/${imagePath.split('/').pop()}`,
+    }
   
     // Create a new category
     const newCategory = await prisma.category.create({
-      data: {
-        name: lowerCaseName,
-        image_url
-      },
+      data: categoryData,
       select: {
         id: true,
         name: true
@@ -68,16 +69,21 @@ class CategoryService {
     return newCategory;
   }
 
-  async updateCategory(id: string, data: Partial<Category>): Promise<Partial<Category> | null> {
+  async updateCategory(id: string, data: Partial<Category>, imagePath: string): Promise<Partial<Category> | null> {
     const category = await prisma.category.findUnique({ where: { id } });
 
     if (!category) {
       throw createError(404, 'Category not found');
     }
 
+    const categoryData = {
+      ...data,
+      image_url: `/images/${imagePath.split('/').pop()}`,
+    }
+
     const updatedCategory = await prisma.category.update({
       where: { id },
-      data,
+      data: categoryData,
       select: {
         id: true,
         name: true,

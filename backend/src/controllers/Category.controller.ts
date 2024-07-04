@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
+import createError from 'http-errors';
+import multer from 'multer';
 import CategoryService from '../services/Category.service';
+import upload from '../utils/ImageUpload.util';
 
 class CategoryController {
 
@@ -28,22 +31,48 @@ class CategoryController {
   }
 
   createCategory = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const newCategory = await this.categoryService.createCategory(req.body.category_name);
-      res.status(201).json(newCategory);
-    } catch (error) {
-      next(error);
-    }
+    upload(req, res, async (err) => {
+      if (err instanceof multer.MulterError) {
+        return next(createError(400, err.message));
+      } else if (err) {
+        return next(createError(400, err.message));
+      }
+
+      if (!req.file) {
+        return next(createError(400, 'No file uploaded'));
+      }
+
+      try {
+        const imagePath = req.file.path;
+        const newCategory = await this.categoryService.createCategory(req.body, imagePath);
+        res.status(201).json(newCategory);
+      } catch (error: any) {
+        next(error);
+      }
+    });
   }
 
   updateCategory = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const updatedCategory = await this.categoryService.updateCategory(req.params.id, req.body);
-      res.json(updatedCategory);
-    } catch (error) {
-      next(error);
-    }
-  };
+    upload(req, res, async (err) => {
+      if (err instanceof multer.MulterError) {
+        return next(createError(400, err.message));
+      } else if (err) {
+        return next(createError(400, err.message));
+      }
+
+      if (!req.file) {
+        return next(createError(400, 'No file uploaded'));
+      }
+
+      try {
+        const imagePath = req.file.path;
+        const updatedCategory = await this.categoryService.updateCategory(req.params.id, req.body, imagePath);
+        res.status(201).json(updatedCategory);
+      } catch (error: any) {
+        next(error);
+      }
+    });
+  }
 
   deleteCategory = async (req: Request, res: Response, next: NextFunction) => {
     try {
