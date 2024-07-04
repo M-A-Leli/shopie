@@ -2,9 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
 import upload from '../utils/ImageUpload.util';
 import ProductService from '../services/Product.service';
+import multer from 'multer';
 
 class ProductController {
-
   private productService: ProductService;
 
   constructor() {
@@ -31,7 +31,9 @@ class ProductController {
 
   createProduct = async (req: Request, res: Response, next: NextFunction) => {
     upload(req, res, async (err) => {
-      if (err) {
+      if (err instanceof multer.MulterError) {
+        return next(createError(400, err.message));
+      } else if (err) {
         return next(createError(400, err.message));
       }
 
@@ -42,10 +44,9 @@ class ProductController {
 
       try {
         const imagePaths = (req.files as Express.Multer.File[]).map(file => file.path);
-        console.log(imagePaths);
         const newProduct = await this.productService.createProduct(req.body, imagePaths);
         res.status(201).json(newProduct);
-      } catch (error) {
+      } catch (error: any) {
         next(createError(500, 'Failed to create product'));
       }
     });
@@ -53,7 +54,9 @@ class ProductController {
 
   updateProduct = async (req: Request, res: Response, next: NextFunction) => {
     upload(req, res, async (err) => {
-      if (err) {
+      if (err instanceof multer.MulterError) {
+        return next(createError(400, err.message));
+      } else if (err) {
         return next(createError(400, err.message));
       }
 
@@ -61,7 +64,7 @@ class ProductController {
         const imagePaths = (req.files as Express.Multer.File[]).map(file => file.path);
         const updatedProduct = await this.productService.updateProduct(req.params.id, req.body, imagePaths);
         res.json(updatedProduct);
-      } catch (error) {
+      } catch (error: any) {
         next(createError(500, 'Failed to update product'));
       }
     });

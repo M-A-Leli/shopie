@@ -5,7 +5,8 @@
   <div class="success-container" *ngIf="successMessage">{{ successMessage }}</div>
 
   <div class="product-info">
-    <img src="/product_placeholder.svg" alt="{{ product.name }}">
+    <img [src]="product.images[0].url" alt="{{ product.name }}">
+    <!-- <img src="/product_placeholder.svg" alt="{{ product.name }}"> -->
     <div class="product-text">
       <h1>{{ product.name }}</h1>
       <p>{{ product.description }}</p>
@@ -35,7 +36,8 @@
     <h2>Related Products</h2>
     <div class="product-cards">
       <div class="product-card" *ngFor="let relatedProduct of relatedProducts" (click)="viewProduct(relatedProduct.id || '')">
-        <img src="/product_placeholder.svg" alt="{{ relatedProduct.name }}">
+        <img [src]="relatedProduct.images[0].url" alt="{{ relatedProduct.name }}">
+        <!-- <img src="/product_placeholder.svg" alt="{{ relatedProduct.name }}"> -->
         <div class="product-details">
           <h3>{{ relatedProduct.name }}</h3>
           <p>{{ relatedProduct.description }}</p>
