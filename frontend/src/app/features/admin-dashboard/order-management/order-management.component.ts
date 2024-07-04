@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import Order from '../../../shared/models/Order';
 import { OrderService } from '../../../core/services/order.service';
 import { CommonModule } from '@angular/common';
@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './order-management.component.html',
   styleUrl: './order-management.component.css'
 })
-export class OrderManagementComponent {
+export class OrderManagementComponent implements OnInit{
   orders:Order[] = [];
   paginatedOrders: Order[] = [];
   currentPage = 1;
@@ -19,7 +19,9 @@ export class OrderManagementComponent {
 
 constructor(private orderService:OrderService){}
 
-
+ngOnInit(): void {
+    this.fetchOrders()
+}
 
 
   fetchOrders() {

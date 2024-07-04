@@ -23,11 +23,7 @@ class AuthController {
       user_id: user.id,
       role: user.admin ? 'admin' : 'user',
     };
-<<<<<<< HEAD
-    return jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: '1hr' });
-=======
     return jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: '1h' });
->>>>>>> origin/main
   }
 
   static generateRefreshToken(user: User): string {

@@ -8,58 +8,56 @@ import Category from '../../../shared/models/Category';
 import { CategoryService } from '../../../core/services/category.service';
 import { ProductSearchPipe } from '../../../shared/pipes/product-search.pipe';
 
-
 @Component({
   selector: 'app-product-management',
   templateUrl: './product-management.component.html',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,CommonModule,FormsModule,ProductSearchPipe],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, ProductSearchPipe],
   styleUrls: ['./product-management.component.css']
 })
 export class ProductManagementComponent implements OnInit {
 
-onCategoryChange($event: Event) {
-  const selectedCategory = ($event.target as HTMLSelectElement).value;
-}
-
   createProductForm!: FormGroup;
   showAddModal = false;
-  isLoading: boolean = false;
+  isLoading = false;
   products: Product[] = [];
-  categoryList: Category[]= [];
-  product_id:string= '';
-  category_id:string = '';
+  categoryList: Category[] = [];
+  product_id = '';
+  category_id = '';
   paginatedProducts: Product[] = [];
   images: string[] = [];
   currentPage = 1;
   itemsPerPage = 10;
-  // imageUrl = '';
   createSuccess = false;
   createError = false;
   showDeleteModal = false;
   showUpdateModal = false;
-  updateMsg: boolean = false;
-  deleteMsg: boolean = false;
+  updateMsg = false;
+  deleteMsg = false;
   createSuccessMessage = '';
   updateSuccessMessage = '';
   deleteSuccessMessage = '';
-  searchString: string = '';
+  searchString = '';
 
-
-  constructor(private fb: FormBuilder, private service: ProductService,private router:Router,private route:ActivatedRoute,private categoryService: CategoryService) {
+  constructor(
+    private fb: FormBuilder,
+    private productService: ProductService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private categoryService: CategoryService
+  ) {
     this.createProductForm = this.fb.group({
       name: ['', Validators.required],
-      price: ['', Validators.required],
-      category: ['', Validators.required],
-      stock_quantity: ['', Validators.required],
-      description:['',Validators.required],
-      images:[''],
-      image_url:['']
+      description: ['', Validators.required],
+      price: ['', [Validators.required, Validators.min(0)]],
+      stock_quantity: ['', [Validators.required, Validators.min(0)]],
+      category_id: ['', Validators.required],
+      images: [null]
     });
 
-  route.params.subscribe(res=>{
-    this.product_id = res['id']
-  })
+    this.route.params.subscribe(params => {
+      this.product_id = params['id'];
+    });
   }
 
   ngOnInit() {
@@ -68,56 +66,95 @@ onCategoryChange($event: Event) {
   }
 
   fetchProducts() {
-    this.service.getAllProducts().subscribe((res) => {
-      this.products = res
-      this.paginate();
-    });
+    this.productService.getAllProducts().subscribe(
+      (res) => {
+        this.products = res;
+        this.paginate();
+      },
+      (error) => {
+        console.error('Error fetching products:', error);
+      }
+    );
   }
 
-  fetchCategories(){
-  this.categoryService.getAllCategories().subscribe((res)=>{
-    this.categoryList = res;
-  })
+  fetchCategories() {
+    this.categoryService.getAllCategories().subscribe(
+      (res) => {
+        this.categoryList = res;
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    );
   }
 
-  getCategoryById(category_id:string){
-    this.categoryService.getCategoryById(category_id).subscribe((res)=>{
-         this.category_id = res.id
-    })
+  onCategoryChange($event: Event) {
+    const selectedCategory = ($event.target as HTMLSelectElement).value;
+    console.log('Selected Category:', selectedCategory);
   }
 
-
-  addProduct() {
-    if (this.createProductForm.valid) {
-      this.createSuccess = true;
-      this.createError = false;
-      this.closeAddModal();
-    } else {
-      this.createError = true;
+  onFileChange(event: any) {
+    if (event.target.files && event.target.files.length > 0) {
+      this.images = event.target.files;
     }
   }
 
-  updateProduct(product_id:string,product:Product){
-    this.service.updateProduct(product_id,this.createProductForm.value).subscribe((res)=>{
-      this.fetchProducts();
-      this.updateMsg = true;
-      this.updateSuccessMessage = 'Product updated successfully.';
+  onSubmit() {
+    const formData = new FormData();
+    Object.keys(this.createProductForm.controls).forEach(key => {
+      formData.append(key, this.createProductForm.get(key)?.value);
+    });
+    for (let i = 0; i < this.images.length; i++) {
+      formData.append('images', this.images[i]);
+    }
 
-      setTimeout(() => {
-        this.updateMsg = false;
-        this.updateSuccessMessage = '';
-      }, 2000); // Hide message after 3 seconds
-      this.closeUpdateModal();
-
-
-    })
+    this.productService.createProduct(formData).subscribe(
+      (response) => {
+        console.log('Product created successfully!', response);
+        this.fetchProducts();
+      },
+      (error) => {
+        console.error('Error creating product:', error);
+      }
+    );
   }
 
-deleteProduct(product_id:string){
-  this.service.deleteProduct(product_id).subscribe((res)=>{
-  this.fetchProducts()
-  })
-}
+  updateProduct(product_id: string, product: Product) {
+    this.productService.updateProduct(product_id, this.createProductForm.value).subscribe(
+      (res) => {
+        this.fetchProducts();
+        this.updateMsg = true;
+        this.updateSuccessMessage = 'Product updated successfully.';
+
+        setTimeout(() => {
+          this.updateMsg = false;
+          this.updateSuccessMessage = '';
+        }, 2000);
+        this.closeUpdateModal();
+      },
+      (error) => {
+        console.error('Error updating product:', error);
+      }
+    );
+  }
+
+  deleteProduct(product_id: string) {
+    this.productService.deleteProduct(product_id).subscribe(
+      (res) => {
+        this.fetchProducts();
+        this.deleteMsg = true;
+        this.deleteSuccessMessage = 'Product deleted successfully.';
+
+        setTimeout(() => {
+          this.deleteMsg = false;
+          this.deleteSuccessMessage = '';
+        }, 2000);
+      },
+      (error) => {
+        console.error('Error deleting product:', error);
+      }
+    );
+  }
 
   closeAddModal() {
     this.showAddModal = false;
@@ -143,54 +180,54 @@ deleteProduct(product_id:string){
           this.images.push(res.url);
           this.isLoading = res.url ? false : true;
           this.createProductForm.patchValue({ images: this.images });
-          this.createProductForm.patchValue({image_url:res.url})
+          this.createProductForm.patchValue({ image_url: res.url });
         });
     }
   }
 
-navigateToProductDetails(index:number){
-  let product = this.products[index]
-  let product_id = product.id
-  this.router.navigate(['admin/products/view',product_id]);
-}
+  navigateToProductDetails(index: number) {
+    const product = this.products[index];
+    const product_id = product.id;
+    this.router.navigate(['admin/products/view', product_id]);
+  }
 
+  openDeleteModal(productId: string): void {
+    this.product_id = productId;
+    this.showDeleteModal = true;
+  }
 
+  closeDeleteModal(): void {
+    this.showDeleteModal = false;
+  }
 
-openDeleteModal(productId: string): void {
-  this.product_id = productId;
-  this.showDeleteModal = true;
-}
+  confirmDelete(): void {
+    this.productService.deleteProduct(this.product_id).subscribe(
+      (res) => {
+        this.deleteMsg = true;
+        this.deleteSuccessMessage = 'Product deleted successfully.';
+        this.fetchProducts();
+        setTimeout(() => {
+          this.deleteMsg = false;
+          this.deleteSuccessMessage = '';
+        }, 2000);
+        this.closeDeleteModal();
+      },
+      (error) => {
+        console.error('Error deleting product:', error);
+      }
+    );
+  }
 
-closeDeleteModal(): void {
-  this.showDeleteModal = false;
-}
+  openUpdateModal(product: Product) {
+    this.product_id = product.id;
+    this.createProductForm.patchValue(product);
+    this.showUpdateModal = true;
+  }
 
-
-confirmDelete(): void {
-  this.service.deleteProduct(this.product_id).subscribe((res) => {
-    this.deleteMsg = true;
-    this.deleteSuccessMessage = 'Product deleted successfully.';
-    this.fetchProducts();
-    setTimeout(() => {
-      this.deleteMsg = false;
-      this.deleteSuccessMessage = '';
-    }, 2000);
-    this.closeDeleteModal();
-  });
-}
-
-
-openUpdateModal(product:Product){
-  this.product_id = product.id;
-  this.createProductForm.patchValue(product);
-  this.showUpdateModal = true;
-}
-
-closeUpdateModal(){
-  this.showUpdateModal = false;
-  this.createProductForm.reset();
-}
-
+  closeUpdateModal() {
+    this.showUpdateModal = false;
+    this.createProductForm.reset();
+  }
 
   paginate() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
@@ -214,17 +251,5 @@ closeUpdateModal(){
       this.currentPage--;
       this.paginate();
     }
-  }
-
-  loadCategories() {
-    this.categoryService.getAllCategories().subscribe(
-      (data) => {
-        this.categoryList = data;
-      },
-      (error) => {
-        console.error('Error fetching categories:', error);
-        // Handle error as needed
-      }
-    );
   }
 }

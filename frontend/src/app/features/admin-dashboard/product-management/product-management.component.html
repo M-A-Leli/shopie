@@ -23,7 +23,7 @@
     <div class="modal-content">
       <i class="fa fa-times close" (click)="closeAddModal()" aria-hidden="true"></i>
       <div>
-        <form [formGroup]="createProductForm" (ngSubmit)="addProduct()">
+        <form [formGroup]="createProductForm" (ngSubmit)="onSubmit()">
 
             <label for="name">Product Name</label>
             <input type="text" formControlName="name" />
@@ -42,7 +42,7 @@
             </div>
 
             <label for="category">Category:</label>
-            <select (change)="onCategoryChange($event)" formControlName="category">
+            <select (change)="onCategoryChange($event)" formControlName="category_id">
               <option *ngFor="let category of categoryList" [value]="category.id">{{ category.name }}</option>
             </select>
 
@@ -67,12 +67,7 @@
 
           <div class="mb-5">
             <label for="images">Images</label>
-            <input type="file" (change)="getImagesUrl($event)" formControlName="image_url" />
-            <span class="mt-2" *ngIf="isLoading">
-              <div role="status">
-                <span class="sr-only">Loading...</span>
-              </div>
-            </span>
+            <input id="images" type="file" (change)="onFileChange($event)" multiple />
           </div>
           <button type="submit">Create Product</button>
         </form>
@@ -135,7 +130,7 @@
         <textarea id="description" cols="30" rows="5" formControlName="description"></textarea>
 
         <label for="category">Category:</label>
-        <select (change)="onCategoryChange($event)" formControlName="category">
+        <select (change)="onCategoryChange($event)" formControlName="category_id">
           <option *ngFor="let category of categoryList" [value]="category.id">{{ category.name }}</option>
         </select>
 
