@@ -11,7 +11,12 @@
       </div>
       <div class="offer-info">
         <h3>{{ offer.name }}</h3>
-        <p>{{ offer.description }}</p>
+        <div class="rating">
+          <ng-container *ngFor="let star of getRatingArray(offer.rating || 0); let i = index">
+            <i class="fa" [ngClass]="star"></i>
+          </ng-container>
+          <p>({{ offer.no_of_reviews }})</p>
+        </div>
         <p class="price">${{ offer.price }}</p>
         <button class="btn" (click)="addToCart($event, offer.id || '')">Buy Now</button>
       </div>

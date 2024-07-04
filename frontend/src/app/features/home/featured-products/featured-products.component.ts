@@ -21,6 +21,18 @@ export class FeaturedProductsComponent {
     this.loadProducts();
   }
 
+  getRatingArray(rating: number): string[] {
+    const fullStars = Math.floor(rating);
+    const halfStars = rating % 1 >= 0.5 ? 1 : 0;
+    const emptyStars = 5 - fullStars - halfStars;
+
+    return [
+      ...Array(fullStars).fill('fa-star'),
+      ...Array(halfStars).fill('fa-star-half-o'),
+      ...Array(emptyStars).fill('fa-star-o')
+    ];
+  }
+
   loadProducts() {
     this.productService.getFeaturedProducts().subscribe(
       (data) => {

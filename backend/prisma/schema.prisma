@@ -48,11 +48,13 @@ model Product {
   stock_quantity Int
   category_id    String
   category       Category      @relation(fields: [category_id], references: [id])
-  created_at     DateTime      @default(now())
-  updated_at     DateTime      @updatedAt
   is_deleted     Boolean       @default(false)
   is_featured    Boolean       @default(false)
   on_offer       Boolean       @default(false)
+  created_at     DateTime      @default(now())
+  updated_at     DateTime      @updatedAt
+  rating         Float         @default(0.0)
+  no_of_reviews  Int           @default(0)
   images         ProductImage[]
   reviews        Review[]
   cart_items     CartItem[] 

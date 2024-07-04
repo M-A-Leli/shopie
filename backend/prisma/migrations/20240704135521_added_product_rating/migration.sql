@@ -1,0 +1,20 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- AlterTable
+ALTER TABLE [dbo].[Products] ADD [no_of_reviews] INT NOT NULL CONSTRAINT [Products_no_of_reviews_df] DEFAULT 0,
+[rating] FLOAT(53) NOT NULL CONSTRAINT [Products_rating_df] DEFAULT 0.0;
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH

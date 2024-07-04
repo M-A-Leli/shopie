@@ -10,6 +10,8 @@ export default interface Product {
   price: number,
   stock_quantity: number,
   category_id: string,
+  rating?: number,
+  no_of_reviews?: number,
   category?: Category, //!
   images: ProductImage[], //!
   reviews?: Review[], //!

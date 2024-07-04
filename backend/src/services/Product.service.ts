@@ -2,7 +2,7 @@ import createError from 'http-errors';
 import { Product, Prisma } from '@prisma/client';
 import prisma from '../config/Prisma.config';
 
-const BASE_URL = `http://localhost:${process.env.PORT}`;
+const BASE_URL = `http://localhost:3000`;
 
 class ProductService {
 
@@ -16,6 +16,8 @@ class ProductService {
         name: true,
         description: true,
         price: true,
+        rating: true,
+        no_of_reviews: true,
         stock_quantity: true,
         category: {
           select: {
@@ -48,6 +50,8 @@ class ProductService {
         name: true,
         description: true,
         price: true,
+        rating: true,
+        no_of_reviews: true,
         stock_quantity: true,
         category: {
           select: {
@@ -96,6 +100,8 @@ class ProductService {
         name: true,
         description: true,
         price: true,
+        rating: true,
+        no_of_reviews: true,
         stock_quantity: true,
         category: {
           select: {
@@ -142,6 +148,8 @@ class ProductService {
         name: true,
         description: true,
         price: true,
+        rating: true,
+        no_of_reviews: true,
         stock_quantity: true,
         category: {
           select: {
@@ -197,6 +205,8 @@ class ProductService {
         name: true,
         description: true,
         price: true,
+        rating: true,
+        no_of_reviews: true,
         stock_quantity: true,
         category: {
           select: {
@@ -247,6 +257,8 @@ class ProductService {
         name: true,
         description: true,
         price: true,
+        rating: true,
+        no_of_reviews: true,
         stock_quantity: true,
         category: {
           select: {
@@ -282,6 +294,8 @@ class ProductService {
         name: true,
         description: true,
         price: true,
+        rating: true,
+        no_of_reviews: true,
         stock_quantity: true,
         category: {
           select: {
@@ -321,6 +335,8 @@ class ProductService {
         name: true,
         description: true,
         price: true,
+        rating: true,
+        no_of_reviews: true,
         stock_quantity: true,
         category: {
           select: {
@@ -357,6 +373,8 @@ class ProductService {
         name: true,
         description: true,
         price: true,
+        rating: true,
+        no_of_reviews: true,
         stock_quantity: true,
         category: {
           select: {

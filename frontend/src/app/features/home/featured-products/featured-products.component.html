@@ -8,6 +8,12 @@
       <!-- <img src="/product_placeholder.svg" alt="{{ product.name }}"> -->
       <div class="product-info">
         <h3>{{ product.name }}</h3>
+        <div class="rating">
+          <ng-container *ngFor="let star of getRatingArray(product.rating || 0); let i = index">
+            <i class="fa" [ngClass]="star"></i>
+          </ng-container>
+          <p>({{ product.no_of_reviews }})</p>
+        </div>
         <p class="price">${{ product.price }}</p>
         <button class="btn" (click)="viewProduct(product.id || '')">Quick View</button>
       </div>

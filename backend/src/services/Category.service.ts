@@ -2,7 +2,7 @@ import createError from 'http-errors';
 import { Category, Prisma } from '@prisma/client';
 import prisma from '../config/Prisma.config';
 
-const BASE_URL = `http://localhost:${process.env.PORT}`;
+const BASE_URL = `http://localhost:3000`;
 
 class CategoryService {
   async getAllCategories(): Promise<Partial<Category>[]> {
