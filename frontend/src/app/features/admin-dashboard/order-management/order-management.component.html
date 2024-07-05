@@ -1,21 +1,26 @@
-  <!-- Products Table -->
-  <div class="table-container">
-    <table class="responsive-table">
-      <thead>
-        <tr>
-
-          <th>price</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody *ngIf="paginatedOrders.length > 0">
-        <tr *ngFor="let order of orders; let i = index">
-
-          <td>{{ order.total_price }}</td>
-          <td>{{ order.status}}</td>
-
-        </tr>
-      </tbody>
-    </table>
-
+<div class="table-container">
+  <table class="responsive-table">
+    <thead>
+      <tr>
+        <th>Order Date</th>
+        <th>Price</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="paginatedOrders.length > 0; else noOrdersTemplate">
+      <tr *ngFor="let order of paginatedOrders">
+        <td>{{ order.updated_at | date:'medium' }}</td>
+        <td>{{ order.total_price | currency }}</td>
+        <td>{{ order.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <ng-template #noOrdersTemplate>
+    <p style="color: red; margin: 10px;">No orders available.</p>
+  </ng-template>
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
   </div>
+</div>

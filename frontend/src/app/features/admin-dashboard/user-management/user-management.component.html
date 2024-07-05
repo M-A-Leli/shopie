@@ -1,26 +1,27 @@
-<div>
-  <input type="text" placeholder="Filter customers" [(ngModel)]="searchString" >
-  <table >
+<div class="user-management-container">
+  <input type="text" placeholder="Filter customers" [(ngModel)]="searchString" class="filter-input">
+  <table class="user-table">
     <thead>
       <tr>
         <th>Name</th>
         <th>Email</th>
         <th>Phone Number</th>
-
       </tr>
     </thead>
-    <tbody *ngIf="users.length>0">
-      <tr *ngFor="let user of users | userSearch:searchString">
-        <td>{{user.username}}</td>
-        <td>{{user.email}}</td>
-        <td>{{user.phone_number}}</td>
-        <td>
-
-        </td>
+    <tbody *ngIf="paginatedUsers.length > 0; else noUsers">
+      <tr *ngFor="let user of paginatedUsers | userSearch:searchString">
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.phone_number }}</td>
       </tr>
     </tbody>
   </table>
   <ng-template #noUsers>
     <p style="color: red; margin: 10px;">No users available.</p>
   </ng-template>
+  <div class="pagination" *ngIf="users.length > itemsPerPage">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+  </div>
 </div>

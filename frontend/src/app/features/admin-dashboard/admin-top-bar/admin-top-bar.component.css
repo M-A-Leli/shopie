@@ -1,10 +1,12 @@
-header
-{
-  height: 12vh;
+header {
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  background-color: #6a0dad;
+  height: 60px;
+  padding: 0 30px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-}
-.header h1{
-  margin-left: 10px;
+  justify-content: flex-start;
+  color: #ffffff;
 }

@@ -1,48 +1,56 @@
-.logout{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+.logout-layout {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.logoutDiv{
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    height: 400px;
+
+.logout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f8f8;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }
-.message{
-    width: 100%;
-    height: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f9f9f9;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+
+.message h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
 }
-.message h2{
+
+.confirmation {
+  display: flex;
+  gap: 10px;
 }
-.confirmation{
-    width: 100%;
-    height: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    column-gap: 4%;
-    background-color: #E8E8E8;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
+
+.confirmation button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
-button{
-    width: 30%;
-    height: 20%;
-    color: white;
-    border-radius: 10px;
-    border: none;
+
+.confirmation button.yes {
+  background-color: #6a0dad;
+  color: white;
 }
-.yes{
-    background-color: green;
+
+.confirmation button.yes:hover {
+  background-color: #5a0cac;
 }
-.no{
-    background-color: red;
+
+.confirmation button.no {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.confirmation button.no:hover {
+  background-color: #d0d0d0;
 }

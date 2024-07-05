@@ -1,69 +1,86 @@
-
-.counts{
-display: flex;
-flex-wrap: wrap;
-justify-content: space-evenly;
-gap: 10px;
-}
-.product-card{
-  background-color:rgba(167, 83, 245, 0.542) ;
-}
-/* .sale-card{
-  background-color: rgba(255, 166, 0, 0.729);
-} */
-.order-card{
-  background-color: #313131;
-}
-.customer-card{
-  background-color: rgb(10, 192, 131);
-}
-i{
-  font-size: 40px;
-
-}
-.product-card,.sale-card,.order-card,.customer-card{
-  color: #ccc;
-width: 250px;
-padding: 20px;
-display: flex;
-flex-direction: column;
-align-items: center;
-border-radius: 5px;
-}
-.analytics{
-margin-top: 20px;
-}
-.charts {
-  margin-top: 20px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+.counts {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
 }
 
-.chart-card {
-  background-color: #313131;
-  color: #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.card {
+  background-color: #7b1fa2;
+  color: white;
   padding: 20px;
+  border-radius: 10px;
+  width: 30%;
+  text-align: center;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.chart-header {
+.card:hover {
+  transform: translateY(-10px);
+  background-color: #8e24aa;
+}
+
+.card i {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.analytics {
+  margin-top: 40px;
+}
+
+.overview-title {
+  color: #ccc;
+  font-size: 20px;
   margin-bottom: 20px;
 }
 
-.chart-header p {
-  margin: 0;
-  font-size: 1.2em;
-
+.charts {
+  display: flex;
+  justify-content: space-between;
 }
 
-.chart-content {
-  padding: 10px 0;
-  display: flex;
+.chart-card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 45%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.chart-card:hover {
+  transform: translateY(-10px);
+}
+
+.chart-header p {
+  color: #333;
+  font-size: 18px;
+  margin-bottom: 20px;
 }
 
 .chart-container {
-  height: 210px;
+  width: 100%;
+  height: 300px;
+}
 
+@media (max-width: 768px) {
+  .counts {
+    flex-direction: column;
+  }
+
+  .card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .charts {
+    flex-direction: column;
+  }
+
+  .chart-card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
 }

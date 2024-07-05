@@ -1,4 +1,3 @@
-
 <div class="sidebar" [ngClass]="{'collapsed': isCollapsed, 'expanded-mobile': !isCollapsed}">
   <div class="sidebar-header">
     <div class="profile-section" routerLink="profile">
@@ -6,34 +5,32 @@
       <span class="username">{{profile?.username}}</span>
     </div>
 
-      <i class="fa fa-bars toggle-btn" (click)="toggleSidebar()"></i>
+    <i class="fa fa-bars toggle-btn" (click)="toggleSidebar()"></i>
   </div>
   <ul class="sidebar-menu">
-      <li class="sidebar-item">
-          <a routerLink="/admin/dashboard"><i class="fa fa-home" aria-hidden="true"></i><span>Dashboard</span></a>
-      </li>
-
-      <li class="sidebar-item">
-        <a routerLink="/admin/products"><i class="fa fa-cart-plus" aria-hidden="true"></i> <span>Products</span></a>
-    </li>
-
-
-      <li class="sidebar-item">
-        <a routerLink="/admin/categories"><i class="fa fa-cart-plus" aria-hidden="true"></i> <span>Categories</span></a>
+    <li class="sidebar-item">
+      <a routerLink="/admin/dashboard"><i class="fa fa-home" aria-hidden="true"></i><span>Dashboard</span></a>
     </li>
 
     <li class="sidebar-item">
-      <a routerLink="/admin/orders"><i class="fa fa-money" aria-hidden="true"></i> <span>Orders</span></a>
+      <a routerLink="/admin/products"><i class="fa-solid fa-boxes-stacked"></i> <span>Products</span></a>
     </li>
-    
-      <li class="sidebar-item">
-          <a routerLink="/admin/users"><i class="fa fa-users" aria-hidden="true"></i><span>Customers</span></a>
-      </li>
 
 
-      <li class="logout">
-          <a routerLink="/admin/logout"><i class="fa fa-sign-out" aria-hidden="true"></i><span>Logout</span></a>
-      </li>
+    <li class="sidebar-item">
+      <a routerLink="/admin/categories"><i class="fa-solid fa-list"></i> <span>Categories</span></a>
+    </li>
+
+    <li class="sidebar-item">
+      <a routerLink="/admin/orders"><i class="fa-solid fa-truck-moving"></i> <span>Orders</span></a>
+    </li>
+
+    <li class="sidebar-item">
+      <a routerLink="/admin/users"><i class="fa fa-users" aria-hidden="true"></i><span>Customers</span></a>
+    </li>
+
+
+    <li class="logout">
+      <a routerLink="/admin/logout"><i class="fa fa-sign-out" aria-hidden="true"></i><span>Logout</span></a>
+    </li>
   </ul>
-
-

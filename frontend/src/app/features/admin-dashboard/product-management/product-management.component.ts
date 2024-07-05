@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductService } from '../../../core/services/product.service';
 import Product from '../../../shared/models/Product';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import Category from '../../../shared/models/Category';
 import { CategoryService } from '../../../core/services/category.service';
 import { ProductSearchPipe } from '../../../shared/pipes/product-search.pipe';
@@ -12,12 +12,13 @@ import { ProductSearchPipe } from '../../../shared/pipes/product-search.pipe';
   selector: 'app-product-management',
   templateUrl: './product-management.component.html',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, ProductSearchPipe],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, ProductSearchPipe, RouterOutlet],
   styleUrls: ['./product-management.component.css']
 })
 export class ProductManagementComponent implements OnInit {
 
   createProductForm!: FormGroup;
+  updateProductForm!: FormGroup;
   showAddModal = false;
   isLoading = false;
   products: Product[] = [];
@@ -57,6 +58,15 @@ export class ProductManagementComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.product_id = params['id'];
+    });
+
+    this.updateProductForm = this.fb.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      price: ['', [Validators.required, Validators.min(0)]],
+      stock_quantity: ['', [Validators.required, Validators.min(0)]],
+      category_id: ['', Validators.required],
+      images: [null]
     });
   }
 
@@ -110,32 +120,87 @@ export class ProductManagementComponent implements OnInit {
 
     this.productService.createProduct(formData).subscribe(
       (response) => {
-        console.log('Product created successfully!', response);
-        this.fetchProducts();
+        this.products.push(response);
+        this.fetchProducts(); //!
+        this.paginate();
+        this.isLoading = false;
+        this.createProductForm.reset();
+        this.closeAddModal();
+        this.createSuccess = true;
+        setTimeout(() => {
+          this.createSuccessMessage = "Created A Product Successfully";
+          this.createSuccess = false;
+        }, 3000);
+        this.createSuccessMessage = "";
       },
       (error) => {
         console.error('Error creating product:', error);
+        this.isLoading = false;
+        this.createError = true;
       }
     );
   }
 
-  updateProduct(product_id: string, product: Product) {
-    this.productService.updateProduct(product_id, this.createProductForm.value).subscribe(
-      (res) => {
-        this.fetchProducts();
-        this.updateMsg = true;
-        this.updateSuccessMessage = 'Product updated successfully.';
+  // onSubmit() {
+  //   if (this.createProductForm.invalid) {
+  //     return;
+  //   }
 
-        setTimeout(() => {
-          this.updateMsg = false;
-          this.updateSuccessMessage = '';
-        }, 2000);
-        this.closeUpdateModal();
+  //   this.isLoading = true;
+  //   this.productService.createProduct(this.createProductForm.value).subscribe({
+  //     next: (product) => {
+  //       this.products.push(product);
+  //       this.paginate();
+  //       this.isLoading = false;
+  //       this.createSuccess = true;
+  //       this.createSuccessMessage = "Created A Product Successfully";
+  //       this.createProductForm.reset();
+  //       this.closeAddModal();
+  //     },
+  //     error: (error) => {
+  //       console.error('Error creating product:', error);
+  //       this.isLoading = false;
+  //       this.createError = true;
+  //     }
+  //   });
+  // }
+
+  openUpdateModal(product: Product) {
+    this.showUpdateModal = true;
+    this.updateProductForm.patchValue({
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      stock_quantity: product.stock_quantity,
+      category_id: product.category_id,
+      images: null
+    });
+    this.product_id = product.id;
+  }
+
+  onUpdate() {
+    if (this.updateProductForm.invalid) {
+      return;
+    }
+
+    const updatedProduct = { ...this.updateProductForm.value, id: this.product_id };
+
+    this.productService.updateProduct(this.product_id, updatedProduct).subscribe({
+      next: (product) => {
+        // const index = this.products.findIndex((p) => p.id === this.product_id);
+        // if (index !== -1) {
+          // this.products[index] = product;
+          this.fetchProducts();
+          this.paginate();  // Assuming 'paginateProducts' is the correct method name
+          this.updateMsg = true;
+          this.updateSuccessMessage = "Product Updated Successfully";
+          this.closeUpdateModal();
+        // }
       },
-      (error) => {
+      error: (error) => {
         console.error('Error updating product:', error);
       }
-    );
+    });
   }
 
   deleteProduct(product_id: string) {
@@ -185,10 +250,10 @@ export class ProductManagementComponent implements OnInit {
     }
   }
 
-  navigateToProductDetails(index: number) {
+  navigateToProductDetails(index: number): void {
     const product = this.products[index];
     const product_id = product.id;
-    this.router.navigate(['admin/products/view', product_id]);
+    this.router.navigate(['admin/products', product_id]);
   }
 
   openDeleteModal(productId: string): void {
@@ -218,11 +283,11 @@ export class ProductManagementComponent implements OnInit {
     );
   }
 
-  openUpdateModal(product: Product) {
-    this.product_id = product.id;
-    this.createProductForm.patchValue(product);
-    this.showUpdateModal = true;
-  }
+  // openUpdateModal(product: Product) {
+  //   this.product_id = product.id;
+  //   this.createProductForm.patchValue(product);
+  //   this.showUpdateModal = true;
+  // }
 
   closeUpdateModal() {
     this.showUpdateModal = false;

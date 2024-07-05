@@ -1,44 +1,26 @@
-<!-- <div class="sidebar" [class.collapsed]="isCollapsed">
-  <button (click)="toggleSidebar()">☰</button>
-  <nav *ngIf="!isCollapsed">
-    <ul> -->
-      <!-- <li><a routerLink="/user/dashboard/profile">Profile</a></li>
-      <li><a routerLink="/user/dashboard/cart">Cart</a></li>
-      <li><a routerLink="/user/dashboard/orders">Orders</a></li>
-      <li><a routerLink="/user/dashboard/logout">Logout</a></li> -->
-
-      <!-- <li><a href="/user/dashboard/profile">Profile</a></li>
-      <li><a href="/user/dashboard/cart">Cart</a></li>
-      <li><a href="/user/dashboard/orders">Orders</a></li>
-      <li><a href="/user/dashboard/logout">Logout</a></li>
+<div class="sidebar" [class.collapsed]="isCollapsed">
+  <button class="toggle-button" (click)="toggleSidebar()">{{ isCollapsed ? '►' : '◄' }}</button>
+  <div class="heading">
+    <h1 *ngIf="!isCollapsed">Shopie Market</h1>
+  </div>
+  <nav>
+    <ul>
+      <li routerLink="/user/dashboard/profile">
+        <img src="/icons/person_24dp (1).png" alt="Profile">
+        <span *ngIf="!isCollapsed">My Profile</span>
+      </li>
+      <li routerLink="/user/dashboard/carts">
+        <img src="/icons/add_shopping_cart_24dp.svg" alt="Cart">
+        <span *ngIf="!isCollapsed">Cart</span>
+      </li>
+      <li routerLink="/user/dashboard/orders">
+        <img src="/icons/orders_24dp_FILL0_wght400_GRAD0_opsz24.png" alt="Orders">
+        <span *ngIf="!isCollapsed">Orders</span>
+      </li>
+      <li routerLink="/user/dashboard/logout">
+        <img src="/icons/logout_24dp (1).png" alt="Logout">
+        <span *ngIf="!isCollapsed">Logout</span>
+      </li>
     </ul>
   </nav>
-</div> -->
-<div class="sideBar" style="background-color: #6a0dad;">
-  <div class="heading">
-      <h1>Shoppie market</h1>
-  </div> 
-  <div class="navigation">
-      
-      <div class="profile" routerLink="profile">
-          <img src="../../../icons/person_24dp (1).png" alt="">
-          <p>  My profile</p>
-      </div>
-      <div class="products" routerLink="product">
-          <img src="../../../icons/production_quantity_limits_24dp_FILL0_wght400_GRAD0_opsz24.png" alt="">
-          <p>  Products</p>
-      </div>
-      <div class="cart" routerLink="carts">
-        <img src="../../../icons/add_shopping_cart_24dp.svg" alt="">
-        <p>Cart</p>
-      </div>
-      <div class="order" routerLink="orders">
-          <img src="../../../icons/orders_24dp_FILL0_wght400_GRAD0_opsz24.png" alt="">
-          <p>  order</p>
-      </div>
-      <div class="logout" routerLink="logout">
-         <img src="../../../icons/logout_24dp (1).png" alt=""> 
-         <p>  Log out</p>
-      </div>
-  </div>  
 </div>

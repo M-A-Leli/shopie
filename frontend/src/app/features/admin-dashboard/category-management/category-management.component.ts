@@ -1,13 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ProductService } from '../../../core/services/product.service';
-import Product from '../../../shared/models/Product';
-import { ActivatedRoute, Router } from '@angular/router';
 import Category from '../../../shared/models/Category';
 import { CategoryService } from '../../../core/services/category.service';
-import { ProductSearchPipe } from '../../../shared/pipes/product-search.pipe';
-
 
 @Component({
   selector: 'app-category-management',
@@ -17,160 +12,116 @@ import { ProductSearchPipe } from '../../../shared/pipes/product-search.pipe';
   styleUrls: ['./category-management.component.css']
 })
 export class CategoryManagementComponent implements OnInit {
+  categories: Category[] = [];
+  paginatedCategories: Category[] = [];
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalPages: number = 1;
+  hoveredIndex: number | null = null;
 
-onCategoryChange($event: Event) {
-  const selectedCategory = ($event.target as HTMLSelectElement).value;
-}
+  showAddModal: boolean = false;
+  showUpdateModal: boolean = false;
+  showDeleteModal: boolean = false;
 
   createCategoryForm!: FormGroup;
-  showAddModal = false;
-  isLoading: boolean = false;
-  categories: Category[]= [];
-  category_id:string = '';
-  paginatedCategories: Category[] = [];
-  currentPage = 1;
-  itemsPerPage = 10;
-  createSuccess = false;
-  createError = false;
-  showDeleteModal = false;
-  showUpdateModal = false;
-  updateMsg: boolean = false;
-  deleteMsg: boolean = false;
-  createSuccessMessage = '';
-  updateSuccessMessage = '';
-  deleteSuccessMessage = '';
-  searchString: string = '';
+  category_id!: string;
 
+  constructor(private categoryService: CategoryService, private fb: FormBuilder) {}
 
-  constructor(private fb: FormBuilder,private router:Router,private route:ActivatedRoute,private categoryService: CategoryService) {
+  ngOnInit(): void {
+    this.loadCategories();
     this.createCategoryForm = this.fb.group({
-      image_url: ['', Validators.required],
       name: ['', Validators.required],
+      image_url: ['', Validators.required]
     });
-
-  route.params.subscribe(res=>{
-    this.category_id = res['id']
-  })
   }
 
-  ngOnInit() {
-    this.fetchCategories();
-
+  loadCategories(): void {
+    this.categoryService.getAllCategories().subscribe((categories) => {
+      this.categories = categories;
+      this.totalPages = Math.ceil(this.categories.length / this.itemsPerPage);
+      this.updatePaginatedCategories();
+    });
   }
 
-
-  fetchCategories(){
-  this.categoryService.getAllCategories().subscribe((res)=>{
-    this.categories = res;
-    this.paginate();
-  })
-  }
-
-  getCategoryById(category_id:string){
-    this.categoryService.getCategoryById(category_id).subscribe((res)=>{
-         this.category_id = res.id
-    })
-  }
-
-
-  addCategory() {
-    if (this.createCategoryForm.valid) {
-      this.createSuccess = true;
-      this.createError = false;
-      this.closeAddModal();
-    } else {
-      this.createError = true;
-    }
-  }
-
-  updateCategory(category_id:string,category:Category){
-    this.categoryService.updateCategory(category_id,category).subscribe((res)=>{
-      this.fetchCategories();
-      this.updateMsg = true;
-      this.updateSuccessMessage = 'Category updated successfully.';
-
-      setTimeout(() => {
-        this.updateMsg = false;
-        this.updateSuccessMessage = '';
-      }, 2000); // Hide message after 3 seconds
-      this.closeUpdateModal();
-
-
-    })
-  }
-
-deleteCategory(category_id:string){
-  this.categoryService.deleteCategory(category_id).subscribe((res)=>{
-  this.fetchCategories()
-  })
-}
-
-  closeAddModal() {
-    this.showAddModal = false;
-    this.createCategoryForm.reset();
-  }
-
-
-
-
-
-openDeleteModal(categoryId: string): void {
-  this.category_id = categoryId;
-  this.showDeleteModal = true;
-}
-
-closeDeleteModal(): void {
-  this.showDeleteModal = false;
-}
-
-
-confirmDelete(): void {
-  this.categoryService.deleteCategory(this.category_id).subscribe((res) => {
-    this.deleteMsg = true;
-    this.deleteSuccessMessage = 'Product deleted successfully.';
-    this.fetchCategories();
-    setTimeout(() => {
-      this.deleteMsg = false;
-      this.deleteSuccessMessage = '';
-    }, 2000);
-    this.closeDeleteModal();
-  });
-}
-
-
-openUpdateModal(category:Category){
-  this.category_id = category.id;
-  this.createCategoryForm.patchValue(category);
-  this.showUpdateModal = true;
-}
-
-closeUpdateModal(){
-  this.showUpdateModal = false;
-  this.createCategoryForm.reset();
-}
-
-
-  paginate() {
+  updatePaginatedCategories(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.paginatedCategories = this.categories.slice(startIndex, endIndex);
   }
 
-  get totalPages(): number {
-    return Math.ceil(this.categories.length / this.itemsPerPage);
-  }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.paginate();
-    }
-  }
-
-  previousPage() {
+  previousPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.paginate();
+      this.updatePaginatedCategories();
     }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePaginatedCategories();
+    }
+  }
+
+  openUpdateModal(category: Category): void {
+    this.category_id = category.id;
+    this.createCategoryForm.patchValue({
+      name: category.name,
+      image_url: category.image_url
+    });
+    this.showUpdateModal = true;
+  }
+
+  closeUpdateModal(): void {
+    this.showUpdateModal = false;
+  }
+
+  openDeleteModal(id: string): void {
+    this.category_id = id;
+    this.showDeleteModal = true;
+  }
+
+  closeDeleteModal(): void {
+    this.showDeleteModal = false;
+  }
+
+  closeAddModal(): void {
+    this.showAddModal = false;
+  }
+
+  addCategory(): void {
+    if (this.createCategoryForm.valid) {
+      const newCategory = this.createCategoryForm.value;
+      this.categoryService.createCategory(newCategory).subscribe((category) => {
+        this.categories.push(category);
+        this.totalPages = Math.ceil(this.categories.length / this.itemsPerPage);
+        this.updatePaginatedCategories();
+        this.showAddModal = false;
+      });
+    }
+  }
+
+  updateCategory(id: string): void {
+    if (this.createCategoryForm.valid) {
+      const updatedCategory = this.createCategoryForm.value;
+      this.categoryService.updateCategory(id, updatedCategory).subscribe((category) => {
+        const index = this.categories.findIndex((c) => c.id === id);
+        if (index !== -1) {
+          this.categories[index] = category;
+          this.updatePaginatedCategories();
+        }
+        this.showUpdateModal = false;
+      });
+    }
+  }
+
+  confirmDelete(): void {
+    this.categoryService.deleteCategory(this.category_id).subscribe(() => {
+      this.categories = this.categories.filter((category) => category.id !== this.category_id);
+      this.totalPages = Math.ceil(this.categories.length / this.itemsPerPage);
+      this.updatePaginatedCategories();
+      this.showDeleteModal = false;
+    });
   }
 }

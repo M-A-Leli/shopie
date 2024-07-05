@@ -99,8 +99,8 @@ export class ProductListComponent {
         this.paginateProducts();
       },
       (error) => {
-        console.error('Error fetching products:', error);
-        // Handle error as needed
+        this.errorMessage = 'Error fetching products';
+        this.clearErrors();
       }
     );
   }
@@ -111,8 +111,8 @@ export class ProductListComponent {
         this.categories = data;
       },
       (error) => {
-        console.error('Error fetching categories:', error);
-        // Handle error as needed
+        this.errorMessage = 'Error fetching categories';
+        this.clearErrors();
       }
     );
   }
@@ -126,8 +126,8 @@ export class ProductListComponent {
           this.paginateProducts();
         },
         (error) => {
-          console.error('Error fetching products by category:', error);
-          // Handle error as needed
+          this.errorMessage = 'Error fetching products by category';
+          this.clearErrors();
         }
       );
     } else {

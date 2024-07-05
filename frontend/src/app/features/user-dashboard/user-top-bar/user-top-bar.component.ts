@@ -11,11 +11,9 @@ import { Router } from '@angular/router';
   styleUrl: './user-top-bar.component.css'
 })
 export class UserTopBarComponent {
-  searchTerm: string = '';
+  searchTerm = '';
 
-  constructor(private router: Router) {}
-
-  searchProducts(): void {
-    // this.router.navigate(['product'], { queryParams: { search: this.searchTerm } });
+  searchProducts() {
+    // Implement your search logic here
   }
 }

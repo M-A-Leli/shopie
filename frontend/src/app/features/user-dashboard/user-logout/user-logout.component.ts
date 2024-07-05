@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-user-logout',
@@ -9,12 +10,16 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
   styleUrl: './user-logout.component.css'
 })
 export class UserLogoutComponent {
-  constructor(private route : Router){}
-  loginMethod():void{
-    this.route.navigate(['/login']);
-  }
-  toProduct():void{
-    this.route.navigate(['user/dashboard/product']);
+
+constructor(private authService: AuthService, private router: Router) { }
+
+  loginMethod() {
+    this.authService.logout().subscribe(() => {
+      this.router.navigate(['/home']);
+    });
   }
 
+  toProfile() {
+    this.router.navigate(['/user/dashboard/profile']);
+  }
 }

@@ -23,9 +23,9 @@ import { UserLogoutComponent } from './features/user-dashboard/user-logout/user-
 import { UserOrdersComponent } from './features/user-dashboard/user-orders/user-orders.component';
 import { UserProfileComponent } from './features/user-dashboard/user-profile/user-profile.component';
 import { UserProductsComponent } from './features/user-dashboard/user-products/user-products.component';
-import { ViewSingleComponent } from './features/admin-dashboard/view-single/view-single.component';
 import { OrderManagementComponent } from './features/admin-dashboard/order-management/order-management.component';
 import { TempComponent } from './features/temp/temp.component';
+import { ViewSingleProductComponent } from './features/admin-dashboard/product-management/view-single-product/view-single-product.component';
 
 export const routes: Routes = [
   { path: 'temp', component: TempComponent },
@@ -55,13 +55,13 @@ export const routes: Routes = [
   {
     path: 'admin', component: AdminDashboardComponent, children: [
       { path: 'dashboard', component: DashboardComponent, data: { title: 'Dashboard' } },
-      { path: 'logout', component: AdminLogoutComponent },
+      { path: 'logout', component: AdminLogoutComponent, data: { title: 'Logout' } },
       { path: 'profile', component: AdminProfileComponent, data: { title: 'Profile' } },
       { path: 'categories', component: CategoryManagementComponent, data: { title: 'Categories' } },
-      { path: 'products', component: ProductManagementComponent, data: { title: 'Products' } },
-      { path: 'products/view/:id', component: ViewSingleComponent },
       { path: 'users', component: UserManagementComponent, data: { title: 'Customers' } },
       { path: 'orders', component: OrderManagementComponent, data: { title: 'Orders' } },
+      { path: 'products', component: ProductManagementComponent, data: { title: 'Products' } },
+      { path: 'products/:id', component: ViewSingleProductComponent },
       { path: '', redirectTo: 'profile', pathMatch: 'full' }
     ]
   },

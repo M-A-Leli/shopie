@@ -1,1 +1,28 @@
-<p>user-cart works!</p>
+<div class="cart-container">
+  <h2>Cart Items</h2>
+  <table class="cart-table">
+    <thead>
+      <tr>
+        <th>Product Image</th>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="cartItems.length > 0">
+      <tr *ngFor="let item of cartItems">
+        <td><img [src]="item.product.images[0].url" alt="{{ item.product.name }}"></td>
+        <td>{{ item.product.name }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.product.price }}</td>
+        <td>{{ item.subtotal }}</td>
+      </tr>
+    </tbody>
+    <tfoot *ngIf="cartItems.length === 0">
+      <tr>
+        <td colspan="5" class="no-items">No items in cart.</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

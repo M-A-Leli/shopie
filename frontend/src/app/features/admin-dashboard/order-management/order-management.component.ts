@@ -11,48 +11,42 @@ import { CommonModule } from '@angular/common';
   styleUrl: './order-management.component.css'
 })
 export class OrderManagementComponent implements OnInit{
-  orders:Order[] = [];
+  orders: Order[] = [];
   paginatedOrders: Order[] = [];
-  currentPage = 1;
-  itemsPerPage = 10;
+  currentPage: number = 1;
+  totalPages: number = 1;
+  pageSize: number = 10;
 
+  constructor(private orderService: OrderService) {}
 
-constructor(private orderService:OrderService){}
+  ngOnInit(): void {
+    this.loadOrders();
+  }
 
-ngOnInit(): void {
-    this.fetchOrders()
-}
-
-
-  fetchOrders() {
-    this.orderService.getAllOrders().subscribe((res) => {
-      this.orders = res
-      this.paginate();
+  loadOrders(): void {
+    this.orderService.getAllOrders().subscribe((orders: Order[]) => {
+      this.orders = orders;
+      this.totalPages = Math.ceil(this.orders.length / this.pageSize);
+      this.paginateOrders();
     });
   }
 
-
-  paginate() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedOrders = this.orders.slice(startIndex, endIndex);
+  paginateOrders(): void {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    this.paginatedOrders = this.orders.slice(startIndex, startIndex + this.pageSize);
   }
 
-  get totalPages(): number {
-    return Math.ceil(this.orders.length / this.itemsPerPage);
-  }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.paginate();
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.paginateOrders();
     }
   }
 
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.paginate();
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.paginateOrders();
     }
   }
 }
