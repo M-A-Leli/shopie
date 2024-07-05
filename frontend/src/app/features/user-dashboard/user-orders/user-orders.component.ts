@@ -2,48 +2,71 @@ import { Component, OnInit } from '@angular/core';
 import Order from '../../../shared/models/Order';
 import { OrderService } from '../../../core/services/order.service';
 import { CommonModule } from '@angular/common';
-import CartItem from '../../../shared/models/CartItem';
+import { UserCartComponent } from '../user-cart/user-cart.component';
 import { CartItemService } from '../../../core/services/cart-item.service';
 
 @Component({
   selector: 'app-user-orders',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, UserCartComponent ],
   templateUrl: './user-orders.component.html',
   styleUrl: './user-orders.component.css'
 })
 export class UserOrdersComponent implements OnInit {
-  orders:Order[]=[];
-  orderItems:CartItem[]=[];
+  orders: Order[] = [];
+  showCartItemsModal: boolean = false;
+  showConfirmDeleteModal: boolean = false;
+  selectedOrderId: string | null = null;
+  selectedCartItems: any[] = [];
 
-  constructor(private orderservice: OrderService, private cartItemService:CartItemService){
-
-  }
+  constructor(private orderService: OrderService, private cartItemService: CartItemService) { }
 
   ngOnInit(): void {
-    this.getAllOrders();
+    this.fetchOrders();
   }
 
-  getAllOrders(): void {
-    this.orderservice.getOrdersByUserId().subscribe(
-      (data) => {
-        this.orders = data as Order[];
-        console.log(this.orders);
-        
-      },
-      (error) => {
-        console.error('Error fetching orders', error);
-      }
+  fetchOrders(): void {
+    this.orderService.getOrdersByUserId().subscribe(
+      (data: Order[]) => this.orders = data,
+      (error) => console.error(error)
     );
   }
 
-  getOrderedItems(id:string){
-    this.orderItems = [];
-    this.cartItemService.getCartItemsByOrderId(id).subscribe(
-      data => {
-        console.log(data)
-        this.orderItems = data;
-      }
-    )
+  viewMore(orderId: string): void {
+    this.cartItemService.getCartItemsByOrderId(orderId).subscribe(
+      (cart_items) => {
+        this.selectedCartItems = cart_items;
+        this.selectedOrderId = orderId;
+        this.showCartItemsModal = true;
+      },
+      (error) => console.error(error)
+    );
+  }
+
+  closeCartItemsModal(): void {
+    this.showCartItemsModal = false;
+    this.selectedOrderId = null;
+  }
+
+  confirmDelete(orderId: string): void {
+    this.selectedOrderId = orderId;
+    this.showConfirmDeleteModal = true;
+  }
+
+  closeConfirmDeleteModal(): void {
+    this.showConfirmDeleteModal = false;
+    this.selectedOrderId = null;
+  }
+
+  deleteOrder(): void {
+    if (this.selectedOrderId) {
+      this.orderService.deleteOrder(this.selectedOrderId).subscribe(
+        () => {
+          this.orders = this.orders.filter(order => order.id !== this.selectedOrderId);
+          this.closeConfirmDeleteModal();
+        },
+        (error) => console.error(error)
+      );
+    }
   }
 }

@@ -1,38 +1,49 @@
-.container
-{
-  background: #313131;
+.container {
+  /* align-self: center; */
+  /* justify-self: center; */
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: auto;
   text-align: center;
-  height: 50vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 20px auto;
+}
 
+p {
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 20px;
 }
-.container p{
-  font-size: 1.2rem;
-  color: #ffff;
 
-}
-.btns{
+.btns {
   display: flex;
-  margin-top: 20px;
-  gap: 20px;
+  justify-content: space-around;
 }
-.acceptBtn,.denyBtn{
-  cursor: pointer;
+
+.acceptBtn, .denyBtn {
+  padding: 10px 20px;
   border: none;
-  padding: .8rem 2rem;
   border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
-.acceptBtn
-{
-  color: darkred;
-background-color:rgb(248, 121, 121);
+
+.acceptBtn {
+  background-color: #6a0dad;
+  color: #fff;
 }
-.denyBtn
-{
-  color: darkblue;
-  background-color: rgba(153, 52, 248, 0.719);
+
+.acceptBtn:hover {
+  background-color: #5a0cab;
+}
+
+.denyBtn {
+  background-color: #ccc;
+  color: #333;
+}
+
+.denyBtn:hover {
+  background-color: #bbb;
 }

@@ -1,109 +1,80 @@
-/* .sidebar {
+.sidebar {
   width: 250px;
+  height: 100vh;
   background-color: #6a0dad;
   color: white;
-  height: 100vh;
-  position: fixed;
   transition: width 0.3s;
 }
 
 .sidebar.collapsed {
-  width: 50px;
+  width: 60px;
 }
 
-.sidebar button {
-  background: none;
-  border: none;
+.toggle-button {
+  background-color: #6a0dad;
   color: white;
-  font-size: 20px;
-  margin: 10px;
+  border: none;
   cursor: pointer;
+  font-size: 20px;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
 }
 
-.sidebar nav ul {
+.heading {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.heading h1 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+nav ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
-.sidebar nav ul li {
-  margin: 20px 0;
-}
-
-.sidebar nav ul li a {
-  color: white;
-  text-decoration: none;
-  display: block;
+nav ul li {
+  display: flex;
+  align-items: center;
   padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.sidebar nav ul li a:hover {
-  background-color: #4a0072;
-} */
+nav ul li:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
 
+nav ul li img {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  transition: margin-right 0.3s;
+}
 
-.sideBar{
-  width:19vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-right: 2%;
-  position: fixed;
-  transition: width 0.3s;
-  gap:2%
+.sidebar.collapsed nav ul li img {
+  margin-right: 0;
 }
-.heading{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 7vh;
-}
-.heading h1{
-  color: white;
-}
-.navigation{
-  display: flex;
-  flex-direction: column;
-  width: 100%;
 
+nav ul li span {
+  transition: opacity 0.3s;
 }
-.navigation div{
-  display: flex;
-  margin-bottom: 2%;
-  align-items: center;
-  height: 7vh;
-  gap: 2%;
-  column-gap: 3%;
+
+.sidebar.collapsed nav ul li span {
+  opacity: 0;
 }
-.navigation div:hover{
-  background-color:blueviolet;
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+  }
+
+  .sidebar.collapsed {
+    width: 100%;
+  }
 }
-.navigation div img{
-  width: 45px;
-}
-.navigation div p{
-  color: white;
-  width: 50%;
-  font-size: x-large;
-}
-/* .sideBar div{
-   margin-left: 3%;
-}
-.navigation div{
-   display: flex;
-   align-items: center;
-   height: 5vh;
-   width: auto;
-   gap: 2%;
-   margin-bottom: 3px;
-}
-.navigation div:hover{
-   background-color: #39234975;
-}
-.navigation div p{
-   color: white;
-}
-img{
-  width: 15px;
-} */

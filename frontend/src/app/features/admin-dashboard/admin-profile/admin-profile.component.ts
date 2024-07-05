@@ -12,30 +12,26 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./admin-profile.component.css']
 })
 export class AdminProfileComponent implements OnInit {
-  showUpdateModal = false;
-  updateMsg = false;
-  updateSuccessMessage = '';
+  details: any = {};
+  showUpdateModal: boolean = false;
+  updateMsg: boolean = false;
+  updateSuccessMessage: string = '';
 
-  details: User = {
-    username: '',
-    email: '',
-    phone_number: ''
-  };
-
-  constructor(private profileService: UserService) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.getAdminProfileDetails();
+    this.getUserProfile();
   }
 
-  getAdminProfileDetails(): void {
-    this.profileService.getUserProfile().subscribe((res) => {
-      this.details = res || {
-        username: '',
-        email: '',
-        phone_number: ''
-      };
-    });
+  getUserProfile(): void {
+    this.userService.getUserProfile().subscribe(
+      (res) => {
+        this.details = res;
+      },
+      (err) => {
+        console.error('Error fetching user profile:', err);
+      }
+    );
   }
 
   openUpdateModal(): void {
@@ -47,17 +43,15 @@ export class AdminProfileComponent implements OnInit {
   }
 
   updateUser(): void {
-    if (this.details) {
-      this.profileService.updateUserProfile(this.details).subscribe(() => {
-        this.getAdminProfileDetails();
+    this.userService.updateUserProfile(this.details).subscribe(
+      (res) => {
         this.updateMsg = true;
-        this.updateSuccessMessage = 'User updated successfully.';
-        setTimeout(() => {
-          this.updateMsg = false;
-          this.updateSuccessMessage = '';
-        }, 2000);
+        this.updateSuccessMessage = 'Profile updated successfully!';
         this.closeUpdateModal();
-      });
-    }
+      },
+      (err) => {
+        console.error('Error updating user profile:', err);
+      }
+    );
   }
 }

@@ -5,7 +5,8 @@ export default interface Order {
   id: string,
   user_id: string,
   user?: User, //!
-  cart_items: CartItem[], 
+  cart_items: CartItem[],
   status?: string,
-  total_price: number
+  total_price: number,
+  updated_at?: Date
 }

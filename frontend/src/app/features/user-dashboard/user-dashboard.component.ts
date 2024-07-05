@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 export class UserDashboardComponent {
   isSidebarCollapsed = false;
 
-  toggleSidebar(): void {
+  toggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
 }

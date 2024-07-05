@@ -9,13 +9,12 @@
       <p>{{details.email}}</p>
       <h4>Phone Number</h4>
       <p>{{details.phone_number}}</p>
-      <button (click)="openUpdateModal()">Edit Profile</button>
+      <button class="edit-button" (click)="openUpdateModal()">Edit Profile</button>
     </div>
   </div>
 
-  <div *ngIf="updateMsg" style="color: rgb(2, 150, 59);background-color: rgb(214, 248, 237); text-align: center; padding: 5px;border-radius: 5px; margin-top: 20px;">{{updateSuccessMessage}}</div>
+  <div *ngIf="updateMsg" class="update-message">{{updateSuccessMessage}}</div>
 </div>
-
 
 <!-- Update User Modal -->
 <div class="modal" *ngIf="showUpdateModal">
@@ -31,9 +30,10 @@
       <label for="mobile">Mobile:</label>
       <input type="text" id="mobile" [(ngModel)]="details.phone_number" name="mobile">
 
-      <button type="submit">Update</button>
+      <label for="password">Password:</label>
+      <input type="password" id="password" [(ngModel)]="details.password" name="password">
+
+      <button type="submit" class="update-button">Update</button>
     </form>
-
-
   </div>
 </div>

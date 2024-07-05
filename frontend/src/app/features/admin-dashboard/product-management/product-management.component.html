@@ -1,14 +1,12 @@
 <div class="wrapper">
-
-
-
   <div class="header">
     <i class="fa fa-plus-square addBtn" aria-hidden="true" (click)="showAddModal = true"></i>
+    <div *ngIf="createSuccess" class="success">{{ createSuccessMessage }}</div>
     <div *ngIf="updateMsg" class="success">{{ updateSuccessMessage }}</div>
     <div *ngIf="deleteMsg" class="success">{{ deleteSuccessMessage }}</div>
 
     <div class="searchForm">
-      <input type="search" [(ngModel)]= "searchString" id="searchInput" placeholder="Filter products">
+      <input type="search" [(ngModel)]="searchString" id="searchInput" placeholder="Filter products">
     </div>
   </div>
 
@@ -24,46 +22,34 @@
       <i class="fa fa-times close" (click)="closeAddModal()" aria-hidden="true"></i>
       <div>
         <form [formGroup]="createProductForm" (ngSubmit)="onSubmit()">
+          <label for="name">Product Name</label>
+          <input type="text" formControlName="name" />
+          <div *ngIf="createProductForm.get('name')?.invalid && (createProductForm.get('name')?.dirty || createProductForm.get('name')?.touched)" class="validationError">
+            Product name is required
+          </div>
 
-            <label for="name">Product Name</label>
-            <input type="text" formControlName="name" />
-            <div *ngIf="
-                createProductForm.get('name')?.invalid &&
-                (createProductForm.get('name')?.dirty ||
-                  createProductForm.get('name')?.touched)
-              " class="validationError">
-              Product name is required
-            </div>
+          <label for="description">Description</label>
+          <textarea cols="30" rows="5" formControlName="description"></textarea>
+          <div *ngIf="createProductForm.get('description')?.invalid && (createProductForm.get('description')?.dirty || createProductForm.get('description')?.touched)" class="validationError">
+            Product description is required
+          </div>
 
-            <label for="description">Description</label>
-             <textarea  cols="30" rows="5"></textarea>
-            <div *ngIf="createProductForm.get('description')?.invalid && (createProductForm.get('description')?.dirty || createProductForm.get('description')?.touched)" class="validationError">
-              Product description is required
-            </div>
+          <label for="category">Category:</label>
+          <select (change)="onCategoryChange($event)" formControlName="category_id">
+            <option *ngFor="let category of categoryList" [value]="category.id">{{ category.name }}</option>
+          </select>
 
-            <label for="category">Category:</label>
-            <select (change)="onCategoryChange($event)" formControlName="category_id">
-              <option *ngFor="let category of categoryList" [value]="category.id">{{ category.name }}</option>
-            </select>
+          <label for="price">Price</label>
+          <input type="number" formControlName="price" />
+          <div *ngIf="createProductForm.get('price')?.invalid && (createProductForm.get('price')?.dirty || createProductForm.get('price')?.touched)" class="validationError">
+            Price is required
+          </div>
 
-            <label for="price">Price</label>
-            <input type="number" formControlName="price" />
-            <div *ngIf="
-                createProductForm.get('price')?.invalid &&
-                (createProductForm.get('price')?.dirty ||
-                  createProductForm.get('price')?.touched)
-              " class="validationError">
-              Price is required
-            </div>
-
-
-
-            <label for="stock">Stock</label>
-            <input type="number" formControlName="stock_quantity">
-            <div *ngIf="createProductForm.get('stock_quantity')?.invalid && (createProductForm.get('stock_quantity')?.dirty || createProductForm.get('stock_quantity')?.touched)" class="validationError">
-              Stock is required
-            </div>
-
+          <label for="stock">Stock</label>
+          <input type="number" formControlName="stock_quantity">
+          <div *ngIf="createProductForm.get('stock_quantity')?.invalid && (createProductForm.get('stock_quantity')?.dirty || createProductForm.get('stock_quantity')?.touched)" class="validationError">
+            Stock is required
+          </div>
 
           <div class="mb-5">
             <label for="images">Images</label>
@@ -122,7 +108,7 @@
   <div class="modal" *ngIf="showUpdateModal">
     <div class="modal-content">
       <i class="fa fa-times close" (click)="closeUpdateModal()" aria-hidden="true"></i>
-      <form [formGroup]="createProductForm" (ngSubmit)="updateProduct(product_id,createProductForm.value)">
+      <form [formGroup]="updateProductForm" (ngSubmit)="onUpdate()">
         <label for="name">Name:</label>
         <input type="text" id="name" formControlName="name">
 
